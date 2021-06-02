@@ -195,14 +195,14 @@ class Sider extends React.Component {
             }>
 
             <Menu.Item key="LOAN_RIDER">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/loan/loanRider">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
                 <span className="nav-text">라이더 대출목록</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="LOAN_FRANCHISE">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/loan/loanFranchise">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
                 <span className="nav-text">가맹점 대출목록</span>
