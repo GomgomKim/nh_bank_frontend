@@ -49,21 +49,21 @@ class Sider extends React.Component {
             }>
 
             <Menu.Item key="STATICS_BRANCH">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/statics/StaticsBranch">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
                 <span className="nav-text">지점 매출</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="STATICS_RIDER">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/statics/StaticsRider">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
                 <span className="nav-text">라이더 통계</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="STATICS_FRANCHISE">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/statics/StaticsFranchise">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
                 <span className="nav-text">가맹점 통계</span>
@@ -82,17 +82,17 @@ class Sider extends React.Component {
             }>
 
             <Menu.Item key="DELIVERY_LIST">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/delivery/DeliveryList">
                 <span className="nav-text">배달목록</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="DELIVERY_HISTORY_EMPLOYEE">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/delivery/DeliveryHistoryEmployee">
                 <span className="nav-text">정직원 배달내역</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="DELIVERY_HISTORY_RIDER">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/delivery/DeliveryHistoryRider">
                 <span className="nav-text">라이더 배달내역</span>
               </Link>
             </Menu.Item>
@@ -109,21 +109,21 @@ class Sider extends React.Component {
             }>
 
             <Menu.Item key="FRANCHISE_LIST">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/franchise/FranchiseList">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
                 <span className="nav-text">가맹점 목록</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="FRANCHISE_FEE_HISTORY">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/franchise/FranchiseFeeHistory">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
                 <span className="nav-text">가맹비 내역</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="FRANCHISE_CHARGE_HISTORY">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/franchise/FranchiseChargeHistory">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
                 <span className="nav-text">충전내역</span>
@@ -142,7 +142,7 @@ class Sider extends React.Component {
             }>
 
             <Menu.Item key="ADVANCE_PAYMENT_LIST">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/payment/PaymentList">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
                 <span className="nav-text">선지급 내역</span>
@@ -162,21 +162,21 @@ class Sider extends React.Component {
             }>
 
             <Menu.Item key="DEPOSIT_PAYMENT">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/deposit/DepositPayment">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
                 <span className="nav-text">예치금 지급</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="DEPOSIT_PAYMENT_HISTORY">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/deposit/DepositPaymentHistory">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
                 <span className="nav-text">예치금 지급내역</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="DEPOSIT_WITHDRAW_HISTORY">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/deposit/DepositWithdrawHistory">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
                 <span className="nav-text">예치금 출금내역</span>
@@ -195,7 +195,7 @@ class Sider extends React.Component {
             }>
 
             <Menu.Item key="LOAN_RIDER">
-              <Link exact="true" to="/loan/loanRider">
+              <Link exact="true" to="/loan/LoanRider">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
                 <span className="nav-text">라이더 대출목록</span>
@@ -221,7 +221,7 @@ class Sider extends React.Component {
             }>
 
             <Menu.Item key="BIKE_LIST">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/bike/BikeList">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
                 <span className="nav-text">바이크 목록</span>
@@ -259,7 +259,7 @@ class Sider extends React.Component {
             }>
 
             <Menu.Item key="OPERATOR_MANAGE">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/system/OperatorManage">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
                 <span className="nav-text"> 운영자 관리</span>
