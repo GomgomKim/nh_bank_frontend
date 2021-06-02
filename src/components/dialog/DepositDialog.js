@@ -3,7 +3,9 @@ import {
     Form, Input, Table, Button, Select, Radio, Checkbox
 } from "antd";
 import { comma } from "../../lib/util/numberUtil";
+import '../../css/main.css';
 
+const Search = Input.Search;
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -22,121 +24,13 @@ class DepositDialog extends Component {
     }
 
     componentDidMount() {
-        this.getList()
+        // this.getList()
     }
 
-    handleTableChange = (pagination) => {
-        console.log(pagination)
-        const pager = { ...this.state.pagination };
-        pager.current = pagination.current;
-        pager.pageSize = pagination.pageSize
-        this.setState({
-            pagination: pager,
-        }, () => this.getList());
-    };
-
-    onClickRow = (index) => {
-        return {
-            onClick: () => {
-                // console.log(record.riderGroup)
-                this.setState({
-                    rowId: index,
-                });
-            },
-        };
-    }
-    setRowClassName = (index) => {
-        return index === this.state.rowId ? 'clickRowStyl' : '';
-    }
-
-
-    getList = () => {
-        var list = [
-            {
-                // className={ "mypage-left-select " + (depth1.idx == row.idx ? 'active' : '') },
-                id: 1,
-                riderGroup: 'A',
-                proCount: 6,
-                withdrawLimit: '100000',
-                transferLimit: '500',
-            },
-            {
-                id: 2,
-                riderGroup: 'B',
-                proCount: 5,
-                withdrawLimit: '100000',
-                transferLimit: '500',
-            },
-            {
-                id: 3,
-                riderGroup: 'C',
-                proCount: 4,
-                withdrawLimit: '100000',
-                transferLimit: '500',
-            },
-            {
-                id: 4,
-                riderGroup: 'D',
-                proCount: 3,
-                withdrawLimit: '100000',
-                transferLimit: '500',
-            },
-            {
-                id: 5,
-                riderGroup: 'E',
-                proCount: 2,
-                withdrawLimit: '100000',
-                transferLimit: '500',
-            },
-
-        ];
-        this.setState({
-            list: list,
-        });
-    }
 
     render() {
 
-        const columns = [
-            {
-                title: "그룹",
-                dataIndex: "riderGroup",
-                className: "table-column-center",
-                render: (data) => <div>{data == "A" ? "A"
-                    : data == "B" ? "B"
-                        : data == "C" ? "C"
-                            : data == "D" ? "D" : "E"}</div>
-            },
-            {
-                title: "처리건수",
-                dataIndex: "proCount",
-                className: "table-column-center",
-            },
-            {
-                title: "출금가능",
-                className: "table-column-center",
-                render: () =>
-                    <div>
-                        {<Checkbox
-                            className="tabBtn riderGroupTab"
-                            onClick={() => { this.setState({ workTabOpen: true }) }}
-                        ></Checkbox>}
-                    </div>
-            },
-            {
-                title: "출금제한 금액",
-                dataIndex: "withdrawLimit",
-                className: "table-column-center",
-                render: (data) => <div>{comma(data)}</div>
-            },
-            {
-                title: "이체제한",
-                dataIndex: "transferLimit",
-                className: "table-column-center",
-                render: (data) => <div>{comma(data)}</div>
-            },
 
-        ];
 
 
         const { close } = this.props;
@@ -145,6 +39,40 @@ class DepositDialog extends Component {
             <React.Fragment>
                 <div className="Dialog-overlay" onClick={close} />
                 <div className="deposit-Dialog">
+
+                    <div className="deposit-content">
+
+                        <div className="deposit-title">
+                            예치금 지급
+                        </div>
+                        <img onClick={close} src={require('../../img/close.png').default} className="dialog-close" alt="img" />
+                        <div className="deposit-inner">
+
+                            <Radio.Group onChange={this.onChange} style={{ marginTop: 5 }}>
+                                <Radio value={1}>라이더</Radio>
+                                <Radio value={2}>가맹점</Radio>
+                            </Radio.Group>
+
+                            <Search
+                                placeholder="아이디를 입력하세요"
+                                enterButton="조회"
+                                allowClear
+                                onSearch={this.onSearch}
+                                style={{
+                                    width: 250,
+                                    marginBottom: 20
+                                }}
+                            />
+
+                            <div className="deposit-inner-box">
+                                예치금 지급내용
+                            </div>
+
+                            <Button style={{ float: 'right', marginTop: 10 }} onClick={{}}>
+                                지급하기
+                </Button>
+                        </div>
+                    </div>
 
                 </div>
             </React.Fragment>

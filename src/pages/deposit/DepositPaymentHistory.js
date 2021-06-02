@@ -4,6 +4,7 @@ import { DownloadOutlined, RightCircleFilled } from '@ant-design/icons';
 import { Table, Input, Button, DatePicker, Modal, Radio } from 'antd'
 import { comma } from "../../lib/util/numberUtil";
 import DepositDialog from "../../components/dialog/DepositDialog";
+import '../../css/main.css';
 
 const Search = Input.Search;
 const RangePicker = DatePicker.RangePicker;

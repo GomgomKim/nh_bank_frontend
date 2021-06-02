@@ -185,3 +185,63 @@ body {
  
 }
 
+/*왼쪽메뉴 스타일*/
+.ant-layout-sider-children{
+  background: #000!important;
+  }
+  .ant-menu.ant-menu-dark, .ant-menu-dark .ant-menu-sub, .ant-menu.ant-menu-dark .ant-menu-sub{
+      /* color:#fdcc00!important; */
+      background: #000!important;
+  }
+  
+  .ant-menu-dark .ant-menu-item:hover, .ant-menu-dark .ant-menu-item-active, 
+  .ant-menu-dark .ant-menu-submenu-active, .ant-menu-dark .ant-menu-submenu-open, 
+  .ant-menu-dark .ant-menu-submenu-selected, .ant-menu-dark .ant-menu-submenu-title:hover{
+      color:#fdcc00!important;
+  }
+  
+  .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected{
+      color:#fdcc00!important;
+      background-color: #000!important;
+  }
+  
+  .ant-menu-dark .ant-menu-item-selected > a, 
+  .ant-menu-dark .ant-menu-item-selected > span > a, 
+  .ant-menu-dark .ant-menu-item-selected > a:hover, 
+  .ant-menu-dark .ant-menu-item-selected > span > a:hover
+  .ant-table-thead>tr>th{
+      color:#fdcc00!important;
+  }
+  
+  /*table 상단 스타일*/
+  .ant-table-thead>tr>th{
+      background:#000;
+  }
+  
+  .ant-table-thead > tr > th{
+      color:#fff;
+      
+  }
+  
+  /*조회버튼*/
+  .ant-btn-primary{
+      background-color:#fdcc00;
+      border-color:#fdcc00;
+      color:#000;
+  }
+  
+  .ant-btn-primary:hover{
+      background-color: #ffde5b;
+      color:#000;
+  border-color:#ffde5b;
+  }
+  
+  /*버튼*/
+  
+  .ant-btn:hover, .ant-btn:focus{
+      border-color: #000;
+      color:#000!important;
+  }
+  
+  
+  

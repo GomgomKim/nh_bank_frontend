@@ -1,57 +1,63 @@
-/*왼쪽메뉴 스타일*/
-.ant-layout-sider-children{
-background: #000!important;
-}
-.ant-menu.ant-menu-dark, .ant-menu-dark .ant-menu-sub, .ant-menu.ant-menu-dark .ant-menu-sub{
-    /* color:#fdcc00!important; */
-    background: #000!important;
-}
+/*예치금 지급*/
+.Dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.56);
+    z-index: 1;
+  }
 
-.ant-menu-dark .ant-menu-item:hover, .ant-menu-dark .ant-menu-item-active, 
-.ant-menu-dark .ant-menu-submenu-active, .ant-menu-dark .ant-menu-submenu-open, 
-.ant-menu-dark .ant-menu-submenu-selected, .ant-menu-dark .ant-menu-submenu-title:hover{
-    color:#fdcc00!important;
-}
+  .deposit-Dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* width: 1000px; */
+    z-index: 2;
+  }
 
-.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected{
-    color:#fdcc00!important;
-    background-color: #000!important;
-}
+  .deposit-content {
+    padding: 30px;
+    background-color: white;
+  }
+  
+  .deposit-title {
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 30px;
+    /* width:300px; */
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+  .deposit-close {
+    width: 30px;
+    cursor: pointer;
+    background-color: #fddc00;
+    /* display: inline-block; */
+    float: right;
+    padding: 8px;
+  }
+  
+  .deposit-inner {
+    width: 100%;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: left;
+    margin-top: 20px;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .deposit-inner::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 
-.ant-menu-dark .ant-menu-item-selected > a, 
-.ant-menu-dark .ant-menu-item-selected > span > a, 
-.ant-menu-dark .ant-menu-item-selected > a:hover, 
-.ant-menu-dark .ant-menu-item-selected > span > a:hover
-.ant-table-thead>tr>th{
-    color:#fdcc00!important;
-}
-
-/*table 상단 스타일*/
-.ant-table-thead>tr>th{
-    background:#000;
-}
-
-.ant-table-thead > tr > th{
-    color:#fff;
-    
-}
-
-/*조회버튼*/
-.ant-btn-primary{
-    background-color:#fdcc00;
-    border-color:#fdcc00;
-    color:#000;
-}
-
-.ant-btn-primary:hover{
-    background-color: #ffde5b;
-    color:#000;
-border-color:#ffde5b;
-}
-
-/*버튼*/
-
-.ant-btn:hover, .ant-btn:focus{
-    border-color: #000;
-    color:#000!important;
-}
+  .deposit-inner-box{
+      height:100px;
+      border:1px solid black;
+      padding: 10px;
+  }

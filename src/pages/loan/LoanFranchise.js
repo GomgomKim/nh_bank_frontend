@@ -4,6 +4,7 @@ import { Table, Input, Button, DatePicker } from 'antd'
 
 import { comma } from "../../lib/util/numberUtil";
 import SelectBox from "../../components/input/SelectBox";
+import '../../css/main.css';
 
 const Search = Input.Search;
 const RangePicker = DatePicker.RangePicker;
