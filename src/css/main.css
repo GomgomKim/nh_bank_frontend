@@ -1,3 +1,32 @@
+/* 배달내역관리 */
+
+.top-menu {
+  margin: 20px 0;
+  height: 40px;
+}
+.top-menu > div {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 20px;
+}
+.top-menu > div:first-child,
+div:nth-child(2) {
+  margin-left: 0;
+}
+.download-btn {
+  vertical-align: top;
+  height: 33px;
+  padding: 0 20px;
+}
+.download-btn img {
+  width: 18px;
+  margin: 0 5px 2px 0;
+}
+
+/* 바이크 관리 */
+
+
+
 /*예치금 지급*/
 .Dialog-overlay {
     position: fixed;

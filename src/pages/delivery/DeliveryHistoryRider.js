@@ -15,7 +15,7 @@ import "../../css/main.css";
 const FormItem = Form.Item;
 const Search = Input.Search;
 
-class DeliveryHistoryEmployee extends Component {
+class DeliveryHistoryRider extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -65,82 +65,71 @@ class DeliveryHistoryEmployee extends Component {
     var list = [
         {           
             monthData: '6월',
-            riderLevel: '팀장',
+            userStatus: '사용',
             riderName: '김아무개',
             riderPhone: '010-1234-4567',
-            userStatus: '사용',
-            basicDeliveryAmount: '42건',
-            deliveryAmount: '89건',
-            basicDeliveryFee: '2000',
-            teamCallIncen: '50000',
-            frBusinessIncen: '50000',
-            overCallIncen: '50000',
-        },
+            userGroup: 'A',
+            deliveryPrice: '2000',
+            deliveryPriceFee: '500',
+            deliveryPriceFeeType: '정량',
+            riderRevenue:'30000000'
+        },      
         {           
             monthData: '6월',
-            riderLevel: '본부장',
-            riderName: '안아무개',
-            riderPhone: '010-1234-4567',
             userStatus: '사용',
-            basicDeliveryAmount: '42건',
-            deliveryAmount: '89건',
-            basicDeliveryFee: '2000',
-            teamCallIncen: '100000',
-            frBusinessIncen: '100000',
-            overCallIncen: '',
-        },
+            riderName: '지아무개',
+            riderPhone: '010-1234-4567',
+            userGroup: 'B',
+            deliveryPrice: '2000',
+            deliveryPriceFee: '800',
+            deliveryPriceFeeType: '정률',
+            riderRevenue:'40000000'
+        },     
         {           
             monthData: '6월',
-            riderLevel: '지점장',
-            riderName: '안아무개',
-            riderPhone: '010-1234-4567',
             userStatus: '사용',
-            basicDeliveryAmount: '42건',
-            deliveryAmount: '89건',
-            basicDeliveryFee: '2000',
-            teamCallIncen: '500000',
-            frBusinessIncen: '500000',
-            overCallIncen: '',
-        },
+            riderName: '하아무개',
+            riderPhone: '010-1234-4567',
+            userGroup: 'C',
+            deliveryPrice: '2000',
+            deliveryPriceFee: '500',
+            deliveryPriceFeeType: '정량',
+            riderRevenue:'28000000'
+        },       
         {           
             monthData: '5월',
-            riderLevel: '팀장',
+            userStatus: '사용',
             riderName: '김아무개',
             riderPhone: '010-1234-4567',
-            userStatus: '사용',
-            basicDeliveryAmount: '42건',
-            deliveryAmount: '89건',
-            basicDeliveryFee: '2000',
-            teamCallIncen: '50000',
-            frBusinessIncen: '50000',
-            overCallIncen: '50000',
-        },
+            userGroup: 'A',
+            deliveryPrice: '2000',
+            deliveryPriceFee: '500',
+            deliveryPriceFeeType: '정량',
+            riderRevenue:'30000000'
+        },      
         {           
             monthData: '5월',
-            riderLevel: '본부장',
-            riderName: '안아무개',
-            riderPhone: '010-1234-4567',
             userStatus: '사용',
-            basicDeliveryAmount: '42건',
-            deliveryAmount: '89건',
-            basicDeliveryFee: '2000',
-            teamCallIncen: '100000',
-            frBusinessIncen: '100000',
-            overCallIncen: '',
-        },
+            riderName: '지아무개',
+            riderPhone: '010-1234-4567',
+            userGroup: 'B',
+            deliveryPrice: '2000',
+            deliveryPriceFee: '800',
+            deliveryPriceFeeType: '정률',
+            riderRevenue:'40000000'
+        },     
         {           
             monthData: '5월',
-            riderLevel: '지점장',
-            riderName: '안아무개',
-            riderPhone: '010-1234-4567',
             userStatus: '사용',
-            basicDeliveryAmount: '42건',
-            deliveryAmount: '89건',
-            basicDeliveryFee: '2000',
-            teamCallIncen: '500000',
-            frBusinessIncen: '500000',
-            overCallIncen: '',
-        },
+            riderName: '하아무개',
+            riderPhone: '010-1234-4567',
+            userGroup: 'C',
+            deliveryPrice: '2000',
+            deliveryPriceFee: '500',
+            deliveryPriceFeeType: '정량',
+            riderRevenue:'28000000'
+        },               
+     
        
     ];
     this.setState({
@@ -169,13 +158,13 @@ class DeliveryHistoryEmployee extends Component {
             dataIndex: "monthData",
             className: "table-column-center",
             width:'5%',
-        },
+        },   
         {
-            title: "직급",
-            dataIndex: "riderLevel",
+            title: "상태",
+            dataIndex: "userStatus",
             className: "table-column-center",
-            width:'5%',
-        },       
+            width:'8%',
+        },   
         {
             title: "기사명",
             dataIndex: "riderName",
@@ -187,49 +176,37 @@ class DeliveryHistoryEmployee extends Component {
             dataIndex: "riderPhone",
             className: "table-column-center",
             width:'10%',
-        },    
-        {
-            title: "상태",
-            dataIndex: "userStatus",
-            className: "table-column-center",
-            width:'8%',
-        },       
-        {
-            title: "기본건수",
-            dataIndex: "basicDeliveryAmount",
-            className: "table-column-center",
-            width:'8%',
         },
         {
-            title: "배달건수",
-            dataIndex: "deliveryAmount",
+            title: "기사그룹",
+            dataIndex: "userGroup",
             className: "table-column-center",
-            width:'8%',
-        },
+            width:'10%',
+        },         
         {
-            title: "기본배달료",
-            dataIndex: "basicDeliveryFee",
+            title: "배달요금",
+            dataIndex: "deliveryPrice",
             className: "table-column-center",
             width:'8%',
-        },
+        },  
         {
-            title: "관리 인센티브",
-            dataIndex: "teamCallIncen",
+            title: "수수료",
+            dataIndex: "deliveryPriceFee",
             className: "table-column-center",
             width:'8%',
-        },
+        },  
         {
-            title: "가맹점 인센티브",
-            dataIndex: "frBusinessIncen",
+            title: "수수료방식",
+            dataIndex: "deliveryPriceFeeType",
             className: "table-column-center",
             width:'8%',
-        },
+        },  
         {
-            title: "추가 인센티브",
-            dataIndex: "overCallIncen",
+            title: "수익",
+            dataIndex: "riderRevenue",
             className: "table-column-center",
             width:'8%',
-        },
+        }, 
     ];
 
     return (
@@ -303,4 +280,4 @@ class DeliveryHistoryEmployee extends Component {
 }
 
 
-export default DeliveryHistoryEmployee;
+export default DeliveryHistoryRider;
