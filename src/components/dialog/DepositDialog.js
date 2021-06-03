@@ -73,10 +73,11 @@ class DepositDialog extends Component {
                                         <FormItem
                                             name="price"
                                             className="selectItem"
+                                            style={{ marginLeft: 20 }}
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message: "직원명을 입력해주세요",
+                                                    message: "금액을 입력해주세요",
                                                 },
                                             ]}
                                             initialValue={data ? data.price : ""}

@@ -3,7 +3,8 @@ import { Route, Switch } from "react-router-dom";
 import { Layout } from "antd";
 import { StaticsBranch, StaticsRider, StaticsFranchise } from "../pages";
 import { DeliveryList, DeliveryHistoryEmployee, DeliveryHistoryRider } from "../pages";
-
+import { FranchiseList } from "../pages";
+import { PaymentList } from "../pages";
 import { DepositPaymentHistory, DepositWithdrawHistory } from "../pages";
 import { LoanRider, LoanFranchise } from "../pages";
 import { BikeList } from "../pages";
@@ -29,24 +30,26 @@ export default class Content extends Component {
             <Route exact path="/delivery/DeliveryHistoryEmployee" component={DeliveryHistoryEmployee} />
             <Route exact path="/delivery/DeliveryHistoryRider" component={DeliveryHistoryRider} />
 
+            <Route exact path="/franchise/FranchiseList" component={FranchiseList} />
 
+            <Route exact path="/payment/PaymentList" component={PaymentList} />
 
             {/* <Route exact path="/deposit/depositPayment" component={DepositPayment} /> */}
-            <Route exact path="/deposit/depositPaymentHistory" component={DepositPaymentHistory} />
-            <Route exact path="/deposit/depositWithdrawHistory" component={DepositWithdrawHistory} />
+            <Route exact path="/deposit/DepositPaymentHistory" component={DepositPaymentHistory} />
+            <Route exact path="/deposit/DepositWithdrawHistory" component={DepositWithdrawHistory} />
 
 
-            <Route exact path="/loan/loanRider" component={LoanRider} />
-            <Route exact path="/loan/loanFranchise" component={LoanFranchise} />
+            <Route exact path="/loan/LoanRider" component={LoanRider} />
+            <Route exact path="/loan/LoanFranchise" component={LoanFranchise} />
 
             <Route exact path="/bike/BikeList" component={BikeList} />
 
-            <Route exact path="/board/inquiry" component={Inquiry} />
-            <Route exact path="/board/notice" component={Notice} />
+            <Route exact path="/board/Inquiry" component={Inquiry} />
+            <Route exact path="/board/Notice" component={Notice} />
             {/* <Redirect to="/board/inquiry" /> */}
 
 
-            <Route exact path="/system/operatorManage" component={OperatorManage} />
+            <Route exact path="/system/OperatorManage" component={OperatorManage} />
 
           </Switch>
         </div>

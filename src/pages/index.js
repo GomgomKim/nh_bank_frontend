@@ -11,6 +11,11 @@ export { default as DeliveryList } from "./delivery/DeliveryList";
 export { default as DeliveryHistoryEmployee } from "./delivery/DeliveryHistoryEmployee";
 export { default as DeliveryHistoryRider } from "./delivery/DeliveryHistoryRider";
 
+//가맹점관리
+export { default as FranchiseList } from "./franchise/FranchiseList";
+
+//선지급관리
+export { default as PaymentList } from "./payment/PaymentList";
 
 //예치금관리
 // export { default as DepositPayment } from "./deposit/DepositPayment";

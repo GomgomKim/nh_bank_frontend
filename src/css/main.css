@@ -1,3 +1,25 @@
+/*공통*/
+.Dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.56);
+  z-index: 1;
+}
+
+.dialog-close {
+  width: 30px;
+  background-color: #fddc00;
+  padding: 8px;
+  cursor: pointer;
+  float: right;
+}
+
+
+
+
 /* 배달내역관리 */
 
 .top-menu {
@@ -25,18 +47,127 @@ div:nth-child(2) {
 
 /* 바이크 관리 */
 
+/*가맹점 목록*/
 
+/*가맹 수정 dialog*/
+.modifyfran-Dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* width: 1000px; */
+  z-index: 2;
+}
+
+.modifyfran-content {
+  padding: 30px;
+  background-color: white;
+}
+
+.modifyfran-title {
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 30px;
+  /* width:300px; */
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.modifyfran-close {
+  width: 30px;
+  cursor: pointer;
+  background-color: #fddc00;
+  /* display: inline-block; */
+  float: right;
+  padding: 8px;
+}
+
+.modifyfran-inner {
+  width: 100%;
+  overflow-y: scroll;
+  text-align: left;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.modifyfran-inner::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+
+.modifyfran-inner .mainTitle{
+   width:100px;
+}
+
+.modifyfran-inner .ant-radio-group{
+  width:170px;
+  margin-left:20px;
+}
+
+.modifyfran-innerbox{
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 20px 0;
+
+}
+
+
+
+/*가맹비 dialog*/
+.franfee-Dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* width: 1000px; */
+  z-index: 2;
+}
+
+.franfee-content {
+  padding: 30px;
+  background-color: white;
+}
+
+.franfee-title {
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 30px;
+  /* width:300px; */
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.franfee-close {
+  width: 30px;
+  cursor: pointer;
+  background-color: #fddc00;
+  /* display: inline-block; */
+  float: right;
+  padding: 8px;
+}
+
+.franfee-inner {
+  width: 100%;
+  overflow-y: scroll;
+  border: 1px solid #ccc;
+  padding: 20px;
+  text-align: left;
+  margin-top: 20px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.franfee-inner::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+
+.franfee-inner-box{
+    height:100px;
+    border:1px solid black;
+    padding: 10px;
+}
 
 /*예치금 지급*/
-.Dialog-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.56);
-    z-index: 1;
-  }
+
 
   .deposit-Dialog {
     position: fixed;
