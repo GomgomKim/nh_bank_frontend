@@ -1,6 +1,10 @@
 export { default as NotFound } from "./NotFound";
 export { default as Login } from "./Login";
 
+//통계관리
+export { default as StaticsBranch } from "./statics/StaticsBranch";
+export { default as StaticsRider } from "./statics/StaticsRider";
+export { default as StaticsFranchise } from "./statics/StaticsFranchise";
 
 //배달내역관리
 export { default as DeliveryList } from "./delivery/DeliveryList";
@@ -21,7 +25,8 @@ export { default as LoanFranchise } from "./loan/LoanFranchise";
 export { default as BikeList } from "./bike/BikeList";
 
 // 게시글
-export { default as BoardInquiry } from "./board/Inquiry";
+export { default as Inquiry } from "./board/Inquiry";
+export { default as Notice } from "./board/Notice";
 
 //시스템관리
 export { default as OperatorManage } from "./system/OperatorManage";

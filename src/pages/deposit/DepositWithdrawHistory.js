@@ -88,7 +88,7 @@ class DepositWithdrawHistory extends Component {
         return (
             <>
 
-                <Radio.Group onChange={this.onChange}>
+                <Radio.Group onChange={this.onChange} style={{ marginTop: 5 }}>
                     <Radio value={1}>라이더</Radio>
                     <Radio value={2}>가맹점</Radio>
                 </Radio.Group>

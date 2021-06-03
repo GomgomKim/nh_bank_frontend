@@ -97,10 +97,29 @@ class DepositPaymentHistory extends Component {
         ];
         return (
             <>
+
+                <Radio.Group onChange={this.onChange} style={{ marginTop: 5 }}>
+                    <Radio value={1}>라이더</Radio>
+                    <Radio value={2}>가맹점</Radio>
+                </Radio.Group>
+
+
+                <Search
+                    placeholder="아이디를 입력하세요"
+                    enterButton="조회"
+                    allowClear
+                    onSearch={this.onSearch}
+                    style={{
+                        width: 250,
+                        marginBottom: 20
+                    }}
+                />
+
+
                 {this.state.depositDialogOpen && (
                     <DepositDialog close={this.closeDepositDialogModal} />
                 )}
-                <Button style={{ marginBottom: 20 }} onClick={this.openDepositDialogModal}>
+                <Button style={{ marginBottom: 20, marginLeft: 20 }} onClick={this.openDepositDialogModal}>
                     예치금 지급
                 </Button>
 
@@ -113,22 +132,6 @@ class DepositPaymentHistory extends Component {
                     엑셀 다운로드
                 </Button>
 
-                <Search
-                    placeholder="아이디를 입력하세요"
-                    enterButton="조회"
-                    allowClear
-                    onSearch={this.onSearch}
-                    style={{
-                        width: 250,
-                        float: 'right',
-                        marginBottom: 20
-                    }}
-                />
-
-                <Radio.Group onChange={this.onChange} style={{ float: 'right', marginTop: 5 }}>
-                    <Radio value={1}>라이더</Radio>
-                    <Radio value={2}>가맹점</Radio>
-                </Radio.Group>
 
 
                 <Table
