@@ -4,6 +4,7 @@ import { Table, Input, Button, DatePicker } from 'antd'
 
 import { comma } from "../../lib/util/numberUtil";
 import SystemKeyDialog from "../../components/dialog/SystemKeyDialog";
+
 import '../../css/main.css';
 
 const Search = Input.Search;
@@ -14,6 +15,7 @@ class OperatorManage extends Component {
         super(props);
         this.state = {
             systemKeyDialogOpen: false, //메뉴권한설정
+            systemDialogOpen: false, //메뉴권한설정2
             pagination: {
                 total: 0,
                 current: 1,
@@ -119,10 +121,10 @@ class OperatorManage extends Component {
                     메뉴권한 설정
                 </Button>
 
-                <Button style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
-                    {/* <DownloadOutlined /> */}
-                    엑셀다운로드
-                </Button>
+
+
+
+
 
                 <Table
                     rowKey={(record) => record.idx}

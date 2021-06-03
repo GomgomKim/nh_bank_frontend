@@ -39,19 +39,7 @@ class DepositPaymentHistory extends Component {
         this.setState({ depositDialogOpen: false });
     };
 
-    // downloadExcel = () => {
-    //     if (this.state.raffleDate == '') {
-    //         Modal.info({
-    //             title: "엑셀 다운로드",
-    //             content: "",
-    //             okText: '확인'
-    //         });
-    //         return;
-    //     }
-    //     // httpDownload(httpUrl.winnerListExcel, [100000, 1, this.state.raffleDate, this.state.resId], {}).then((res) => {
-    //     //     fileDownload(res, 'WINNER_' + this.state.raffleDate + '.xlsx');
-    //     // }).catch((err) => { });
-    // }
+
 
 
     getList = () => {
@@ -119,9 +107,10 @@ class DepositPaymentHistory extends Component {
 
 
 
-                <Button style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
-                    {/* <DownloadOutlined /> */}
-                    엑셀다운로드
+                <Button className="download-btn"
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
+                    <img src={require("../../img/excel.png").default} alt="" />
+                    엑셀 다운로드
                 </Button>
 
                 <Search

@@ -94,9 +94,10 @@ class DepositWithdrawHistory extends Component {
                 </Radio.Group>
 
 
-                <Button style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
-                    {/* <DownloadOutlined /> */}
-                    엑셀다운로드
+                <Button className="download-btn"
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
+                    <img src={require("../../img/excel.png").default} alt="" />
+                    엑셀 다운로드
                 </Button>
                 <Table
                     rowKey={(record) => record.idx}

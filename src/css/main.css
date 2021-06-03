@@ -160,3 +160,7 @@ div:nth-child(2) {
     height:100px;
     border:1px solid black;
 }
+
+.systemKey-inner .ant-table-pagination.ant-pagination{
+  display: none;
+}

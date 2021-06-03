@@ -39,11 +39,11 @@ export default class Content extends Component {
             <Route exact path="/bike/BikeList" component={BikeList} />
 
             <Route exact path="/board/inquiry" component={BoardInquiry} />
-            <Redirect to="/board/inquiry" />
+            {/* <Redirect to="/board/inquiry" /> */}
 
 
             <Route exact path="/system/operatorManage" component={OperatorManage} />
-            <Redirect to="/board/inquiry" />
+
           </Switch>
         </div>
       </Layout.Content>
