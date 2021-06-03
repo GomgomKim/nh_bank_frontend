@@ -44,6 +44,12 @@ class Login extends Component {
     return (
       <div className="login-container">
         <Form ref={this.formRef} onFinish={this.handleSubmit} className="login-form">
+          <div className="login-img">
+            <img src={require('../img/login_img.png').default} />
+          </div>
+          <div className="login-text">
+            냠냠박스 관리자시스템
+          </div>
           <FormItem
             name="id"
             rules={

@@ -4,6 +4,7 @@ import { Table, Input, Button, DatePicker, Space } from 'antd'
 import { comma } from "../../lib/util/numberUtil";
 import ModifyFranDialog from "../../components/dialog/ModifyFranDialog";
 import FranFeeDialog from "../../components/dialog/FranFeeDialog";
+import ChargeDialog from "../../components/dialog/ChargeDialog";
 import '../../css/main.css';
 
 
@@ -19,6 +20,7 @@ class FranchiseList extends Component {
         this.state = {
             franFeeDialog: false, //가맹비내역
             modifyFranDialog: false, //수정
+            chargeDialog: false, //충전내역
             pagination: {
                 total: 0,
                 current: 1,
@@ -50,6 +52,13 @@ class FranchiseList extends Component {
     };
     closeFranFeeDialogModal = () => {
         this.setState({ franFeeDialogOpen: false });
+    };
+    //충전내역 dialog
+    openChargeDialogModal = () => {
+        this.setState({ chargeDialogOpen: true });
+    };
+    closeChargeDialogModal = () => {
+        this.setState({ chargeDialogOpen: false });
     };
 
 
@@ -184,7 +193,7 @@ class FranchiseList extends Component {
                 className: "table-column-center",
                 render: (data, row) => (
 
-                    <Button onClick={() => { }}>
+                    <Button onClick={this.openChargeDialogModal}>
                         충전내역
                     </Button>
 
@@ -222,6 +231,11 @@ class FranchiseList extends Component {
                 {this.state.franFeeDialogOpen &&
                     <FranFeeDialog
                         close={this.closeFranFeeDialogModal}
+                    />
+                }
+                {this.state.chargeDialogOpen &&
+                    <ChargeDialog
+                        close={this.closeChargeDialogModal}
                     />
                 }
 
