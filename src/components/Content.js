@@ -6,7 +6,9 @@ import { Layout } from "antd";
 import { DepositPaymentHistory, DepositWithdrawHistory } from "../pages";
 import { LoanRider, LoanFranchise } from "../pages";
 import { BoardInquiry } from "../pages";
+// import { OperatorManage } from "../pages";
 import { Redirect } from "react-router-dom";
+import OperatorManage from "../pages/system/OperatorManage";
 
 
 export default class Content extends Component {
@@ -29,8 +31,10 @@ export default class Content extends Component {
 
 
             <Route exact path="/board/inquiry" component={BoardInquiry} />
-            <Redirect to="/board/inquiry" />
 
+
+            <Route exact path="/system/operatorManage" component={OperatorManage} />
+            <Redirect to="/board/inquiry" />
           </Switch>
         </div>
       </Layout.Content>

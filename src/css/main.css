@@ -61,3 +61,73 @@
       border:1px solid black;
       padding: 10px;
   }
+
+ .mainTitle{
+   display:inline-block;
+   margin-top:5px;
+ }
+
+
+.formItem{
+  display: inline-block;
+  vertical-align: top;
+}
+.contentBlock-inner{
+  border:1px solid #ccc;
+  padding:20px;
+}
+
+
+/*메뉴권한설정*/
+
+.systemKey-Dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* width: 1000px; */
+  z-index: 2;
+}
+
+.systemKey-content {
+  padding: 30px;
+  background-color: white;
+}
+
+.systemKey-title {
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 30px;
+  /* width:300px; */
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.systemKey-close {
+  width: 30px;
+  cursor: pointer;
+  background-color: #fddc00;
+  /* display: inline-block; */
+  float: right;
+  padding: 8px;
+}
+
+.systemKey-inner {
+  width: 100%;
+  overflow-y: scroll;
+  border: 1px solid #ccc;
+  padding: 20px;
+  text-align: left;
+  margin-top: 20px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.systemKey-inner::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+
+.systemKey-inner-box{
+    height:100px;
+    border:1px solid black;
+}

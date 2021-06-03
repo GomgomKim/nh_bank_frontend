@@ -239,9 +239,25 @@ body {
   /*버튼*/
   
   .ant-btn:hover, .ant-btn:focus{
-      border-color: #000;
+      border-color: #ffde5b;
+      background-color: #ffde5b;
       color:#000!important;
   }
   
+  /*input*/
+  .ant-input:hover{
+    border-color:none!important;
+  }
   
-  
+  /* .ant-col .ant-form-item-control{
+    width:100px;
+  }
+
+  .ant-form-item-control-input-content{
+    width:100px;
+  } */
+
+  .ant-form-item-control-input{
+    width:220px;
+    margin-left:20px;
+  }

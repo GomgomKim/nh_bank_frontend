@@ -156,7 +156,6 @@ class Sider extends React.Component {
             key="DEPOSIT_MANAGE"
             title={
               <span>
-                {/* <Icon type={row.icon} theme="outlined"/> */}
                 <span>예치금관리</span>
               </span>
 
@@ -178,8 +177,7 @@ class Sider extends React.Component {
             </Menu.Item>
             <Menu.Item key="DEPOSIT_WITHDRAW_HISTORY">
               <Link exact="true" to="/deposit/DepositWithdrawHistory">
-                {/* <Icon type={child.icon} theme="outlined"
-                              /> */}
+
                 <span className="nav-text">예치금 출금내역</span>
               </Link>
             </Menu.Item>
@@ -189,7 +187,6 @@ class Sider extends React.Component {
             key="LOAN_MANAGE"
             title={
               <span>
-                {/* <Icon type={row.icon} theme="outlined"/> */}
                 <span>대출관리</span>
               </span>
 
@@ -197,15 +194,11 @@ class Sider extends React.Component {
 
             <Menu.Item key="LOAN_RIDER">
               <Link exact="true" to="/loan/LoanRider">
-                {/* <Icon type={child.icon} theme="outlined"
-                              /> */}
                 <span className="nav-text">라이더 대출목록</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="LOAN_FRANCHISE">
-              <Link exact="true" to="/loan/loanFranchise">
-                {/* <Icon type={child.icon} theme="outlined"
-                              /> */}
+              <Link exact="true" to="/loan/LoanFranchise">
                 <span className="nav-text">가맹점 대출목록</span>
               </Link>
             </Menu.Item>
@@ -241,7 +234,7 @@ class Sider extends React.Component {
             }>
 
             <Menu.Item key="BOARD_INQUIRY">
-              <Link exact="true" to="/board/inquiry">
+              <Link exact="true" to="/board/Inquiry">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
                 <span className="nav-text">홈페이지문의</span>
@@ -253,7 +246,6 @@ class Sider extends React.Component {
             key="SYSTEM_MANAGE"
             title={
               <span>
-                {/* <Icon type={row.icon} theme="outlined"/> */}
                 <span>시스템관리</span>
               </span>
 
@@ -261,8 +253,6 @@ class Sider extends React.Component {
 
             <Menu.Item key="OPERATOR_MANAGE">
               <Link exact="true" to="/system/OperatorManage">
-                {/* <Icon type={child.icon} theme="outlined"
-                              /> */}
                 <span className="nav-text"> 운영자 관리</span>
               </Link>
             </Menu.Item>
