@@ -272,13 +272,13 @@ class DeliveryHistoryEmployee extends Component {
             />
           </div>
 
-          <div>
-            <Button className="download-btn"
-              style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
-              <img src={require("../../img/excel.png").default} alt="" />
+
+          <Button className="download-btn"
+            style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
+            <img src={require("../../img/excel.png").default} alt="" />
                     엑셀 다운로드
                 </Button>
-          </div>
+
         </div>
 
 

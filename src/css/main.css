@@ -7,7 +7,7 @@
 .top-menu > div {
   display: inline-block;
   vertical-align: top;
-  margin-left: 20px;
+  /* margin-left: 20px; */
 }
 .top-menu > div:first-child,
 div:nth-child(2) {

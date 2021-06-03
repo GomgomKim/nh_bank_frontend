@@ -297,15 +297,15 @@ class DeliveryList extends Component {
             />
           </div>
 
-          <div>
-            <a href="/admin_bike_templete.xlsx" download>
-              <Button className="download-btn"
-                style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
-                <img src={require("../../img/excel.png").default} alt="" />
+
+          <a href="/admin_bike_templete.xlsx" download>
+            <Button className="download-btn"
+              style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
+              <img src={require("../../img/excel.png").default} alt="" />
                     엑셀 다운로드
                 </Button>
-            </a>
-          </div>
+          </a>
+
         </div>
 
 
