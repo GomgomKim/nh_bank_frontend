@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import 'antd/dist/antd.css';
 import './css/index.css';
+import './css/main.css';
 import './css/notosans.css';
 
 let store = createStore(reducer);

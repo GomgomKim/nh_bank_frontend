@@ -24,7 +24,8 @@ class Sider extends React.Component {
         <div
           style={{
             textAlign: "center",
-            background: "rgba(255,255,255,.2)",
+            // background: "rgba(255,255,255,.2)",
+            border: "1px solid #fff",
             margin: "16px",
             color: "#fff",
             padding: "10px",
@@ -161,13 +162,13 @@ class Sider extends React.Component {
 
             }>
 
-            <Menu.Item key="DEPOSIT_PAYMENT">
+            {/* <Menu.Item key="DEPOSIT_PAYMENT">
               <Link exact="true" to="/deposit/DepositPayment">
-                {/* <Icon type={child.icon} theme="outlined"
-                              /> */}
+             
                 <span className="nav-text">예치금 지급</span>
               </Link>
-            </Menu.Item>
+            </Menu.Item> */}
+
             <Menu.Item key="DEPOSIT_PAYMENT_HISTORY">
               <Link exact="true" to="/deposit/DepositPaymentHistory">
                 {/* <Icon type={child.icon} theme="outlined"
