@@ -209,9 +209,6 @@ class BikeList extends Component {
         width: '10%',
         render: (data) => (
           <div>
-            {this.state.isFixHistoryOpen && (
-              <FixHistoryDialog close={this.closeFixHistoryDialog} />
-            )}
             <Button onClick={this.openFixHistoryDialog}>
               이력보기
                 </Button>
@@ -225,9 +222,7 @@ class BikeList extends Component {
         width: '10%',
         render: (data, row) => (
           <div>
-            {this.state.isRegistBikeOpen && (
-              <RegistBikeDialog close={this.closeRegistBikeDialog} />
-            )}
+
             <Button onClick={this.openRegistBikeDialog}>
               수정하기
               </Button>
@@ -283,9 +278,6 @@ class BikeList extends Component {
           </div>
 
           <div>
-            {this.state.isRegistBikeOpen && (
-              <RegistBikeDialog close={this.closeRegistBikeDialog} />
-            )}
             <Button
               onClick={this.openRegistBikeDialog}
               style={{ marginLeft: 20 }}>
@@ -303,6 +295,13 @@ class BikeList extends Component {
 
         </div>
 
+        {this.state.isFixHistoryOpen && (
+          <FixHistoryDialog close={this.closeFixHistoryDialog} />
+        )}
+
+        {this.state.isRegistBikeOpen && (
+          <RegistBikeDialog close={this.closeRegistBikeDialog} />
+        )}
 
         <div className="content-box">
           <FormItem
