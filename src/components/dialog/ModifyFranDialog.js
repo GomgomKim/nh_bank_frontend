@@ -65,7 +65,7 @@ class ModifyFranDialog extends Component {
                                             initialValue={data ? data.price : ""}
                                         >
                                             <Input
-                                                placeholder=""
+                                                placeholder="가맹점명을 입력하세요"
                                                 className="override-input"
                                             />
                                         </FormItem>
@@ -88,7 +88,7 @@ class ModifyFranDialog extends Component {
                                             initialValue={data ? data.price : ""}
                                         >
                                             <Input
-                                                placeholder=""
+                                                placeholder="가맹점번호를 입력하세요"
                                                 className="override-input"
                                             />
                                         </FormItem>
@@ -110,7 +110,7 @@ class ModifyFranDialog extends Component {
                                             initialValue={data ? data.price : ""}
                                         >
                                             <Input
-                                                placeholder=""
+                                                placeholder="가맹점주소를 입력하세요"
                                                 className="override-input"
                                             />
                                         </FormItem>

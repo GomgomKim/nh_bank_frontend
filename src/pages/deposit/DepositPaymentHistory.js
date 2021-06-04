@@ -125,13 +125,17 @@ class DepositPaymentHistory extends Component {
 
 
 
-
                 <Button className="download-btn"
                     style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
                     <img src={require("../../img/excel.png").default} alt="" />
                     엑셀 다운로드
                 </Button>
 
+                <Button className="download-btn"
+                    style={{ float: 'right', marginLeft: 20, marginBottom: 20 }} onClick={{}}>
+                    <img src={require("../../img/excel.png").default} alt="" />
+                        엑셀 업로드
+          </Button>
 
 
                 <Table

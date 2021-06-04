@@ -132,6 +132,13 @@ class StaticsFranchise extends Component {
                     <img src={require("../../img/statistics.png").default} alt="" />
                     그래프 통계
                 </Button>
+
+                <RangePicker
+                    onChange={this.onChangeDate}
+                    showTime={{ format: 'MM:dd' }}
+                    style={{ float: 'right' }}
+                    placeholder={['시작일', '종료일']} />
+
                 <Table
                     rowKey={(record) => record.idx}
                     rowClassName={(record) => (record.status === 'COMPLETE' ? "table-disabled" : "")}
