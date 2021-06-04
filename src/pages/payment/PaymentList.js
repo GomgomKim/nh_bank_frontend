@@ -131,12 +131,12 @@ class PaymentList extends Component {
                         placeholder={['시작일', '종료일']} />
                 </Space>
                 <Search
-                    placeholder="가맹점을 입력하세요"
-                    enterButton="조회"
+                    placeholder="가맹점 검색"
+                    enterButton
                     allowClear
                     onSearch={this.onSearch}
                     style={{
-                        width: 250,
+                        width: 220,
                         marginLeft: 20
                     }}
                 />

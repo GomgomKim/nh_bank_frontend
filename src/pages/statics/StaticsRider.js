@@ -131,12 +131,12 @@ class StaticsRider extends Component {
                 </Radio.Group>
 
                 <Search
-                    placeholder="라이더를 입력하세요"
-                    enterButton="조회"
+                    placeholder="라이더 검색"
+                    enterButton
                     allowClear
                     onSearch={this.onSearch}
                     style={{
-                        width: 250,
+                        width: 220,
                         marginBottom: 20
                     }}
                 />

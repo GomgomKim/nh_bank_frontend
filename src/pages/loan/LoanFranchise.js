@@ -87,6 +87,17 @@ class LoanFranchise extends Component {
         return (
             <>
 
+                <Search
+                    placeholder="가맹점 검색"
+                    enterButton
+                    allowClear
+                    onSearch={this.onSearch}
+                    style={{
+                        width: 220,
+                        marginBottom: 20
+                    }}
+                />
+
                 <Button className="download-btn"
                     style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
                     <img src={require("../../img/excel.png").default} alt="" />

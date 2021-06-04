@@ -162,7 +162,7 @@ class BikeList extends Component {
         className: "table-column-center",
       },
       {
-        title: "운행 기사명",
+        title: "라이더명",
         dataIndex: "rideRider",
         className: "table-column-center",
       },
@@ -233,7 +233,7 @@ class BikeList extends Component {
 
           <div>
             <Search
-              placeholder="기사명 검색"
+              placeholder="라이더명 검색"
               enterButton
               allowClear
               onChange={(e) => this.setState({ rider: e.target.value })}

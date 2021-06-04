@@ -105,12 +105,12 @@ class DepositPaymentHistory extends Component {
 
 
                 <Search
-                    placeholder="아이디를 입력하세요"
-                    enterButton="조회"
+                    placeholder="아이디 검색"
+                    enterButton
                     allowClear
                     onSearch={this.onSearch}
                     style={{
-                        width: 250,
+                        width: 220,
                         marginBottom: 20
                     }}
                 />

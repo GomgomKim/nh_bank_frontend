@@ -35,21 +35,25 @@ class DepositWithdrawHistory extends Component {
     getList = () => {
         var list = [
             {
+                idx: '배지현',
                 withdrawAccount: '신한은행 1002-000-000000',
                 withdrawPrice: 20000,
                 withdrawDate: '2021-06-02',
             },
             {
+                idx: '배지현',
                 withdrawAccount: '신한은행 1002-000-000000',
                 withdrawPrice: 20000,
                 withdrawDate: '2021-06-02',
             },
             {
+                idx: '배지현',
                 withdrawAccount: '신한은행 1002-000-000000',
                 withdrawPrice: 20000,
                 withdrawDate: '2021-06-02',
             },
             {
+                idx: '배지현',
                 withdrawAccount: '신한은행 1002-000-000000',
                 withdrawPrice: 20000,
                 withdrawDate: '2021-06-02',
@@ -65,6 +69,12 @@ class DepositWithdrawHistory extends Component {
     render() {
 
         const columns = [
+            {
+                title: "이름",
+                dataIndex: "idx",
+                className: "table-column-center",
+
+            },
             {
                 title: "출금계좌",
                 dataIndex: "withdrawAccount",
@@ -93,6 +103,17 @@ class DepositWithdrawHistory extends Component {
                     <Radio value={2}>가맹점</Radio>
                 </Radio.Group>
 
+
+                <Search
+                    placeholder="아이디 검색"
+                    enterButton
+                    allowClear
+                    onSearch={this.onSearch}
+                    style={{
+                        width: 220,
+                        marginBottom: 20
+                    }}
+                />
 
                 <Button className="download-btn"
                     style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>

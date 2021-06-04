@@ -117,12 +117,12 @@ class StaticsBranch extends Component {
                 </Radio.Group>
 
                 <Search
-                    placeholder="지점을 입력하세요"
-                    enterButton="조회"
+                    placeholder="지점명 검색"
+                    enterButton
                     allowClear
                     onSearch={this.onSearch}
                     style={{
-                        width: 250,
+                        width: 220,
                         marginBottom: 20
                     }}
                 />

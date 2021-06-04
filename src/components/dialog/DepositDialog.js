@@ -55,12 +55,12 @@ class DepositDialog extends Component {
                                 </Radio.Group>
 
                                 <Search
-                                    placeholder="아이디를 입력하세요"
-                                    enterButton="조회"
+                                    placeholder="아이디 검색"
+                                    enterButton
                                     allowClear
                                     onSearch={this.onSearch}
                                     style={{
-                                        width: 250,
+                                        width: 220,
                                         marginBottom: 20
                                     }}
                                 />
@@ -83,7 +83,7 @@ class DepositDialog extends Component {
                                             initialValue={data ? data.price : ""}
                                         >
                                             <Input
-                                                placeholder="금액을 입력해주세요."
+                                                placeholder="금액을 검색해주세요."
                                                 className="override-input"
                                             />
                                         </FormItem>

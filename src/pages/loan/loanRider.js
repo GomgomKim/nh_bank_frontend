@@ -131,6 +131,18 @@ class LoanRider extends Component {
         ];
         return (
             <>
+                <Search
+                    placeholder="라이더 검색"
+                    enterButton
+                    allowClear
+                    onSearch={this.onSearch}
+                    style={{
+                        width: 220,
+                        marginBottom: 20
+                    }}
+                />
+
+
 
                 <Button className="download-btn"
                     style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>

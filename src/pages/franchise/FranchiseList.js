@@ -208,12 +208,12 @@ class FranchiseList extends Component {
             <>
 
                 <Search
-                    placeholder="가맹점을 입력하세요"
-                    enterButton="조회"
+                    placeholder="가맹점 검색"
+                    enterButton
                     allowClear
                     onSearch={this.onSearch}
                     style={{
-                        width: 250,
+                        width: 220,
                     }}
                 />
                 <Button className="download-btn"

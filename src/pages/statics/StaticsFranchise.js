@@ -117,12 +117,12 @@ class StaticsFranchise extends Component {
                 </Radio.Group>
 
                 <Search
-                    placeholder="가맹점을 입력하세요"
-                    enterButton="조회"
+                    placeholder="가맹점 검색"
+                    enterButton
                     allowClear
                     onSearch={this.onSearch}
                     style={{
-                        width: 250,
+                        width: 220,
                         marginBottom: 20
                     }}
                 />
