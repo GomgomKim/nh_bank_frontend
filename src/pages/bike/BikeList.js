@@ -13,6 +13,8 @@ import {
 import SelectBox from "../../components/input/SelectBox";
 import Modal from "antd/lib/modal/Modal";
 import "../../css/main.css";
+import RegistBikeDialog from "../../components/dialog/RegistBikeDialog";
+import FixHistoryDialog from "../../components/dialog/FixHistoryDialog";
 
 const FormItem = Form.Item;
 const Search = Input.Search;
@@ -27,7 +29,9 @@ class BikeList extends Component {
                 current: 1,
                 pageSize: 10,
             },
-        bikeStatus:0,    
+        bikeStatus:0,
+        isRegistBikeOpen: false,   
+        isFixHistoryOpen: false, 
       };
     this.formRef = React.createRef();
   }
@@ -69,7 +73,8 @@ class BikeList extends Component {
             bikeModel: '2016 년',
             rideDistance: '10546 km',
             rideRider: '도아무개',
-            riderPhone: '010-8888-9999',        
+            riderPhone: '010-8888-9999',
+            bikeMemo: '바퀴상태 불량, 검사 필요',         
         },
         {   
             bikeStatus: '',      
@@ -77,7 +82,8 @@ class BikeList extends Component {
             bikeModel: '2018 년',
             rideDistance: '10546 km',
             rideRider: '강아무개',
-            riderPhone: '010-8888-9999',       
+            riderPhone: '010-8888-9999',
+            bikeMemo: '',        
         },
         {   
             bikeStatus: '',      
@@ -85,7 +91,8 @@ class BikeList extends Component {
             bikeModel: '2005 년',
             rideDistance: '10546 km',
             rideRider: '남아무개',
-            riderPhone: '010-8888-9999',        
+            riderPhone: '010-8888-9999',
+            bikeMemo: '',      
         },
         {   
             bikeStatus: '',      
@@ -93,7 +100,8 @@ class BikeList extends Component {
             bikeModel: '2011 년',
             rideDistance: '10546 km',
             rideRider: '성아무개',
-            riderPhone: '010-8888-9999',        
+            riderPhone: '010-8888-9999', 
+            bikeMemo: '',         
         },
         {   
             bikeStatus: '',      
@@ -101,7 +109,8 @@ class BikeList extends Component {
             bikeModel: '2016 년',
             rideDistance: '10546 km',
             rideRider: '신아무개',
-            riderPhone: '010-8888-9999',        
+            riderPhone: '010-8888-9999',      
+            bikeMemo: '',    
         },
       
     ];
@@ -121,6 +130,24 @@ class BikeList extends Component {
       },
       () => this.getList()
     );
+  };
+
+  // 바이크 등록 모달
+
+  openRegistBikeDialog = () => {
+    this.setState({ isRegistBikeOpen: true });
+  };
+  closeRegistBikeDialog = () => {
+    this.setState({ isRegistBikeOpen: false });
+  };
+
+  // 정비이력 모달
+
+  openFixHistoryDialog = () => {
+    this.setState({ isFixHistoryOpen: true });
+  };
+  closeFixHistoryDialog = () => {
+    this.setState({ isFixHistoryOpen: false });
   };
 
   render() {
@@ -177,11 +204,14 @@ class BikeList extends Component {
             className: "table-column-center",
             width: '10%',
             render: (data) => (
-              <div>
-                <Button onClick={() => {}}>
+              <span>
+                  {this.state.isFixHistoryOpen && (
+                <FixHistoryDialog close={this.closeFixHistoryDialog} />
+                  )}
+                <Button onClick={this.openFixHistoryDialog}>
                   이력보기
                 </Button>
-              </div>
+              </span>
             )
         },  
         {
@@ -191,25 +221,31 @@ class BikeList extends Component {
           width: '10%',
           render: (data, row) => (
             <div>
-              <Button onClick={() => {}}>
+              <Button onClick={this.openRegistBikeDialog}>
                 수정하기
               </Button>
             </div>
           )
-      },      
+        },      
         {
           title: "삭제",
           dataIndex: "deleteBike",
           className: "table-column-center",
           width: '10%',
           render: (data, row) => (
-            <div>
+            <div>            
               <Button onClick={() => {}}>
                 삭제하기
               </Button>
             </div>
           )
-      },    
+        },
+        {
+          title: "메모",
+          dataIndex: "bikeMemo",
+          className: "table-column-center",  
+          width: '15%',      
+        },    
     ];
 
     
@@ -227,7 +263,6 @@ class BikeList extends Component {
                     onSearch={this.onSearchBike}
                     style={{
                     width: 220,
-                    marginLeft: 20,
                     }}
                 />
                 </div>   
@@ -247,17 +282,12 @@ class BikeList extends Component {
                 </div>
 
                 <div>
-                <Button
-                  // onClick={this.openRegistFranchiseModal}
-                >
+                  {this.state.isRegistBikeOpen && (
+                    <RegistBikeDialog close={this.closeRegistBikeDialog} />
+                  )}
+                <Button onClick={this.openRegistBikeDialog}>
                   바이크 등록
                 </Button>
-                {/* {this.state.SearchAddressOpen && (
-                  <RegistBikeDialog
-                    isOpen={this.state.SearchAddressOpen}
-                    close={this.closeSearchAddressModal}
-                  />
-                )} */}
                 </div>
 
                 <div>

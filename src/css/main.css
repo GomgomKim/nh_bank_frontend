@@ -23,7 +23,84 @@ div:nth-child(2) {
   margin: 0 5px 2px 0;
 }
 
-/* 바이크 관리 */
+/* 바이크 등록,수정 모달 */
+
+.registBike-Dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* width: 1000px; */
+  z-index: 2;
+}
+.dialog-content {
+  padding: 30px;
+  background-color: white;
+}
+.dialog-title {
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  float: left;
+  padding-bottom: 20px;
+}
+.dialog-close {
+  width: 30px;
+  cursor: pointer;
+  background-color: #fddc00;
+  float: right;
+  padding: 8px;
+}
+.dialog-inner {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 20px;
+  text-align: left;
+  margin-top: 20px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  clear: both;
+}
+.dialog-block {
+  height: 40px;
+  margin-bottom: 15px;
+}
+.dialog-block > div {
+  display: inline-block;
+}
+.dialog-block > div:first-child {
+  font-size: 18px;
+  font-weight: bold;
+  width: 130px;
+}
+.registBike-Dialog .dialog-block .ant-radio-group span:first-child {
+  margin-bottom: 1.5px;
+}
+.registBike-Dialog .dialog-block .ant-radio-group span:last-child {
+  font-size: 16px;
+}
+.dialog-block textarea {
+  vertical-align: top;
+  border-color: #d9d9d9;
+  resize: none;
+  padding: 0 10px;
+}
+.dialog-block textarea::placeholder {
+  font-weight: 300;
+  color: #c1c1c1;
+  font-size: 14px;
+}
+.registBike-btn {
+  text-align: center;
+}
+
+/* 바이크 정비이력 모달 */
+.fixHistory-btn {
+  text-align: right;
+  margin-bottom: 20px;
+}
 /*예치금 지급*/
 .Dialog-overlay {
   position: fixed;
