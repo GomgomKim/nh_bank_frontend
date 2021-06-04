@@ -162,19 +162,6 @@ class FranchiseList extends Component {
 
             },
             {
-                title: "수정",
-                dataIndex: "update",
-                className: "table-column-center",
-                render: (data, row) => (
-
-                    <Button onClick={this.openModifyFranDialogModal}>
-                        수정
-                    </Button>
-
-                )
-
-            },
-            {
                 title: "가맹비내역",
                 dataIndex: "franFeeList",
                 className: "table-column-center",
@@ -195,6 +182,19 @@ class FranchiseList extends Component {
 
                     <Button onClick={this.openChargeDialogModal}>
                         충전내역
+                    </Button>
+
+                )
+
+            },
+            {
+                title: "수정",
+                dataIndex: "update",
+                className: "table-column-center",
+                render: (data, row) => (
+
+                    <Button onClick={this.openModifyFranDialogModal}>
+                        수정
                     </Button>
 
                 )

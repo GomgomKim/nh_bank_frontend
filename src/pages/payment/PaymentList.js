@@ -124,12 +124,6 @@ class PaymentList extends Component {
         return (
             <>
 
-                <Space direction="vertical">
-                    <RangePicker
-                        onChange={this.onChangeDate}
-                        showTime={{ format: 'MM:dd' }}
-                        placeholder={['시작일', '종료일']} />
-                </Space>
                 <Search
                     placeholder="가맹점 검색"
                     enterButton
@@ -137,9 +131,18 @@ class PaymentList extends Component {
                     onSearch={this.onSearch}
                     style={{
                         width: 220,
-                        marginLeft: 20
+                        // marginLeft: 20
                     }}
                 />
+
+                <Space direction="vertical">
+                    <RangePicker
+                        onChange={this.onChangeDate}
+                        showTime={{ format: 'MM:dd' }}
+                        style={{ float: 'right', marginRight: 20 }}
+                        placeholder={['시작일', '종료일']} />
+                </Space>
+
                 <Button className="download-btn"
                     style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
                     <img src={require("../../img/excel.png").default} alt="" />

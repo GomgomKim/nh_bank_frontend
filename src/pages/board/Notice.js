@@ -56,13 +56,16 @@ class Notice extends Component {
     closeModifyNoticeDialogModal = () => {
         this.setState({ modifyNoticeDialogOpen: false });
     };
-
+    //삭제 알림창
     delete = () => {
-        Modal.Confirm({
-            title: <div> 공지 삭제</div>,
-            content: <div> 해당 공지를 삭제하시곘습니까? </div>
-        })
-    }
+        // Modal.Confirm({
+        //     title: <div> 공지 삭제</div>,
+        //     content: <div> 해당 공지를 삭제하시곘습니까? </div>
+        // })
+        alert('공지사항을 삭제합니다.')
+    };
+
+
     getList = () => {
         var list = [
             {
@@ -166,12 +169,6 @@ class Notice extends Component {
                 // render: (data, row) => <div>{data && data.length > 10 ? data.substr(0, 10) + '...' : data}</div>
             },
             {
-                title: "등록일",
-                dataIndex: "createDate",
-                className: "table-column-center",
-                render: (data) => <div>{formatDate(data)}</div>
-            },
-            {
                 title: "노출순위",
                 dataIndex: "sortOrder",
                 className: "table-column-center",
@@ -180,6 +177,12 @@ class Notice extends Component {
                 title: "상태",
                 dataIndex: "status",
                 className: "table-column-center",
+            },
+            {
+                title: "등록일",
+                dataIndex: "createDate",
+                className: "table-column-center",
+                render: (data) => <div>{formatDate(data)}</div>
             },
             {
                 title: "수정",
