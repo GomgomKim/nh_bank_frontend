@@ -251,7 +251,6 @@ class Notice extends Component {
                     onSearch={this.onSearch}
                     style={{
                         width: 220,
-                        marginLeft: 20,
                     }}
                 />
                 {/* <Space direction="vertical"> */}

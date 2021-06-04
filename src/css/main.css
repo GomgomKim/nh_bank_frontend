@@ -17,6 +17,21 @@
   float: right;
 }
 
+.mainTitle {
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.formItem {
+  display: inline-block;
+  vertical-align: top;
+}
+.contentBlock-inner {
+  border: 1px solid #ccc;
+  padding: 20px;
+}
+
+
 /* 배달내역관리 */
 
 .top-menu {
@@ -344,18 +359,8 @@ div:nth-child(2) {
   padding: 10px;
 }
 
-.mainTitle {
-  display: inline-block;
-  margin-top: 5px;
-}
-
-.formItem {
-  display: inline-block;
-  vertical-align: top;
-}
-.contentBlock-inner {
-  border: 1px solid #ccc;
-  padding: 20px;
+.deposit-inner .mainTitle{
+  width:100px;
 }
 
 /*메뉴권한설정*/
