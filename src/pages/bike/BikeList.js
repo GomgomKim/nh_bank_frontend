@@ -40,7 +40,6 @@ class BikeList extends Component {
     this.getList()
   }
 
-
   // 바이크 검색
   onSearchBike = (value) => {
     this.setState(
