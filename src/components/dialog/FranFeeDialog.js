@@ -130,7 +130,16 @@ class FranFeeDialog extends Component {
 
                         <div className="franfee-inner">
                             <div className="contentBlock">
-
+                                <Search
+                                    placeholder="가맹점명 검색"
+                                    enterButton
+                                    allowClear
+                                    onChange={(e) => this.setState({ rider: e.target.value })}
+                                    onSearch={this.onSearchRider}
+                                    style={{
+                                        width: 220,
+                                    }}
+                                />
                                 <Button className="download-btn"
                                     style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
                                     <img src={require("../../img/excel.png").default} alt="" />

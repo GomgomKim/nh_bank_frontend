@@ -88,12 +88,7 @@ class PaymentList extends Component {
 
         const columns = [
 
-            {
-                title: "날짜",
-                dataIndex: "date",
-                className: "table-column-center",
 
-            },
             {
                 title: "가맹점명",
                 dataIndex: "franIdx",
@@ -119,10 +114,17 @@ class PaymentList extends Component {
                 render: (data) => <div>{comma(data)}원</div>
 
             },
+            {
+                title: "날짜",
+                dataIndex: "date",
+                className: "table-column-center",
+
+            },
 
         ];
         return (
             <>
+
 
                 <Search
                     placeholder="가맹점 검색"
@@ -134,20 +136,20 @@ class PaymentList extends Component {
                         // marginLeft: 20
                     }}
                 />
-
-                <Space direction="vertical">
-                    <RangePicker
-                        onChange={this.onChangeDate}
-                        showTime={{ format: 'MM:dd' }}
-                        style={{ float: 'right', marginLeft: 20 }}
-                        placeholder={['시작일', '종료일']} />
-                </Space>
-
                 <Button className="download-btn"
                     style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
                     <img src={require("../../img/excel.png").default} alt="" />
                     엑셀 다운로드
                 </Button>
+
+                {/* <Space direction="vertical"> */}
+                <RangePicker
+                    onChange={this.onChangeDate}
+                    showTime={{ format: 'MM:dd' }}
+                    style={{ float: 'right' }}
+                    placeholder={['시작일', '종료일']} />
+                {/* </Space> */}
+
 
                 <Table
                     rowKey={(record) => record.idx}

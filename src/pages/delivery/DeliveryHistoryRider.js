@@ -166,19 +166,19 @@ class DeliveryHistoryRider extends Component {
         width: '8%',
       },
       {
-        title: "기사명",
+        title: "라이더명",
         dataIndex: "riderName",
         className: "table-column-center",
         width: '10%',
       },
       {
-        title: "기사 연락처",
+        title: "라이더 연락처",
         dataIndex: "riderPhone",
         className: "table-column-center",
         width: '10%',
       },
       {
-        title: "기사그룹",
+        title: "라이더그룹",
         dataIndex: "userGroup",
         className: "table-column-center",
         width: '10%',
@@ -220,7 +220,7 @@ class DeliveryHistoryRider extends Component {
           </Space>
 
             <Search
-              placeholder="기사명 검색"
+              placeholder="라이더명 검색"
               enterButton
               allowClear
               onChange={(e) => this.setState({ rider: e.target.value })}

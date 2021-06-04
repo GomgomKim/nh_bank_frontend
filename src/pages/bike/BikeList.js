@@ -23,16 +23,16 @@ class BikeList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        list: [],
-            pagination: {
-                total: 0,
-                current: 1,
-                pageSize: 10,
-            },
-        bikeStatus:0,
-        isRegistBikeOpen: false,   
-        isFixHistoryOpen: false, 
-      };
+      list: [],
+      pagination: {
+        total: 0,
+        current: 1,
+        pageSize: 10,
+      },
+      bikeStatus: 0,
+      isRegistBikeOpen: false,
+      isFixHistoryOpen: false,
+    };
     this.formRef = React.createRef();
   }
 
@@ -174,24 +174,14 @@ class BikeList extends Component {
 
     const columns = [
       {
-        title: "상태",
-        dataIndex: "bikeStatus",
+        title: "라이더명",
+        dataIndex: "rideRider",
         className: "table-column-center",
-        width: "8%",
-        render: (data, row) => (
-          <div>
-            <SelectBox
-              defaultlValue={bikeStatus[1]}
-              value={bikeStatus[data]}
-              code={Object.keys(bikeStatus)}
-              codeString={bikeStatus}
-              onChange={(value) => {
-                if (parseInt(value) !== this.state.bikeStatus) {
-                  this.setState({ bikeStatus: parseInt(value) }, () => this.getList());
-                }
-              }} />
-          </div>
-        )
+      },
+      {
+        title: "라이더 전화번호",
+        dataIndex: "riderPhone",
+        className: "table-column-center",
       },
       {
         title: "바이크 기종",
@@ -209,14 +199,29 @@ class BikeList extends Component {
         className: "table-column-center",
       },
       {
-        title: "라이더명",
-        dataIndex: "rideRider",
+        title: "메모",
+        dataIndex: "bikeMemo",
         className: "table-column-center",
       },
       {
-        title: "기사 전화번호",
-        dataIndex: "riderPhone",
+        title: "상태",
+        dataIndex: "bikeStatus",
         className: "table-column-center",
+        width: "10%",
+        render: (data, row) => (
+          <div>
+            <SelectBox
+              defaultlValue={bikeStatus[1]}
+              value={bikeStatus[data]}
+              code={Object.keys(bikeStatus)}
+              codeString={bikeStatus}
+              onChange={(value) => {
+                if (parseInt(value) !== this.state.bikeStatus) {
+                  this.setState({ bikeStatus: parseInt(value) }, () => this.getList());
+                }
+              }} />
+          </div>
+        )
       },
       {
         title: "대여 날짜",
@@ -234,7 +239,7 @@ class BikeList extends Component {
         className: "table-column-center",
         width: '8%',
         render: (data) => (
-          <div>           
+          <div>
             <Button onClick={this.openFixHistoryDialog}>
               이력보기
                 </Button>
@@ -248,7 +253,7 @@ class BikeList extends Component {
         width: '8%',
         render: (data, row) => (
           <div>
-            
+
             <Button onClick={this.openRegistBikeDialog}>
               수정
               </Button>
@@ -267,11 +272,6 @@ class BikeList extends Component {
               </Button>
           </div>
         )
-      },
-      {
-        title: "메모",
-        dataIndex: "bikeMemo",
-        className: "table-column-center",
       },
     ];
 
@@ -311,7 +311,6 @@ class BikeList extends Component {
               </Button>
 
 
-
           <Button className="download-btn"
             style={{ float: 'right', marginLeft: 20, marginBottom: 20 }} onClick={{}}>
             <img src={require("../../img/excel.png").default} alt="" />
@@ -321,11 +320,11 @@ class BikeList extends Component {
 
 
         {this.state.isFixHistoryOpen && (
-              <FixHistoryDialog close={this.closeFixHistoryDialog} />
-            )}
+          <FixHistoryDialog close={this.closeFixHistoryDialog} />
+        )}
 
         {this.state.isRegistBikeOpen && (
-              <RegistBikeDialog close={this.closeRegistBikeDialog} />
+          <RegistBikeDialog close={this.closeRegistBikeDialog} />
         )}
 
             <Table

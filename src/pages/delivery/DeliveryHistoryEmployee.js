@@ -177,13 +177,13 @@ class DeliveryHistoryEmployee extends Component {
         width: '5%',
       },
       {
-        title: "기사명",
+        title: "직원명",
         dataIndex: "riderName",
         className: "table-column-center",
         width: '10%',
       },
       {
-        title: "기사 연락처",
+        title: "직원 연락처",
         dataIndex: "riderPhone",
         className: "table-column-center",
         width: '10%',
@@ -244,7 +244,7 @@ class DeliveryHistoryEmployee extends Component {
 
 
             <Search
-              placeholder="기사명 검색"
+              placeholder="직원명 검색"
               enterButton
               allowClear
               onChange={(e) => this.setState({ rider: e.target.value })}

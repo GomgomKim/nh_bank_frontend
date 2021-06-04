@@ -65,7 +65,7 @@ class ModifyNoticeDialog extends Component {
                                             initialValue={data ? data.price : ""}
                                         >
                                             <Input
-                                                placeholder=""
+                                                placeholder="제목을 입력하세요"
                                                 className="override-input"
                                                 style={{ width: 250 }}
                                             />
@@ -91,7 +91,7 @@ class ModifyNoticeDialog extends Component {
                                             initialValue={data ? data.price : ""}
                                         >
                                             <Input
-                                                placeholder=""
+                                                placeholder="내용을 입력하세요"
                                                 style={{ height: 200, width: 250 }}
                                                 className="override-input"
                                             />
