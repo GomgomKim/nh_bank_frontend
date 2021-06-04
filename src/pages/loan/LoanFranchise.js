@@ -64,7 +64,7 @@ class LoanFranchise extends Component {
 
         const columns = [
             {
-                title: "가맹점 정보",
+                title: "가맹점명",
                 dataIndex: "franIdx",
                 className: "table-column-center",
 

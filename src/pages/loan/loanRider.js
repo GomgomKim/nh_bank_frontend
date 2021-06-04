@@ -107,7 +107,7 @@ class LoanRider extends Component {
 
         const columns = [
             {
-                title: "라이더 정보",
+                title: "라이더명",
                 dataIndex: "riderIdx",
                 className: "table-column-center",
 

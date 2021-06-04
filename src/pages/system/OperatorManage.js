@@ -41,28 +41,28 @@ class OperatorManage extends Component {
     getList = () => {
         var list = [
             {
-                Idx: '배지현',
+                userIdx: '배지현',
                 phone: '010-7645-7620',
                 updateDate: '2021-06-03',
                 lastAccessTime: '10:46 AM',
                 lastAccessIP: '127.0.0.1.',
             },
             {
-                Idx: '배지현',
+                userIdx: '배지현',
                 phone: '010-7645-7620',
                 updateDate: '2021-06-03',
                 lastAccessTime: '10:46 AM',
                 lastAccessIP: '127.0.0.1.',
             },
             {
-                Idx: '배지현',
+                userIdx: '배지현',
                 phone: '010-7645-7620',
                 updateDate: '2021-06-03',
                 lastAccessTime: '10:46 AM',
                 lastAccessIP: '127.0.0.1.',
             },
             {
-                Idx: '배지현',
+                userIdx: '배지현',
                 phone: '010-7645-7620',
                 updateDate: '2021-06-03',
                 lastAccessTime: '10:46 AM',
@@ -80,8 +80,8 @@ class OperatorManage extends Component {
 
         const columns = [
             {
-                title: "이름",
-                dataIndex: "Idx",
+                title: "사용자",
+                dataIndex: "userIdx",
                 className: "table-column-center",
 
             },
