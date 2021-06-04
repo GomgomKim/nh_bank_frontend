@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Layout } from "antd";
-
-
+import { StaticsBranch, StaticsRider, StaticsFranchise } from "../pages";
+import { DeliveryList, DeliveryHistoryEmployee, DeliveryHistoryRider } from "../pages";
+import { FranchiseList } from "../pages";
+import { PaymentList } from "../pages";
 import { DepositPaymentHistory, DepositWithdrawHistory } from "../pages";
 import { LoanRider, LoanFranchise } from "../pages";
-import { BoardInquiry } from "../pages";
-import { DeliveryList } from "../pages";
-import { DeliveryHistoryEmployee } from "../pages";
-import { DeliveryHistoryRider } from "../pages";
 import { BikeList } from "../pages";
+import { Inquiry, Notice } from "../pages";
+import { OperatorManage } from "../pages";
 
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
+// import OperatorManage from "../pages/system/OperatorManage";
 
 
 export default class Content extends Component {
@@ -20,25 +21,35 @@ export default class Content extends Component {
       <Layout.Content style={{ margin: "24px 16px 0" }}>
         <div style={{ padding: 24, background: "#fff" }}>
           <Switch>
-            {/* 게시글 */}
-            {/* <Route exact path="/deposit/depositPayment" component={DepositPayment} /> */}
-            <Route exact path="/deposit/depositPaymentHistory" component={DepositPaymentHistory} />
-            <Route exact path="/deposit/depositWithdrawHistory" component={DepositWithdrawHistory} />
 
+            <Route exact path="/statics/StaticsBranch" component={StaticsBranch} />
+            <Route exact path="/statics/StaticsRider" component={StaticsRider} />
+            <Route exact path="/statics/StaticsFranchise" component={StaticsFranchise} />
 
-            <Route exact path="/loan/loanRider" component={LoanRider} />
-            <Route exact path="/loan/loanFranchise" component={LoanFranchise} />
-
-
-
-
-
-            <Route exact path="/board/inquiry" component={BoardInquiry} />
             <Route exact path="/delivery/DeliveryList" component={DeliveryList} />
             <Route exact path="/delivery/DeliveryHistoryEmployee" component={DeliveryHistoryEmployee} />
             <Route exact path="/delivery/DeliveryHistoryRider" component={DeliveryHistoryRider} />
+
+            <Route exact path="/franchise/FranchiseList" component={FranchiseList} />
+
+            <Route exact path="/payment/PaymentList" component={PaymentList} />
+
+            {/* <Route exact path="/deposit/depositPayment" component={DepositPayment} /> */}
+            <Route exact path="/deposit/DepositPaymentHistory" component={DepositPaymentHistory} />
+            <Route exact path="/deposit/DepositWithdrawHistory" component={DepositWithdrawHistory} />
+
+
+            <Route exact path="/loan/LoanRider" component={LoanRider} />
+            <Route exact path="/loan/LoanFranchise" component={LoanFranchise} />
+
             <Route exact path="/bike/BikeList" component={BikeList} />
-            <Redirect to="/board/inquiry" />
+
+            <Route exact path="/board/Inquiry" component={Inquiry} />
+            <Route exact path="/board/Notice" component={Notice} />
+            {/* <Redirect to="/board/inquiry" /> */}
+
+
+            <Route exact path="/system/OperatorManage" component={OperatorManage} />
 
           </Switch>
         </div>
