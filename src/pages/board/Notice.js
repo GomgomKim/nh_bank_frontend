@@ -244,13 +244,6 @@ class Notice extends Component {
         ];
         return (
             <>
-                <Space direction="vertical">
-                    <RangePicker
-                        style={{ marginBottom: 20 }}
-                        onChange={this.onChangeDate}
-                        showTime={{ format: 'MM:dd' }}
-                        placeholder={['시작일', '종료일']} />
-                </Space>
                 <Search
                     placeholder="제목 검색"
                     enterButton
@@ -261,6 +254,13 @@ class Notice extends Component {
                         marginLeft: 20,
                     }}
                 />
+                {/* <Space direction="vertical"> */}
+                <RangePicker
+                    style={{ marginBottom: 20, float: 'right' }}
+                    onChange={this.onChangeDate}
+                    showTime={{ format: 'MM:dd' }}
+                    placeholder={['시작일', '종료일']} />
+                {/* </Space> */}
 
                 {this.state.modifyNoticeDialogOpen &&
                     <ModifyNoticeDialog

@@ -23,16 +23,16 @@ class BikeList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        list: [],
-            pagination: {
-                total: 0,
-                current: 1,
-                pageSize: 10,
-            },
-        bikeStatus:0,
-        isRegistBikeOpen: false,   
-        isFixHistoryOpen: false, 
-      };
+      list: [],
+      pagination: {
+        total: 0,
+        current: 1,
+        pageSize: 10,
+      },
+      bikeStatus: 0,
+      isRegistBikeOpen: false,
+      isFixHistoryOpen: false,
+    };
     this.formRef = React.createRef();
   }
 
@@ -66,52 +66,52 @@ class BikeList extends Component {
 
   getList = () => {
     var list = [
-        {   
-            bikeStatus: '',      
-            bikeType: 'PCX',
-            bikeModel: '2016 년',
-            rideDistance: '10546 km',
-            rideRider: '도아무개',
-            riderPhone: '010-8888-9999',
-            bikeMemo: '바퀴상태 불량, 검사 필요',         
-        },
-        {   
-            bikeStatus: '',      
-            bikeType: 'NMAX',
-            bikeModel: '2018 년',
-            rideDistance: '10546 km',
-            rideRider: '강아무개',
-            riderPhone: '010-8888-9999',
-            bikeMemo: '',        
-        },
-        {   
-            bikeStatus: '',      
-            bikeType: 'PCX',
-            bikeModel: '2005 년',
-            rideDistance: '10546 km',
-            rideRider: '남아무개',
-            riderPhone: '010-8888-9999',
-            bikeMemo: '',      
-        },
-        {   
-            bikeStatus: '',      
-            bikeType: 'PCX',
-            bikeModel: '2011 년',
-            rideDistance: '10546 km',
-            rideRider: '성아무개',
-            riderPhone: '010-8888-9999', 
-            bikeMemo: '',         
-        },
-        {   
-            bikeStatus: '',      
-            bikeType: 'NMAX',
-            bikeModel: '2016 년',
-            rideDistance: '10546 km',
-            rideRider: '신아무개',
-            riderPhone: '010-8888-9999',      
-            bikeMemo: '',    
-        },
-      
+      {
+        bikeStatus: '',
+        bikeType: 'PCX',
+        bikeModel: '2016 년',
+        rideDistance: '10546 km',
+        rideRider: '도아무개',
+        riderPhone: '010-8888-9999',
+        bikeMemo: '바퀴상태 불량, 검사 필요',
+      },
+      {
+        bikeStatus: '',
+        bikeType: 'NMAX',
+        bikeModel: '2018 년',
+        rideDistance: '10546 km',
+        rideRider: '강아무개',
+        riderPhone: '010-8888-9999',
+        bikeMemo: '',
+      },
+      {
+        bikeStatus: '',
+        bikeType: 'PCX',
+        bikeModel: '2005 년',
+        rideDistance: '10546 km',
+        rideRider: '남아무개',
+        riderPhone: '010-8888-9999',
+        bikeMemo: '',
+      },
+      {
+        bikeStatus: '',
+        bikeType: 'PCX',
+        bikeModel: '2011 년',
+        rideDistance: '10546 km',
+        rideRider: '성아무개',
+        riderPhone: '010-8888-9999',
+        bikeMemo: '',
+      },
+      {
+        bikeStatus: '',
+        bikeType: 'NMAX',
+        bikeModel: '2016 년',
+        rideDistance: '10546 km',
+        rideRider: '신아무개',
+        riderPhone: '010-8888-9999',
+        bikeMemo: '',
+      },
+
     ];
     this.setState({
       list: list,
@@ -153,6 +153,36 @@ class BikeList extends Component {
 
     const columns = [
       {
+        title: "라이더명",
+        dataIndex: "rideRider",
+        className: "table-column-center",
+      },
+      {
+        title: "라이더 전화번호",
+        dataIndex: "riderPhone",
+        className: "table-column-center",
+      },
+      {
+        title: "바이크 기종",
+        dataIndex: "bikeType",
+        className: "table-column-center",
+      },
+      {
+        title: "연식",
+        dataIndex: "bikeModel",
+        className: "table-column-center",
+      },
+      {
+        title: "주행거리",
+        dataIndex: "rideDistance",
+        className: "table-column-center",
+      },
+      {
+        title: "메모",
+        dataIndex: "bikeMemo",
+        className: "table-column-center",
+      },
+      {
         title: "상태",
         dataIndex: "bikeStatus",
         className: "table-column-center",
@@ -173,38 +203,13 @@ class BikeList extends Component {
         )
       },
       {
-        title: "바이크 기종",
-        dataIndex: "bikeType",
-        className: "table-column-center",
-      },
-      {
-        title: "연식",
-        dataIndex: "bikeModel",
-        className: "table-column-center",
-      },
-      {
-        title: "주행거리",
-        dataIndex: "rideDistance",
-        className: "table-column-center",
-      },
-      {
-        title: "라이더명",
-        dataIndex: "rideRider",
-        className: "table-column-center",
-      },
-      {
-        title: "기사 전화번호",
-        dataIndex: "riderPhone",
-        className: "table-column-center",
-      },
-      {
         title: "정비 이력",
         dataIndex: "fixHistory",
         className: "table-column-center",
         width: '10%',
         render: (data) => (
           <div>
-             {this.state.isFixHistoryOpen && (
+            {this.state.isFixHistoryOpen && (
               <FixHistoryDialog close={this.closeFixHistoryDialog} />
             )}
             <Button onClick={this.openFixHistoryDialog}>
@@ -220,7 +225,7 @@ class BikeList extends Component {
         width: '10%',
         render: (data, row) => (
           <div>
-              {this.state.isRegistBikeOpen && (
+            {this.state.isRegistBikeOpen && (
               <RegistBikeDialog close={this.closeRegistBikeDialog} />
             )}
             <Button onClick={this.openRegistBikeDialog}>
@@ -241,11 +246,6 @@ class BikeList extends Component {
               </Button>
           </div>
         )
-      },
-      {
-        title: "메모",
-        dataIndex: "bikeMemo",
-        className: "table-column-center",
       },
     ];
 
@@ -286,20 +286,20 @@ class BikeList extends Component {
             {this.state.isRegistBikeOpen && (
               <RegistBikeDialog close={this.closeRegistBikeDialog} />
             )}
-              <Button 
-                onClick={this.openRegistBikeDialog}
-                style={{marginLeft:20}}>
-                바이크 등록
+            <Button
+              onClick={this.openRegistBikeDialog}
+              style={{ marginLeft: 20 }}>
+              바이크 등록
               </Button>
           </div>
 
-          <div>
+
           <Button className="download-btn"
             style={{ float: 'right', marginLeft: 20, marginBottom: 20 }} onClick={{}}>
             <img src={require("../../img/excel.png").default} alt="" />
                         엑셀 업로드
           </Button>
-          </div>
+
 
         </div>
 
