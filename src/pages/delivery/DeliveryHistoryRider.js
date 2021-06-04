@@ -210,10 +210,8 @@ class DeliveryHistoryRider extends Component {
     ];
 
     return (
-      <div className="main-layout">
-
-        <div className="top-menu">
-
+      
+      <FormItem>
           <Space direction="vertical">
             <DatePicker
               onChange={this.onChangeDate}
@@ -221,7 +219,6 @@ class DeliveryHistoryRider extends Component {
               placeholder="월별검색" />
           </Space>
 
-          <div>
             <Search
               placeholder="라이더명 검색"
               enterButton
@@ -233,9 +230,6 @@ class DeliveryHistoryRider extends Component {
                 marginLeft: 20,
               }}
             />
-          </div>
-
-          <div>
             <Search
               placeholder="전화번호 검색"
               enterButton
@@ -247,7 +241,6 @@ class DeliveryHistoryRider extends Component {
                 marginLeft: 20,
               }}
             />
-          </div>
 
 
           <Button className="download-btn"
@@ -256,14 +249,7 @@ class DeliveryHistoryRider extends Component {
                     엑셀 다운로드
                 </Button>
 
-        </div>
 
-
-        <div className="content-box">
-          <FormItem
-            name="table"
-            className="selectItem"
-          >
             <Table
               rowKey={(record) => record}
               dataSource={this.state.list}
@@ -272,10 +258,6 @@ class DeliveryHistoryRider extends Component {
               onChange={this.handleTableChange}
             />
           </FormItem>
-        </div>
-
-
-      </div>
     )
   }
 }

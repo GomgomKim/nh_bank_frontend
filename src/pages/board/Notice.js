@@ -148,6 +148,8 @@ class Notice extends Component {
     //         </div>
     //     )
     // }
+
+    
     render() {
 
         const columns = [
@@ -253,6 +255,11 @@ class Notice extends Component {
                         width: 220,
                     }}
                 />
+                <Button 
+                    onClick={this.openModifyNoticeDialogModal}
+                    style={{marginLeft:20}}>
+                    공지사항 등록
+                </Button>
                 {/* <Space direction="vertical"> */}
                 <RangePicker
                     style={{ marginBottom: 20, float: 'right' }}
