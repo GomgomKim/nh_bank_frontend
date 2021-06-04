@@ -39,19 +39,7 @@ class DepositPaymentHistory extends Component {
         this.setState({ depositDialogOpen: false });
     };
 
-    // downloadExcel = () => {
-    //     if (this.state.raffleDate == '') {
-    //         Modal.info({
-    //             title: "엑셀 다운로드",
-    //             content: "",
-    //             okText: '확인'
-    //         });
-    //         return;
-    //     }
-    //     // httpDownload(httpUrl.winnerListExcel, [100000, 1, this.state.raffleDate, this.state.resId], {}).then((res) => {
-    //     //     fileDownload(res, 'WINNER_' + this.state.raffleDate + '.xlsx');
-    //     // }).catch((err) => { });
-    // }
+
 
 
     getList = () => {
@@ -109,37 +97,41 @@ class DepositPaymentHistory extends Component {
         ];
         return (
             <>
+
+                <Radio.Group onChange={this.onChange} style={{ marginTop: 5 }}>
+                    <Radio value={1}>라이더</Radio>
+                    <Radio value={2}>가맹점</Radio>
+                </Radio.Group>
+
+
+                <Search
+                    placeholder="아이디 검색"
+                    enterButton
+                    allowClear
+                    onSearch={this.onSearch}
+                    style={{
+                        width: 220,
+                        marginBottom: 20
+                    }}
+                />
+
+
                 {this.state.depositDialogOpen && (
                     <DepositDialog close={this.closeDepositDialogModal} />
                 )}
-                <Button style={{ marginBottom: 20, backgroundColor: '#ffdd00' }} onClick={this.openDepositDialogModal}>
+                <Button style={{ marginBottom: 20, marginLeft: 20 }} onClick={this.openDepositDialogModal}>
                     예치금 지급
                 </Button>
 
 
 
 
-                <Button style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
-                    {/* <DownloadOutlined /> */}
-                    엑셀다운로드
+                <Button className="download-btn"
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
+                    <img src={require("../../img/excel.png").default} alt="" />
+                    엑셀 다운로드
                 </Button>
 
-                <Search
-                    placeholder="아이디를 입력하세요"
-                    enterButton="조회"
-                    allowClear
-                    onSearch={this.onSearch}
-                    style={{
-                        width: 250,
-                        float: 'right',
-                        marginBottom: 20
-                    }}
-                />
-
-                <Radio.Group onChange={this.onChange} style={{ float: 'right', marginTop: 5 }}>
-                    <Radio value={1}>라이더</Radio>
-                    <Radio value={2}>가맹점</Radio>
-                </Radio.Group>
 
 
                 <Table
