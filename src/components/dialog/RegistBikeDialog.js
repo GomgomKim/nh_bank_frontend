@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import {
-    Form, Input, Table, Button, Select, Radio, Checkbox, Textarea 
+    Form, Input, Table, Button, Select, Radio, Checkbox, DatePicker 
 } from "antd";
 import { comma } from "../../lib/util/numberUtil";
+import moment from "moment";
 import '../../css/main.css';
 
 const Search = Input.Search;
 const FormItem = Form.Item;
+const dateFormat = "YYYY/MM/DD";
+const today = new Date();
 const Option = Select.Option;
 
 class RegistBikeDialog extends Component {
@@ -131,6 +134,39 @@ class RegistBikeDialog extends Component {
                                 </div>
 
                             </div>
+
+                            <div className="dialog-block">
+
+                                <div> 대여 날짜 </div>
+
+                                <div>
+                                    <FormItem name="rentDate">
+                                    <DatePicker
+                                    style={{ width: 250,}}
+                                    defaultValue={moment(today, dateFormat)}
+                                    format={dateFormat}                                  
+                                    />
+                                </FormItem>                               
+                                </div>
+
+                            </div>
+
+                            <div className="dialog-block">
+
+                                <div> 반납 날짜 </div>
+
+                                <div>
+                                    <FormItem name="returnDate">
+                                    <DatePicker
+                                    style={{ width: 250,}}
+                                    defaultValue={moment(today, dateFormat)}
+                                    format={dateFormat}                                  
+                                    />
+                                </FormItem>                               
+                                </div>
+
+                                </div>
+
 
                             <div className="dialog-block">
 

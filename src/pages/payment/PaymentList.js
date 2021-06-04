@@ -139,7 +139,7 @@ class PaymentList extends Component {
                     <RangePicker
                         onChange={this.onChangeDate}
                         showTime={{ format: 'MM:dd' }}
-                        style={{ float: 'right', marginRight: 20 }}
+                        style={{ float: 'right', marginLeft: 20 }}
                         placeholder={['시작일', '종료일']} />
                 </Space>
 

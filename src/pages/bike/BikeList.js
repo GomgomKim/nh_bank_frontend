@@ -73,6 +73,8 @@ class BikeList extends Component {
             rideDistance: '10546 km',
             rideRider: '도아무개',
             riderPhone: '010-8888-9999',
+            rentDate: '2021-04-02',
+            returnDate: '',
             bikeMemo: '바퀴상태 불량, 검사 필요',         
         },
         {   
@@ -82,6 +84,8 @@ class BikeList extends Component {
             rideDistance: '10546 km',
             rideRider: '강아무개',
             riderPhone: '010-8888-9999',
+            rentDate: '2021-04-02',
+            returnDate: '',
             bikeMemo: '',        
         },
         {   
@@ -91,6 +95,8 @@ class BikeList extends Component {
             rideDistance: '10546 km',
             rideRider: '남아무개',
             riderPhone: '010-8888-9999',
+            rentDate: '',
+            returnDate: '2021-04-31',
             bikeMemo: '',      
         },
         {   
@@ -100,6 +106,8 @@ class BikeList extends Component {
             rideDistance: '10546 km',
             rideRider: '성아무개',
             riderPhone: '010-8888-9999', 
+            rentDate: '2021-03-02',
+            returnDate: '',
             bikeMemo: '',         
         },
         {   
@@ -108,7 +116,9 @@ class BikeList extends Component {
             bikeModel: '2016 년',
             rideDistance: '10546 km',
             rideRider: '신아무개',
-            riderPhone: '010-8888-9999',      
+            riderPhone: '010-8888-9999',   
+            rentDate: '',
+            returnDate: '2021-06-02',   
             bikeMemo: '',    
         },
       
@@ -149,6 +159,17 @@ class BikeList extends Component {
     this.setState({ isFixHistoryOpen: false });
   };
 
+  //삭제 알림창
+
+  delete = () => {
+    // Modal.Confirm({
+    //     title: <div> 공지 삭제</div>,
+    //     content: <div> 해당 공지를 삭제하시곘습니까? </div>
+    // })
+    alert('공지사항을 삭제합니다.')
+  };
+  
+
   render() {
 
     const columns = [
@@ -156,7 +177,7 @@ class BikeList extends Component {
         title: "상태",
         dataIndex: "bikeStatus",
         className: "table-column-center",
-        width: "10%",
+        width: "8%",
         render: (data, row) => (
           <div>
             <SelectBox
@@ -198,10 +219,20 @@ class BikeList extends Component {
         className: "table-column-center",
       },
       {
+        title: "대여 날짜",
+        dataIndex: "rentDate",
+        className: "table-column-center",
+      },
+      {
+        title: "반납 날짜",
+        dataIndex: "returnDate",
+        className: "table-column-center",
+      },
+      {
         title: "정비 이력",
         dataIndex: "fixHistory",
         className: "table-column-center",
-        width: '10%',
+        width: '8%',
         render: (data) => (
           <div>           
             <Button onClick={this.openFixHistoryDialog}>
@@ -214,12 +245,12 @@ class BikeList extends Component {
         title: "수정",
         dataIndex: "updateBike",
         className: "table-column-center",
-        width: '10%',
+        width: '8%',
         render: (data, row) => (
           <div>
             
             <Button onClick={this.openRegistBikeDialog}>
-              수정하기
+              수정
               </Button>
           </div>
         )
@@ -228,11 +259,11 @@ class BikeList extends Component {
         title: "삭제",
         dataIndex: "deleteBike",
         className: "table-column-center",
-        width: '10%',
+        width: '8%',
         render: (data, row) => (
           <div>
-            <Button onClick={() => { }}>
-              삭제하기
+            <Button onClick={() => { this.delete(row.idx); }}>
+              삭제
               </Button>
           </div>
         )
@@ -245,12 +276,8 @@ class BikeList extends Component {
     ];
 
 
-    return (
-      <div className="main-layout">
-
-        <div className="top-menu">
-
-          <div>
+    return (  
+      <FormItem>
             <Search
               placeholder="바이크 검색"
               enterButton
@@ -261,9 +288,8 @@ class BikeList extends Component {
                 width: 220,
               }}
             />
-          </div>
 
-          <div>
+  
             <Search
               placeholder="라이더명 검색"
               enterButton
@@ -275,25 +301,24 @@ class BikeList extends Component {
                 marginLeft: 20,
               }}
             />
-          </div>
 
-          <div>           
+
+          
               <Button 
                 onClick={this.openRegistBikeDialog}
                 style={{marginLeft:20}}>
                 바이크 등록
               </Button>
-          </div>
 
-          <div>
+
+
           <Button className="download-btn"
             style={{ float: 'right', marginLeft: 20, marginBottom: 20 }} onClick={{}}>
             <img src={require("../../img/excel.png").default} alt="" />
                         엑셀 업로드
           </Button>
-          </div>
 
-        </div>
+
 
         {this.state.isFixHistoryOpen && (
               <FixHistoryDialog close={this.closeFixHistoryDialog} />
@@ -303,11 +328,6 @@ class BikeList extends Component {
               <RegistBikeDialog close={this.closeRegistBikeDialog} />
         )}
 
-        <div className="content-box">
-          <FormItem
-            name="table"
-            className="selectItem"
-          >
             <Table
               rowKey={(record) => record}
               dataSource={this.state.list}
@@ -316,10 +336,10 @@ class BikeList extends Component {
               onChange={this.handleTableChange}
             />
           </FormItem>
-        </div>
 
 
-      </div>
+
+
     )
   }
 }

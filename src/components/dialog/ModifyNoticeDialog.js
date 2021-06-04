@@ -43,7 +43,7 @@ class ModifyNoticeDialog extends Component {
                     <div className="modifyfran-content">
 
                         <div className="modifyfran-title">
-                            수정
+                        {data ? " 공지 수정" : " 공지 등록"}
                         </div>
                         <img onClick={close} src={require('../../img/close.png').default} className="dialog-close" alt="img" />
                         <div className="modifyfran-inner">

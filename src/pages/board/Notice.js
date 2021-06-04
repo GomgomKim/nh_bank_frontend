@@ -148,6 +148,8 @@ class Notice extends Component {
     //         </div>
     //     )
     // }
+
+    
     render() {
 
         const columns = [
@@ -261,6 +263,11 @@ class Notice extends Component {
                         marginLeft: 20,
                     }}
                 />
+                <Button 
+                    onClick={this.openModifyNoticeDialogModal}
+                    style={{marginLeft:20}}>
+                    공지사항 등록
+                </Button>
 
                 {this.state.modifyNoticeDialogOpen &&
                     <ModifyNoticeDialog

@@ -241,21 +241,10 @@ class DeliveryList extends Component {
 
 
     return (
-      <div className="main-layout">
-
-        <div className="top-menu">
 
           <FormItem
             name="surchargeDate"
-          >
-            <RangePicker
-              style={{ width: 300, }}
-              placeholder={['시작일', '종료일']}
-              onChange={this.onChangeDate}
-            />
-          </FormItem>
-
-          <div>
+          >          
             <Search
               placeholder="가맹점 검색"
               enterButton
@@ -263,13 +252,9 @@ class DeliveryList extends Component {
               onChange={(e) => this.setState({ franchisee: e.target.value })}
               onSearch={this.onSearchFranchisee}
               style={{
-                width: 220,
-                marginLeft: 20,
+                width: 220,                
               }}
             />
-          </div>
-
-          <div>
             <Search
               placeholder="기사명 검색"
               enterButton
@@ -281,9 +266,6 @@ class DeliveryList extends Component {
                 marginLeft: 20,
               }}
             />
-          </div>
-
-          <div>
             <Search
               placeholder="전화번호 검색"
               enterButton
@@ -295,8 +277,6 @@ class DeliveryList extends Component {
                 marginLeft: 20,
               }}
             />
-          </div>
-
 
           <a href="/admin_bike_templete.xlsx" download>
             <Button className="download-btn"
@@ -305,15 +285,13 @@ class DeliveryList extends Component {
                     엑셀 다운로드
                 </Button>
           </a>
+          <RangePicker
+              style={{ width: 300, float:'right', marginRight: 10}}
+              placeholder={['시작일', '종료일']}
+              onChange={this.onChangeDate}
+            />
 
-        </div>
 
-
-        <div className="content-box">
-          <FormItem
-            name="table"
-            className="selectItem"
-          >
             <Table
               rowKey={(record) => record}
               dataSource={this.state.list}
@@ -322,10 +300,7 @@ class DeliveryList extends Component {
               onChange={this.handleTableChange}
             />
           </FormItem>
-        </div>
 
-
-      </div>
     )
   }
 }
