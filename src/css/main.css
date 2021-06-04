@@ -17,9 +17,6 @@
   float: right;
 }
 
-
-
-
 /* 배달내역관리 */
 
 .top-menu {
@@ -45,9 +42,84 @@ div:nth-child(2) {
   margin: 0 5px 2px 0;
 }
 
-/* 바이크 관리 */
+/* 바이크 등록,수정 모달 */
 
-/*가맹점 목록*/
+.registBike-Dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* width: 1000px; */
+  z-index: 2;
+}
+.dialog-content {
+  padding: 30px;
+  background-color: white;
+}
+.dialog-title {
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  float: left;
+  padding-bottom: 20px;
+}
+.dialog-close {
+  width: 30px;
+  cursor: pointer;
+  background-color: #fddc00;
+  float: right;
+  padding: 8px;
+}
+.dialog-inner {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 20px;
+  text-align: left;
+  margin-top: 20px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  clear: both;
+}
+.dialog-block {
+  height: 40px;
+  margin-bottom: 15px;
+}
+.dialog-block > div {
+  display: inline-block;
+}
+.dialog-block > div:first-child {
+  font-size: 18px;
+  font-weight: bold;
+  width: 130px;
+}
+.registBike-Dialog .dialog-block .ant-radio-group span:first-child {
+  margin-bottom: 1.5px;
+}
+.registBike-Dialog .dialog-block .ant-radio-group span:last-child {
+  font-size: 16px;
+}
+.dialog-block textarea {
+  vertical-align: top;
+  border-color: #d9d9d9;
+  resize: none;
+  padding: 0 10px;
+}
+.dialog-block textarea::placeholder {
+  font-weight: 300;
+  color: #c1c1c1;
+  font-size: 14px;
+}
+.registBike-btn {
+  text-align: center;
+}
+
+/* 바이크 정비이력 모달 */
+.fixHistory-btn {
+  text-align: right;
+  margin-bottom: 20px;
+}
 
 /*가맹 수정 dialog*/
 .modifyfran-Dialog {
@@ -94,23 +166,20 @@ div:nth-child(2) {
   display: none; /* Chrome, Safari, Opera*/
 }
 
-.modifyfran-inner .mainTitle{
-   width:100px;
+.modifyfran-inner .mainTitle {
+  width: 100px;
 }
 
-.modifyfran-inner .ant-radio-group{
-  width:170px;
-  margin-left:20px;
+.modifyfran-inner .ant-radio-group {
+  width: 170px;
+  margin-left: 20px;
 }
 
-.modifyfran-innerbox{
+.modifyfran-innerbox {
   border: 1px solid #ccc;
   padding: 20px;
   margin: 20px 0;
-
 }
-
-
 
 /*가맹비 dialog*/
 .franfee-Dialog {
@@ -160,10 +229,10 @@ div:nth-child(2) {
   display: none; /* Chrome, Safari, Opera*/
 }
 
-.franfee-inner-box{
-    height:100px;
-    border:1px solid black;
-    padding: 10px;
+.franfee-inner-box {
+  height: 100px;
+  border: 1px solid black;
+  padding: 10px;
 }
 
 /*충전내역 dialog*/
@@ -214,84 +283,80 @@ div:nth-child(2) {
   display: none; /* Chrome, Safari, Opera*/
 }
 
-.charge-inner-box{
-    height:100px;
-    border:1px solid black;
-    padding: 10px;
+.charge-inner-box {
+  height: 100px;
+  border: 1px solid black;
+  padding: 10px;
 }
-
 
 /*예치금 지급*/
 
+.deposit-Dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* width: 1000px; */
+  z-index: 2;
+}
 
-  .deposit-Dialog {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    /* width: 1000px; */
-    z-index: 2;
-  }
+.deposit-content {
+  padding: 30px;
+  background-color: white;
+}
 
-  .deposit-content {
-    padding: 30px;
-    background-color: white;
-  }
-  
-  .deposit-title {
-    font-size: 25px;
-    font-weight: bold;
-    line-height: 30px;
-    /* width:300px; */
-    display: inline-block;
-    vertical-align: middle;
-  }
-  
-  .deposit-close {
-    width: 30px;
-    cursor: pointer;
-    background-color: #fddc00;
-    /* display: inline-block; */
-    float: right;
-    padding: 8px;
-  }
-  
-  .deposit-inner {
-    width: 100%;
-    overflow-y: scroll;
-    border: 1px solid #ccc;
-    padding: 20px;
-    text-align: left;
-    margin-top: 20px;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
-  
-  .deposit-inner::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
-  }
+.deposit-title {
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 30px;
+  /* width:300px; */
+  display: inline-block;
+  vertical-align: middle;
+}
 
-  .deposit-inner-box{
-      height:100px;
-      border:1px solid black;
-      padding: 10px;
-  }
+.deposit-close {
+  width: 30px;
+  cursor: pointer;
+  background-color: #fddc00;
+  /* display: inline-block; */
+  float: right;
+  padding: 8px;
+}
 
- .mainTitle{
-   display:inline-block;
-   margin-top:5px;
- }
+.deposit-inner {
+  width: 100%;
+  overflow-y: scroll;
+  border: 1px solid #ccc;
+  padding: 20px;
+  text-align: left;
+  margin-top: 20px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 
+.deposit-inner::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
 
-.formItem{
+.deposit-inner-box {
+  height: 100px;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.mainTitle {
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.formItem {
   display: inline-block;
   vertical-align: top;
 }
-.contentBlock-inner{
-  border:1px solid #ccc;
-  padding:20px;
+.contentBlock-inner {
+  border: 1px solid #ccc;
+  padding: 20px;
 }
-
 
 /*메뉴권한설정*/
 
@@ -342,11 +407,11 @@ div:nth-child(2) {
   display: none; /* Chrome, Safari, Opera*/
 }
 
-.systemKey-inner-box{
-    height:100px;
-    border:1px solid black;
+.systemKey-inner-box {
+  height: 100px;
+  border: 1px solid black;
 }
 
-.systemKey-inner .ant-table-pagination.ant-pagination{
+.systemKey-inner .ant-table-pagination.ant-pagination {
   display: none;
 }

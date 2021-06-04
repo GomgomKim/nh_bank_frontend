@@ -13,6 +13,8 @@ import {
 import SelectBox from "../../components/input/SelectBox";
 import Modal from "antd/lib/modal/Modal";
 import "../../css/main.css";
+import RegistBikeDialog from "../../components/dialog/RegistBikeDialog";
+import FixHistoryDialog from "../../components/dialog/FixHistoryDialog";
 
 const FormItem = Form.Item;
 const Search = Input.Search;
@@ -21,21 +23,22 @@ class BikeList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: [],
-      pagination: {
-        total: 0,
-        current: 1,
-        pageSize: 10,
-      },
-      bikeStatus: 0,
-    };
+        list: [],
+            pagination: {
+                total: 0,
+                current: 1,
+                pageSize: 10,
+            },
+        bikeStatus:0,
+        isRegistBikeOpen: false,   
+        isFixHistoryOpen: false, 
+      };
     this.formRef = React.createRef();
   }
 
   componentDidMount() {
     this.getList()
   }
-
 
   // 바이크 검색
   onSearchBike = (value) => {
@@ -63,47 +66,52 @@ class BikeList extends Component {
 
   getList = () => {
     var list = [
-      {
-        bikeStatus: '',
-        bikeType: 'PCX',
-        bikeModel: '2016 년',
-        rideDistance: '10546 km',
-        rideRider: '도아무개',
-        riderPhone: '010-8888-9999',
-      },
-      {
-        bikeStatus: '',
-        bikeType: 'NMAX',
-        bikeModel: '2018 년',
-        rideDistance: '10546 km',
-        rideRider: '강아무개',
-        riderPhone: '010-8888-9999',
-      },
-      {
-        bikeStatus: '',
-        bikeType: 'PCX',
-        bikeModel: '2005 년',
-        rideDistance: '10546 km',
-        rideRider: '남아무개',
-        riderPhone: '010-8888-9999',
-      },
-      {
-        bikeStatus: '',
-        bikeType: 'PCX',
-        bikeModel: '2011 년',
-        rideDistance: '10546 km',
-        rideRider: '성아무개',
-        riderPhone: '010-8888-9999',
-      },
-      {
-        bikeStatus: '',
-        bikeType: 'NMAX',
-        bikeModel: '2016 년',
-        rideDistance: '10546 km',
-        rideRider: '신아무개',
-        riderPhone: '010-8888-9999',
-      },
-
+        {   
+            bikeStatus: '',      
+            bikeType: 'PCX',
+            bikeModel: '2016 년',
+            rideDistance: '10546 km',
+            rideRider: '도아무개',
+            riderPhone: '010-8888-9999',
+            bikeMemo: '바퀴상태 불량, 검사 필요',         
+        },
+        {   
+            bikeStatus: '',      
+            bikeType: 'NMAX',
+            bikeModel: '2018 년',
+            rideDistance: '10546 km',
+            rideRider: '강아무개',
+            riderPhone: '010-8888-9999',
+            bikeMemo: '',        
+        },
+        {   
+            bikeStatus: '',      
+            bikeType: 'PCX',
+            bikeModel: '2005 년',
+            rideDistance: '10546 km',
+            rideRider: '남아무개',
+            riderPhone: '010-8888-9999',
+            bikeMemo: '',      
+        },
+        {   
+            bikeStatus: '',      
+            bikeType: 'PCX',
+            bikeModel: '2011 년',
+            rideDistance: '10546 km',
+            rideRider: '성아무개',
+            riderPhone: '010-8888-9999', 
+            bikeMemo: '',         
+        },
+        {   
+            bikeStatus: '',      
+            bikeType: 'NMAX',
+            bikeModel: '2016 년',
+            rideDistance: '10546 km',
+            rideRider: '신아무개',
+            riderPhone: '010-8888-9999',      
+            bikeMemo: '',    
+        },
+      
     ];
     this.setState({
       list: list,
@@ -121,6 +129,24 @@ class BikeList extends Component {
       },
       () => this.getList()
     );
+  };
+
+  // 바이크 등록 모달
+
+  openRegistBikeDialog = () => {
+    this.setState({ isRegistBikeOpen: true });
+  };
+  closeRegistBikeDialog = () => {
+    this.setState({ isRegistBikeOpen: false });
+  };
+
+  // 정비이력 모달
+
+  openFixHistoryDialog = () => {
+    this.setState({ isFixHistoryOpen: true });
+  };
+  closeFixHistoryDialog = () => {
+    this.setState({ isFixHistoryOpen: false });
   };
 
   render() {
@@ -178,7 +204,10 @@ class BikeList extends Component {
         width: '10%',
         render: (data) => (
           <div>
-            <Button onClick={() => { }}>
+             {this.state.isFixHistoryOpen && (
+              <FixHistoryDialog close={this.closeFixHistoryDialog} />
+            )}
+            <Button onClick={this.openFixHistoryDialog}>
               이력보기
                 </Button>
           </div>
@@ -191,7 +220,10 @@ class BikeList extends Component {
         width: '10%',
         render: (data, row) => (
           <div>
-            <Button onClick={() => { }}>
+              {this.state.isRegistBikeOpen && (
+              <RegistBikeDialog close={this.closeRegistBikeDialog} />
+            )}
+            <Button onClick={this.openRegistBikeDialog}>
               수정하기
               </Button>
           </div>
@@ -209,6 +241,11 @@ class BikeList extends Component {
               </Button>
           </div>
         )
+      },
+      {
+        title: "메모",
+        dataIndex: "bikeMemo",
+        className: "table-column-center",
       },
     ];
 
@@ -246,28 +283,23 @@ class BikeList extends Component {
           </div>
 
           <div>
-            <Button
-              // onClick={this.openRegistFranchiseModal}
-              style={{ marginLeft: 20 }}
-            >
-              바이크 등록
-                </Button>
-            {/* {this.state.SearchAddressOpen && (
-                  <RegistBikeDialog
-                    isOpen={this.state.SearchAddressOpen}
-                    close={this.closeSearchAddressModal}
-                  />
-                )} */}
+            {this.state.isRegistBikeOpen && (
+              <RegistBikeDialog close={this.closeRegistBikeDialog} />
+            )}
+              <Button 
+                onClick={this.openRegistBikeDialog}
+                style={{marginLeft:20}}>
+                바이크 등록
+              </Button>
           </div>
 
-
-
+          <div>
           <Button className="download-btn"
-            style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
+            style={{ float: 'right', marginLeft: 20, marginBottom: 20 }} onClick={{}}>
             <img src={require("../../img/excel.png").default} alt="" />
                         엑셀 업로드
-                    </Button>
-
+          </Button>
+          </div>
 
         </div>
 
