@@ -1,7 +1,9 @@
 import { Form, DatePicker, Input, Table, Button, Space } from "antd";
 import React, { Component } from "react";
 import { httpGet, httpUrl } from "../../api/httpClient";
+import moment from "moment";
 import "../../css/main.css";
+import { riderLevel } from "../../lib/util/codeUtil";
 
 const FormItem = Form.Item;
 const Search = Input.Search;
@@ -27,28 +29,17 @@ class DeliveryHistoryEmployee extends Component {
   }
 
   getList = () => {
-    const pagination = this.state.pagination;
-    httpGet(
-      httpUrl.deliveryList,
-      [
-        pagination.current,
-        pagination.pageSize,
-        this.state.searchMonth,
-        this.state.userName,
-        this.state.userPhone,
-      ],
-      {}
-    ).then((res) => {
-      if (res.result === "SUCCESS") {
+    let pageNum = this.state.pagination.current;
+    let pageSize = this.state.pagination.pageSize;
+    httpGet(httpUrl.riderDeliveryList, [ pageNum, pageSize],{})
+    .then((res) => {
+        const pagination = { ...this.state.pagination };
+        pagination.current = res.data.currentPage;
+        pagination.total = res.data.totalCount;
         this.setState({
           list: res.data.orders,
-          pagination: {
-            ...this.state.pagination,
-            current: res.data.currentPage,
-            total: res.data.totalPage,
-          },
+          pagination
         });
-      }
     });
   };
   handleTableChange = (pagination) => {
@@ -72,12 +63,14 @@ class DeliveryHistoryEmployee extends Component {
         dataIndex: "monthData",
         className: "table-column-center",
         width: "5%",
+        render: (data) => <div>{moment(data).format("M")+"월"}</div>
       },
       {
         title: "직급",
         dataIndex: "riderLevel",
         className: "table-column-center",
         width: "5%",
+        render: (data) => <div>{riderLevel[data]}</div>
       },
       {
         title: "직원명",
@@ -111,7 +104,7 @@ class DeliveryHistoryEmployee extends Component {
       },
       {
         title: "기본배달료",
-        dataIndex: "basicDeliveryFee",
+        dataIndex: "basicDeliveryPrice",
         className: "table-column-center",
         width: "8%",
       },

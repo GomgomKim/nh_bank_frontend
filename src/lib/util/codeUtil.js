@@ -19,9 +19,23 @@
    5: "E",
  }
 
+ const riderLevel = [
+   "",
+   "라이더",
+   "부팀장",
+   "팀장",
+   "부본부장",
+   "본부장",
+   "부지점장",
+   "지점장",
+   "부센터장",
+   "센터장",
+ ]
+
  export {
     bikeStatus,
     riderGroup,
-    feeType
+    feeType,
+    riderLevel
   };
   
