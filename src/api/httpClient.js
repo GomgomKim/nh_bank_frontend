@@ -157,6 +157,8 @@ const httpUrl = {
   //게시판
   inquiryList: "/inquiry/list?pageSize=%s&pageNum=%s",
   inquiryUpdate: "/inquiry/modify",
+
+  riderDeliveryList:"/delivery/list?pageNum=%s&pageSize=%s&searchMonth=%s&userName=%s&userPhone=%s"
 };
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];

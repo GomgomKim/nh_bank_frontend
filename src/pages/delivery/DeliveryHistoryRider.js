@@ -1,16 +1,18 @@
 import { Form, DatePicker, Input, Table, Button, Space } from "antd";
 import React, { Component } from "react";
 
-// import {
-//   httpGet,
-//   httpUrl,
-//   httpDownload,
-//   httpPost,
-//   httpPut,
-// } from "../../api/httpClient";
+import {
+  httpGet,
+  httpUrl,
+  // httpDownload,
+  // httpPost,
+  // httpPut,
+} from "../../api/httpClient";
 import { connect } from "react-redux";
 import Modal from "antd/lib/modal/Modal";
 import "../../css/main.css";
+import moment from "moment";
+import { feeType, riderGroup } from "../../lib/util/codeUtil";
 
 const FormItem = Form.Item;
 const Search = Input.Search;
@@ -25,6 +27,10 @@ class DeliveryHistoryRider extends Component {
         current: 1,
         pageSize: 10,
       },
+      frName: "",
+      searchMonth:"",
+      userName: "",
+      userPhone: "",
       franchisee: "",
       rider: "",
       Phone: "",
@@ -62,80 +68,98 @@ class DeliveryHistoryRider extends Component {
   };
 
   getList = () => {
-    var list = [
-      {
-        monthData: '6월',
-        userStatus: '사용',
-        riderName: '김아무개',
-        riderPhone: '010-1234-4567',
-        userGroup: 'A',
-        deliveryPrice: '2000',
-        deliveryPriceFee: '500',
-        deliveryPriceFeeType: '정량',
-        riderRevenue: '30000000'
-      },
-      {
-        monthData: '6월',
-        userStatus: '사용',
-        riderName: '지아무개',
-        riderPhone: '010-1234-4567',
-        userGroup: 'B',
-        deliveryPrice: '2000',
-        deliveryPriceFee: '800',
-        deliveryPriceFeeType: '정률',
-        riderRevenue: '40000000'
-      },
-      {
-        monthData: '6월',
-        userStatus: '사용',
-        riderName: '하아무개',
-        riderPhone: '010-1234-4567',
-        userGroup: 'C',
-        deliveryPrice: '2000',
-        deliveryPriceFee: '500',
-        deliveryPriceFeeType: '정량',
-        riderRevenue: '28000000'
-      },
-      {
-        monthData: '5월',
-        userStatus: '사용',
-        riderName: '김아무개',
-        riderPhone: '010-1234-4567',
-        userGroup: 'A',
-        deliveryPrice: '2000',
-        deliveryPriceFee: '500',
-        deliveryPriceFeeType: '정량',
-        riderRevenue: '30000000'
-      },
-      {
-        monthData: '5월',
-        userStatus: '사용',
-        riderName: '지아무개',
-        riderPhone: '010-1234-4567',
-        userGroup: 'B',
-        deliveryPrice: '2000',
-        deliveryPriceFee: '800',
-        deliveryPriceFeeType: '정률',
-        riderRevenue: '40000000'
-      },
-      {
-        monthData: '5월',
-        userStatus: '사용',
-        riderName: '하아무개',
-        riderPhone: '010-1234-4567',
-        userGroup: 'C',
-        deliveryPrice: '2000',
-        deliveryPriceFee: '500',
-        deliveryPriceFeeType: '정량',
-        riderRevenue: '28000000'
-      },
-
-
-    ];
-    this.setState({
-      list: list,
+    let pageNum = this.state.pagination.current;
+    let pageSize = this.state.pagination.pageSize;
+    // let searchMonth= this.state.searchMonth;
+    // let userName=this.state.userName;
+    // let userPhone=this.state.userPhone;
+    httpGet(httpUrl.riderDeliveryList, [ pageNum, pageSize ],{})
+    .then((res) => {
+      const pagination = { ...this.state.pagination };
+      pagination.current = res.data.currentPage;
+      pagination.total = res.data.totalCount;
+      this.setState({
+      list: res.data.orders,
+      pagination,
     });
+  });
   }
+
+  // getList = () => {
+  //   var list = [
+  //     {
+  //       monthData: '6월',
+  //       userStatus: '사용',
+  //       riderName: '김아무개',
+  //       riderPhone: '010-1234-4567',
+  //       userGroup: 'A',
+  //       deliveryPrice: '2000',
+  //       deliveryPriceFee: '500',
+  //       deliveryPriceFeeType: '정량',
+  //       riderRevenue: '30000000'
+  //     },
+  //     {
+  //       monthData: '6월',
+  //       userStatus: '사용',
+  //       riderName: '지아무개',
+  //       riderPhone: '010-1234-4567',
+  //       userGroup: 'B',
+  //       deliveryPrice: '2000',
+  //       deliveryPriceFee: '800',
+  //       deliveryPriceFeeType: '정률',
+  //       riderRevenue: '40000000'
+  //     },
+  //     {
+  //       monthData: '6월',
+  //       userStatus: '사용',
+  //       riderName: '하아무개',
+  //       riderPhone: '010-1234-4567',
+  //       userGroup: 'C',
+  //       deliveryPrice: '2000',
+  //       deliveryPriceFee: '500',
+  //       deliveryPriceFeeType: '정량',
+  //       riderRevenue: '28000000'
+  //     },
+  //     {
+  //       monthData: '5월',
+  //       userStatus: '사용',
+  //       riderName: '김아무개',
+  //       riderPhone: '010-1234-4567',
+  //       userGroup: 'A',
+  //       deliveryPrice: '2000',
+  //       deliveryPriceFee: '500',
+  //       deliveryPriceFeeType: '정량',
+  //       riderRevenue: '30000000'
+  //     },
+  //     {
+  //       monthData: '5월',
+  //       userStatus: '사용',
+  //       riderName: '지아무개',
+  //       riderPhone: '010-1234-4567',
+  //       userGroup: 'B',
+  //       deliveryPrice: '2000',
+  //       deliveryPriceFee: '800',
+  //       deliveryPriceFeeType: '정률',
+  //       riderRevenue: '40000000'
+  //     },
+  //     {
+  //       monthData: '5월',
+  //       userStatus: '사용',
+  //       riderName: '하아무개',
+  //       riderPhone: '010-1234-4567',
+  //       userGroup: 'C',
+  //       deliveryPrice: '2000',
+  //       deliveryPriceFee: '500',
+  //       deliveryPriceFeeType: '정량',
+  //       riderRevenue: '28000000'
+  //     },
+
+
+  //   ];
+  //   this.setState({
+  //     list: list,
+  //   });
+  // }
   handleTableChange = (pagination) => {
     const pager = {
       ...this.state.pagination,
@@ -155,13 +179,14 @@ class DeliveryHistoryRider extends Component {
     const columns = [
       {
         title: "월",
-        dataIndex: "monthData",
+        dataIndex: "orderDate",
         className: "table-column-center",
         width: '5%',
+        render: (data) => <div>{moment(data).format("M")+"월"}</div>
       },
       {
         title: "상태",
-        dataIndex: "userStatus",
+        dataIndex: "orderStatus",
         className: "table-column-center",
         width: '8%',
       },
@@ -179,9 +204,10 @@ class DeliveryHistoryRider extends Component {
       },
       {
         title: "라이더그룹",
-        dataIndex: "userGroup",
+        dataIndex: "riderGroup",
         className: "table-column-center",
         width: '10%',
+        render: (data) => <div>{riderGroup[data]}</div>
       },
       {
         title: "배달요금",
@@ -197,13 +223,14 @@ class DeliveryHistoryRider extends Component {
       },
       {
         title: "수수료방식",
-        dataIndex: "deliveryPriceFeeType",
+        dataIndex: "feeType",
         className: "table-column-center",
         width: '8%',
+        render:(data) => <div>{feeType[data]}</div>
       },
       {
         title: "수익",
-        dataIndex: "riderRevenue",
+        dataIndex: "extraDeliveryPrice",
         className: "table-column-center",
         width: '8%',
       },

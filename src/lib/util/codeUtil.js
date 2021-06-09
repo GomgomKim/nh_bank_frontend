@@ -6,7 +6,22 @@
     3: "폐차",
  };
 
+ const feeType = [
+    "정량",
+    "정률"
+ ]
+
+ const riderGroup = {
+   1: "A",
+   2: "B",
+   3: "C",
+   4: "D",
+   5: "E",
+ }
+
  export {
-    bikeStatus
+    bikeStatus,
+    riderGroup,
+    feeType
   };
   
