@@ -139,8 +139,7 @@ const httpDownload = (url, params, data) => {
     })
       .then((response) => {
         var blob = new Blob([response.data], {
-          type:
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
         resolve(blob);
       })
@@ -158,7 +157,10 @@ const httpUrl = {
   inquiryList: "/inquiry/list?pageSize=%s&pageNum=%s",
   inquiryUpdate: "/inquiry/modify",
 
-  riderDeliveryList:"/delivery/list?pageNum=%s&pageSize=%s&searchMonth=%s&userName=%s&userPhone=%s"
+  // 배달내역
+  riderDeliveryList:"/delivery/list?pageNum=%s&pageSize=%s&searchMonth=%s&userName=%s&userPhone=%s",
+  deliveryList:
+    "/delivery/list?frName=%s&pageNum=%s&pageSize=%s&seachMonth=%s&userName=%s&userPhone=%s",
 };
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];

@@ -10,6 +10,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Modal from "antd/lib/modal/Modal";
 import "../../css/main.css";
+import { httpGet, httpUrl } from "../../api/httpClient";
 
 const FormItem = Form.Item;
 const Search = Input.Search;
@@ -25,135 +26,43 @@ class DeliveryList extends Component {
         current: 1,
         pageSize: 10,
       },
-      franchisee: "",
-      rider: "",
-      Phone: "",
+      frName: "",
+      userName: "",
+      userPhone: "",
     };
     this.formRef = React.createRef();
   }
 
   componentDidMount() {
-    this.getList()
+    this.getList();
   }
-
-
-  // 가맹점 검색
-  onSearchFranchisee = (value) => {
-    this.setState(
-      {
-        frName: value,
-      },
-      () => {
-        this.getList();
-      }
-    );
-  };
-
-  // 라이더 검색
-  onSearchRider = (value) => {
-    this.setState(
-      {
-        riderName: value,
-      },
-      () => {
-        this.getList();
-      }
-    );
-  };
-
-  // 전화번호 검색
-  onSearchPhone = (value) => {
-    this.setState(
-      {
-        frPhone: value,
-        riderPhone: value,
-      },
-      () => {
-        this.getList();
-      }
-    );
-  };
 
   getList = () => {
-    var list = [
-      {
-        orderNum: '1234',
-        orderdata: '2021-05-31',
-        destAddr1: '서울특별시 행복구 행운동 희망아파트',
-        frName: '스타벅스',
-        frPhone: '02-123-4567',
-        riderName: '김아무개',
-        riderPhone: '010-8888-9999',
-        orderPrice: '17500',
-        basicDeliveryPrice: '2000',
-        extraDeliveryPrice: '500',
-        deliveryPrice: '20000',
-      },
-      {
-        orderNum: '1235',
-        orderdata: '2021-05-31',
-        destAddr1: '서울특별시 행복구 행운동 희망아파트',
-        frName: '엔젤리너스',
-        frPhone: '02-123-4567',
-        riderName: '나아무개',
-        riderPhone: '010-8888-9999',
-        deliveryPriceFeeAmount: '1000',
-        deliveryPriceFeeType: '정량',
-        orderPrice: '17500',
-        basicDeliveryPrice: '2000',
-        extraDeliveryPrice: '500',
-        deliveryPrice: '20000',
-      },
-      {
-        orderNum: '1236',
-        orderdata: '2021-05-31',
-        destAddr1: '서울특별시 행복구 행운동 희망아파트',
-        frName: '탐앤탐스',
-        frPhone: '02-123-4567',
-        riderName: '박아무개',
-        riderPhone: '010-8888-9999',
-        deliveryPriceFeeAmount: '1000',
-        deliveryPriceFeeType: '정률',
-        orderPrice: '17500',
-        basicDeliveryPrice: '2000',
-        extraDeliveryPrice: '500',
-        deliveryPrice: '20000',
-      },
-      {
-        orderNum: '1237',
-        orderdata: '2021-05-31',
-        destAddr1: '서울특별시 행복구 행운동 희망아파트',
-        frName: '메가커피',
-        frPhone: '02-123-4567',
-        riderName: '이아무개',
-        riderPhone: '010-8888-9999',
-        deliveryPriceFeeAmount: '1000',
-        deliveryPriceFeeType: '정량',
-        orderPrice: '17500',
-        basicDeliveryPrice: '2000',
-        extraDeliveryPrice: '500',
-        deliveryPrice: '20000',
-      },
-      {
-        orderNum: '1238',
-        orderdata: '2021-05-31',
-        destAddr1: '서울특별시 행복구 행운동 희망아파트',
-        frName: '더 벤티',
-        frPhone: '02-123-4567',
-        riderName: '정아무개',
-        riderPhone: '010-8888-9999',
-        deliveryPriceFeeAmount: '1000',
-        deliveryPriceFeeType: '정률',
-        orderPrice: '17500',
-        basicDeliveryPrice: '2000',
-        extraDeliveryPrice: '500',
-        deliveryPrice: '20000',
-      },
-    ];
-    this.setState({
-      list: list,
+    const pagination = this.state.pagination;
+    httpGet(
+      httpUrl.deliveryList,
+      [
+        this.state.frName,
+        pagination.current,
+        pagination.pageSize,
+        this.state.searchMonth,
+        this.state.userName,
+        this.state.userPhone,
+      ],
+      {}
+    ).then((res) => {
+      if (res.result === "SUCCESS") {
+        this.setState({
+          list: res.data.orders,
+          pagination: {
+            ...this.state.pagination,
+            current: res.data.currentPage,
+            total: res.data.totalPage,
+          },
+        });
+      }
     });
-  }
+  };
   handleTableChange = (pagination) => {
     const pager = {
       ...this.state.pagination,
@@ -169,141 +78,136 @@ class DeliveryList extends Component {
   };
 
   render() {
-
     const columns = [
       {
         title: "주문번호",
-        dataIndex: "orderNum",
+        dataIndex: "idx",
         className: "table-column-center",
-        width: '5%',
+        width: "5%",
       },
       {
         title: "주문날짜",
-        dataIndex: "orderdata",
+        dataIndex: "orderDate",
         className: "table-column-center",
-        width: '10%',
+        width: "10%",
       },
       {
         title: "도착지",
         dataIndex: "destAddr1",
         className: "table-column-center",
-        width: '15%',
+        width: "15%",
       },
       {
         title: "가맹점",
         dataIndex: "frName",
         className: "table-column-center",
-        width: '10%',
+        width: "10%",
       },
       {
         title: "가맹점 번호",
         dataIndex: "frPhone",
         className: "table-column-center",
-        width: '10%',
+        width: "10%",
       },
       {
         title: "라이더명",
         dataIndex: "riderName",
         className: "table-column-center",
-        width: '8%',
+        width: "8%",
       },
       {
         title: "라이더 연락처",
         dataIndex: "riderPhone",
         className: "table-column-center",
-        width: '10%',
+        width: "10%",
       },
       {
         title: "가격",
         dataIndex: "orderPrice",
         className: "table-column-center",
-        width: '8%',
+        width: "8%",
       },
       {
         title: "기본배달요금",
         dataIndex: "basicDeliveryPrice",
         className: "table-column-center",
-        width: '8%',
+        width: "8%",
       },
       {
         title: "할증배달요금",
         dataIndex: "extraDeliveryPrice",
         className: "table-column-center",
-        width: '8%',
+        width: "8%",
       },
       {
         title: "총배달요금",
         dataIndex: "deliveryPrice",
         className: "table-column-center",
-        width: '8%',
+        width: "8%",
       },
     ];
 
-
     return (
+      <FormItem name="surchargeDate">
+        <Search
+          placeholder="가맹점 검색"
+          enterButton
+          allowClear
+          onChange={(e) => this.setState({ frName: e.target.value })}
+          onSearch={this.getList}
+          style={{
+            width: 220,
+          }}
+        />
+        <Search
+          placeholder="라이더명 검색"
+          enterButton
+          allowClear
+          onChange={(e) => this.setState({ userName: e.target.value })}
+          onSearch={this.getList}
+          style={{
+            width: 220,
+            marginLeft: 20,
+          }}
+        />
+        <Search
+          placeholder="전화번호 검색"
+          enterButton
+          allowClear
+          onChange={(e) => this.setState({ userPhone: e.target.value })}
+          onSearch={this.getList}
+          style={{
+            width: 220,
+            marginLeft: 20,
+          }}
+        />
 
-          <FormItem
-            name="surchargeDate"
-          >          
-            <Search
-              placeholder="가맹점 검색"
-              enterButton
-              allowClear
-              onChange={(e) => this.setState({ franchisee: e.target.value })}
-              onSearch={this.onSearchFranchisee}
-              style={{
-                width: 220,                
-              }}
-            />
-            <Search
-              placeholder="라이더명 검색"
-              enterButton
-              allowClear
-              onChange={(e) => this.setState({ rider: e.target.value })}
-              onSearch={this.onSearchRider}
-              style={{
-                width: 220,
-                marginLeft: 20,
-              }}
-            />
-            <Search
-              placeholder="전화번호 검색"
-              enterButton
-              allowClear
-              onChange={(e) => this.setState({ Phone: e.target.value })}
-              onSearch={this.onSearchPhone}
-              style={{
-                width: 220,
-                marginLeft: 20,
-              }}
-            />
+        <a href="/admin_bike_templete.xlsx" download>
+          <Button
+            className="download-btn"
+            style={{ float: "right", marginLeft: 10, marginBottom: 20 }}
+            onClick={{}}
+          >
+            <img src={require("../../img/excel.png").default} alt="" />
+            엑셀 다운로드
+          </Button>
+        </a>
+        <RangePicker
+          style={{ width: 300, float: "right", marginRight: 10 }}
+          placeholder={["시작일", "종료일"]}
+          onChange={this.onChangeDate}
+        />
 
-          <a href="/admin_bike_templete.xlsx" download>
-            <Button className="download-btn"
-              style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
-              <img src={require("../../img/excel.png").default} alt="" />
-                    엑셀 다운로드
-                </Button>
-          </a>
-          <RangePicker
-              style={{ width: 300, float:'right', marginRight: 10}}
-              placeholder={['시작일', '종료일']}
-              onChange={this.onChangeDate}
-            />
-
-
-            <Table
-              rowKey={(record) => record}
-              dataSource={this.state.list}
-              columns={columns}
-              pagination={this.state.pagination}
-              onChange={this.handleTableChange}
-            />
-          </FormItem>
-
-    )
+        <Table
+          rowKey={(record) => record}
+          dataSource={this.state.list}
+          columns={columns}
+          pagination={this.state.pagination}
+          onChange={this.handleTableChange}
+        />
+      </FormItem>
+    );
   }
 }
-
 
 export default DeliveryList;
