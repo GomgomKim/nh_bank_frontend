@@ -223,6 +223,7 @@ class DeliveryHistoryRider extends Component {
         dataIndex: "deliveryPrice",
         className: "table-column-center",
         width: '8%',
+        render: (data) => <div>{comma(data)}</div>
       },
       {
         title: "수수료",
