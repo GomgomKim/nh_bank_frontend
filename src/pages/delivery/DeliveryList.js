@@ -62,7 +62,7 @@ class DeliveryList extends Component {
           pagination: {
             ...this.state.pagination,
             current: res.data.currentPage,
-            total: res.data.totalPage,
+            total: res.data.totalCount,
           },
         });
       }
