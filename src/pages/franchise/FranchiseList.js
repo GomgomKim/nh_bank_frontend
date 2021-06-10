@@ -65,6 +65,7 @@ class FranchiseList extends Component {
     getList = () => {
         var list = [
             {
+                branchName: '김포점',
                 franIdx: '냠냠박스 1지점',
                 franNum: '02-222-3333',
                 franAddr: '서울시 논현동 111-22, 3층',
@@ -73,6 +74,7 @@ class FranchiseList extends Component {
                 pgPercent: '100%',
             },
             {
+                branchName: '김포점',
                 franIdx: '냠냠박스 2지점',
                 franNum: '02-222-3333',
                 franAddr: '서울시 논현동 111-22, 3층',
@@ -81,6 +83,7 @@ class FranchiseList extends Component {
                 pgPercent: '0%',
             },
             {
+                branchName: '김포점',
                 franIdx: '냠냠박스 3지점',
                 franNum: '02-222-3333',
                 franAddr: '서울시 논현동 111-22, 3층',
@@ -89,6 +92,7 @@ class FranchiseList extends Component {
                 pgPercent: '100%',
             },
             {
+                branchName: '김포점',
                 franIdx: '냠냠박스 4지점',
                 franNum: '02-222-3333',
                 franAddr: '서울시 논현동 111-22, 3층',
@@ -97,6 +101,7 @@ class FranchiseList extends Component {
                 pgPercent: '0%',
             },
             {
+                branchName: '김포점',
                 franIdx: '냠냠박스 5지점',
                 franNum: '02-222-3333',
                 franAddr: '서울시 논현동 111-22, 3층',
@@ -105,6 +110,7 @@ class FranchiseList extends Component {
                 pgPercent: '0%',
             },
             {
+                branchName: '김포점',
                 franIdx: '냠냠박스 6지점',
                 franNum: '02-222-3333',
                 franAddr: '서울시 논현동 111-22, 3층',
@@ -123,7 +129,12 @@ class FranchiseList extends Component {
     render() {
 
         const columns = [
+            {
+                title: "지점명",
+                dataIndex: "branchName",
+                className: "table-column-center",
 
+            },
 
             {
                 title: "가맹점명",
@@ -206,7 +217,15 @@ class FranchiseList extends Component {
         ];
         return (
             <>
-
+                <Search
+                    placeholder="지점명 검색"
+                    enterButton
+                    allowClear
+                    onSearch={this.onSearch}
+                    style={{
+                        width: 220,
+                    }}
+                />
                 <Search
                     placeholder="가맹점 검색"
                     enterButton
@@ -214,6 +233,7 @@ class FranchiseList extends Component {
                     onSearch={this.onSearch}
                     style={{
                         width: 220,
+                        marginLeft: 20
                     }}
                 />
                 <Button className="download-btn"
