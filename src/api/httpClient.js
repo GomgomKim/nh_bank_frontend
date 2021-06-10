@@ -1,7 +1,7 @@
 import Axios from "axios";
+import { reactLocalStorage } from "reactjs-localstorage";
 import util from "util";
 import Const from "../const";
-import { reactLocalStorage } from "reactjs-localstorage";
 let loadingCount = 0;
 
 global.language = "ko";
@@ -158,10 +158,12 @@ const httpUrl = {
   inquiryUpdate: "/inquiry/modify",
 
   // 배달내역
-  riderDeliveryList:
-  "/delivery/rider/list?pageNum=%s&pageSize=%s&riderName=%s&riderPhone=%s&searchMonth=%s",
   deliveryList:
-  "/delivery/all/list?endDate=%s&frName=%s&frPhone=%s&pageNum=%s&pageSize=%s&riderName=%s&startDate=%s",
+    "/delivery/all/list?endDate=%s&frName=%s&frPhone=%s&pageNum=%s&pageSize=%s&riderName=%s&startDate=%s",
+  riderDeliveryList:
+    "/delivery/rider/list?pageNum=%s&pageSize=%s&riderName=%s&riderPhone=%s&searchMonth=%s",
+  staffDeliveryList:
+    "/delivery/staff/list?pageNum=%s&pageSize=%s&searchMonth=%s&staffName=%s&staffPhone=%s",
 };
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];
@@ -177,3 +179,4 @@ export {
   httpDownload,
   imageType,
 };
+
