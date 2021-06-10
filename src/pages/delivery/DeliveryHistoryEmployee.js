@@ -1,9 +1,10 @@
-import { Form, DatePicker, Input, Table, Button, Space } from "antd";
+import { Button, DatePicker, Form, Input, Space, Table } from "antd";
+import moment from "moment";
 import React, { Component } from "react";
 import { httpGet, httpUrl } from "../../api/httpClient";
-import moment from "moment";
 import "../../css/main.css";
 import { riderLevel } from "../../lib/util/codeUtil";
+import { comma } from "../../lib/util/numberUtil";
 
 const FormItem = Form.Item;
 const Search = Input.Search;
@@ -18,9 +19,9 @@ class DeliveryHistoryEmployee extends Component {
         current: 1,
         pageSize: 10,
       },
-      frName: "",
-      userName: "",
-      userPhone: "",
+      searchMonth: "",
+      staffName: "",
+      staffPhone: "",
     };
     this.formRef = React.createRef();
   }
@@ -31,23 +32,25 @@ class DeliveryHistoryEmployee extends Component {
 
   getList = () => {
     const pagination = this.state.pagination;
-    httpGet(httpUrl.deliveryList, [
-      this.state.frName,
-      pagination.current,
-      pagination.pageSize,
-      this.state.searchMonth,
-      this.state.userName,
-      this.state.userPhone,
-    ],{})
-    .then((res) => {
+    httpGet(
+      httpUrl.staffDeliveryList,
+      [
+        pagination.current,
+        pagination.pageSize,
+        this.state.searchMonth,
+        this.state.staffName,
+        this.state.staffPhone,
+      ],
+      {}
+    ).then((res) => {
       this.setState({
-        list: res.data.orders,
-        pagination:{
-        ...this.state.pagination,
-        current:res.data.currentPage,
-        total: res.data.totalPage,
-        }, 
-        });
+        list: res.data.incentives,
+        pagination: {
+          ...this.state.pagination,
+          current: res.data.currentPage,
+          total: res.data.totalCount,
+        },
+      });
     });
   };
   handleTableChange = (pagination) => {
@@ -64,6 +67,12 @@ class DeliveryHistoryEmployee extends Component {
     );
   };
 
+  onChangeInput = (e, stateKey) => {
+    let newState = this.state;
+    newState[stateKey] = e.target.value;
+    this.setState(newState);
+  };
+
   render() {
     const columns = [
       {
@@ -71,24 +80,24 @@ class DeliveryHistoryEmployee extends Component {
         dataIndex: "monthData",
         className: "table-column-center",
         width: "5%",
-        render: (data) => <div>{moment(data).format("M")+"월"}</div>
+        render: (data) => <div>{moment(data).format("M") + "월"}</div>,
       },
       {
         title: "직급",
-        dataIndex: "riderLevel",
+        dataIndex: "staffLevel",
         className: "table-column-center",
         width: "5%",
-        render: (data) => <div>{riderLevel[data]}</div>
+        render: (data) => <div>{riderLevel[data]}</div>,
       },
       {
         title: "직원명",
-        dataIndex: "riderName",
+        dataIndex: "staffName",
         className: "table-column-center",
         width: "10%",
       },
       {
         title: "직원 연락처",
-        dataIndex: "riderPhone",
+        dataIndex: "staffPhone",
         className: "table-column-center",
         width: "10%",
       },
@@ -100,39 +109,45 @@ class DeliveryHistoryEmployee extends Component {
       },
       {
         title: "기본건수",
-        dataIndex: "basicDeliveryAmount",
+        dataIndex: "defaultCnt",
         className: "table-column-center",
         width: "8%",
+        render: (data) => <div>{comma(data)} 건</div>,
       },
       {
         title: "배달건수",
-        dataIndex: "deliveryAmount",
+        dataIndex: "deliveryCnt",
         className: "table-column-center",
         width: "8%",
+        render: (data) => <div>{comma(data)} 건</div>,
       },
       {
         title: "기본배달료",
         dataIndex: "basicDeliveryPrice",
         className: "table-column-center",
         width: "8%",
+        render: (data) => <div>{comma(data)} 원</div>,
       },
       {
         title: "관리 인센티브",
-        dataIndex: "teamCallIncen",
+        dataIndex: "manageIncenAmount",
         className: "table-column-center",
         width: "8%",
+        render: (data) => <div>{comma(data)} 원</div>,
       },
       {
         title: "가맹점 인센티브",
-        dataIndex: "frBusinessIncen",
+        dataIndex: "frIncenAmount",
         className: "table-column-center",
         width: "8%",
+        render: (data) => <div>{comma(data)} 원</div>,
       },
       {
         title: "추가 인센티브",
         dataIndex: "overCallIncen",
         className: "table-column-center",
         width: "8%",
+        render: (data) => <div>{comma(data)} 원</div>,
       },
     ];
 
@@ -140,9 +155,33 @@ class DeliveryHistoryEmployee extends Component {
       <FormItem>
         <Space direction="vertical">
           <DatePicker
-            onChange={this.onChangeDate}
             picker="month"
             placeholder="월별검색"
+            onChange={(_, dateString) => {
+              if (dateString) {
+                this.setState(
+                  {
+                    searchMonth: dateString,
+                    pagination: {
+                      current: 1,
+                      pageSize: 10,
+                    },
+                  },
+                  () => this.getList()
+                );
+              } else {
+                this.setState(
+                  {
+                    searchMonth: "",
+                    pagination: {
+                      current: 1,
+                      pageSize: 10,
+                    },
+                  },
+                  () => this.getList()
+                );
+              }
+            }}
           />
         </Space>
 
@@ -150,7 +189,7 @@ class DeliveryHistoryEmployee extends Component {
           placeholder="직원명 검색"
           enterButton
           allowClear
-          onChange={(e) => this.setState({ userName: e.target.value })}
+          onChange={(e) => this.onChangeInput(e, "staffName")}
           onSearch={this.getList}
           style={{
             width: 220,
@@ -162,7 +201,7 @@ class DeliveryHistoryEmployee extends Component {
           placeholder="전화번호 검색"
           enterButton
           allowClear
-          onChange={(e) => this.setState({ userPhone: e.target.value })}
+          onChange={(e) => this.onChangeInput(e, "staffPhone")}
           onSearch={this.getList}
           style={{
             width: 220,
