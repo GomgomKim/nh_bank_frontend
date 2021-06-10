@@ -174,6 +174,15 @@ class DeliveryHistoryRider extends Component {
     );
   };
 
+  pressSearch = () => {
+    this.setState({
+      pagination:{
+        current: 1,
+        pageSize: 10,
+      }
+    }, () => this.getList());
+  }
+
   render() {
 
     const columns = [
@@ -245,14 +254,22 @@ class DeliveryHistoryRider extends Component {
               onChange={(_, dateString) => {
                 if (dateString) {
                   this.setState(
-                    { searchMonth: dateString },
-                    () => this.getList()
+                    { searchMonth: dateString,
+                    pagination:{
+                      current: 1,
+                      pageSize: 10,
+                    }
+                  }, () => this.getList()
                     );
                   }
                 else {
                   this.setState(
-                    { searchMonth: "" },
-                    () => this.getList()
+                    { searchMonth: "",
+                    pagination:{
+                      current: 1,
+                      pageSize: 10,
+                    }
+                  }, () => this.getList()
                   );
                 }
                 }}
@@ -265,7 +282,7 @@ class DeliveryHistoryRider extends Component {
               enterButton
               allowClear
               onChange={(e) => this.setState({ riderName: e.target.value })}
-              onSearch={this.getList}
+              onSearch={this.pressSearch}
               style={{
                 width: 220,
                 marginLeft: 20,
@@ -276,7 +293,7 @@ class DeliveryHistoryRider extends Component {
               enterButton
               allowClear
               onChange={(e) => this.setState({ riderPhone: e.target.value })}
-              onSearch={this.getList}
+              onSearch={this.pressSearch}
               style={{
                 width: 220,
                 marginLeft: 20,

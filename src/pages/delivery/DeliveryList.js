@@ -31,8 +31,8 @@ class DeliveryList extends Component {
       frName: "",
       riderName: "",
       frPhone: "",
-      endDate:"",
-      startDate:"",
+      endDate: "",
+      startDate: "",
     };
     this.formRef = React.createRef();
   }
@@ -82,6 +82,15 @@ class DeliveryList extends Component {
     );
   };
 
+  pressSearch = () => {
+    this.setState({
+      pagination:{
+        current: 1,
+        pageSize: 10,
+      }
+    }, () => this.getList());
+  }
+
   render() {
     const columns = [
       {
@@ -95,13 +104,14 @@ class DeliveryList extends Component {
         dataIndex: "orderDate",
         className: "table-column-center",
         width: "10%",
-        render: (data) => <div>{formatDates(data)}</div>
+        render: (data) => <div>{formatDates(data)}</div>,
       },
       {
         title: "도착지",
         dataIndex: "destAddr1",
         className: "table-column-center",
         width: "15%",
+        render: (data) => <div className="table-column-left">{data}</div>,
       },
       {
         title: "가맹점",
@@ -132,28 +142,28 @@ class DeliveryList extends Component {
         dataIndex: "orderPrice",
         className: "table-column-center",
         width: "8%",
-        render: (data) => <div>{comma(data)}</div>
+        render: (data) => <div>{comma(data)}</div>,
       },
       {
         title: "기본배달요금",
         dataIndex: "basicDeliveryPrice",
         className: "table-column-center",
         width: "8%",
-        render: (data) => <div>{comma(data)}</div>
+        render: (data) => <div>{comma(data)}</div>,
       },
       {
         title: "할증배달요금",
         dataIndex: "extraDeliveryPrice",
         className: "table-column-center",
         width: "8%",
-        render: (data) => <div>{comma(data)}</div>
+        render: (data) => <div>{comma(data)}</div>,
       },
       {
         title: "총배달요금",
         dataIndex: "deliveryPrice",
         className: "table-column-center",
         width: "8%",
-        render: (data) => <div>{comma(data)}</div>
+        render: (data) => <div>{comma(data)}</div>,
       },
     ];
 
@@ -164,7 +174,7 @@ class DeliveryList extends Component {
           enterButton
           allowClear
           onChange={(e) => this.setState({ frName: e.target.value })}
-          onSearch={this.getList}
+          onSearch={this.pressSearch}
           style={{
             width: 220,
           }}
@@ -174,7 +184,7 @@ class DeliveryList extends Component {
           enterButton
           allowClear
           onChange={(e) => this.setState({ riderName: e.target.value })}
-          onSearch={this.getList}
+          onSearch={this.pressSearch}
           style={{
             width: 220,
             marginLeft: 20,
@@ -185,7 +195,7 @@ class DeliveryList extends Component {
           enterButton
           allowClear
           onChange={(e) => this.setState({ frPhone: e.target.value })}
-          onSearch={this.getList}
+          onSearch={this.pressSearch}
           style={{
             width: 220,
             marginLeft: 20,

@@ -93,6 +93,10 @@ body {
   text-align: center !important;
 }
 
+.table-column-left {
+  text-align: left !important;
+}
+
 /* notice */
 .detailModal-wrapper {
   /* border: 1px solid #696968; */
