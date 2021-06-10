@@ -158,9 +158,10 @@ const httpUrl = {
   inquiryUpdate: "/inquiry/modify",
 
   // 배달내역
-  riderDeliveryList:"/delivery/list?pageNum=%s&pageSize=%s&searchMonth=%s&userName=%s&userPhone=%s",
+  riderDeliveryList:
+  "/delivery/rider/list?pageNum=%s&pageSize=%s&riderName=%s&riderPhone=%s&searchMonth=%s",
   deliveryList:
-    "/delivery/list?frName=%s&pageNum=%s&pageSize=%s&seachMonth=%s&userName=%s&userPhone=%s",
+  "/delivery/all/list?endDate=%s&frName=%s&frPhone=%s&pageNum=%s&pageSize=%s&riderName=%s&startDate=%s",
 };
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];

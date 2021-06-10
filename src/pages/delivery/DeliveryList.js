@@ -11,6 +11,8 @@ import { connect } from "react-redux";
 import Modal from "antd/lib/modal/Modal";
 import "../../css/main.css";
 import { httpGet, httpUrl } from "../../api/httpClient";
+import { formatDates } from "../../lib/util/dateUtil";
+import { comma } from "../../lib/util/numberUtil";
 
 const FormItem = Form.Item;
 const Search = Input.Search;
@@ -27,8 +29,10 @@ class DeliveryList extends Component {
         pageSize: 10,
       },
       frName: "",
-      userName: "",
-      userPhone: "",
+      riderName: "",
+      frPhone: "",
+      endDate:"",
+      startDate:"",
     };
     this.formRef = React.createRef();
   }
@@ -42,12 +46,13 @@ class DeliveryList extends Component {
     httpGet(
       httpUrl.deliveryList,
       [
+        this.state.endDate,
         this.state.frName,
+        this.state.frPhone,
         pagination.current,
         pagination.pageSize,
-        this.state.searchMonth,
-        this.state.userName,
-        this.state.userPhone,
+        this.state.riderName,
+        this.state.startDate,
       ],
       {}
     ).then((res) => {
@@ -90,6 +95,7 @@ class DeliveryList extends Component {
         dataIndex: "orderDate",
         className: "table-column-center",
         width: "10%",
+        render: (data) => <div>{formatDates(data)}</div>
       },
       {
         title: "도착지",
@@ -126,24 +132,28 @@ class DeliveryList extends Component {
         dataIndex: "orderPrice",
         className: "table-column-center",
         width: "8%",
+        render: (data) => <div>{comma(data)}</div>
       },
       {
         title: "기본배달요금",
         dataIndex: "basicDeliveryPrice",
         className: "table-column-center",
         width: "8%",
+        render: (data) => <div>{comma(data)}</div>
       },
       {
         title: "할증배달요금",
         dataIndex: "extraDeliveryPrice",
         className: "table-column-center",
         width: "8%",
+        render: (data) => <div>{comma(data)}</div>
       },
       {
         title: "총배달요금",
         dataIndex: "deliveryPrice",
         className: "table-column-center",
         width: "8%",
+        render: (data) => <div>{comma(data)}</div>
       },
     ];
 
@@ -163,7 +173,7 @@ class DeliveryList extends Component {
           placeholder="라이더명 검색"
           enterButton
           allowClear
-          onChange={(e) => this.setState({ userName: e.target.value })}
+          onChange={(e) => this.setState({ riderName: e.target.value })}
           onSearch={this.getList}
           style={{
             width: 220,
@@ -174,7 +184,7 @@ class DeliveryList extends Component {
           placeholder="전화번호 검색"
           enterButton
           allowClear
-          onChange={(e) => this.setState({ userPhone: e.target.value })}
+          onChange={(e) => this.setState({ frPhone: e.target.value })}
           onSearch={this.getList}
           style={{
             width: 220,
@@ -199,7 +209,7 @@ class DeliveryList extends Component {
         />
 
         <Table
-          rowKey={(record) => record}
+          rowKey={(record) => record.idx}
           dataSource={this.state.list}
           columns={columns}
           pagination={this.state.pagination}

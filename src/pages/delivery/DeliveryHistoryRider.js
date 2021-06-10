@@ -13,6 +13,7 @@ import Modal from "antd/lib/modal/Modal";
 import "../../css/main.css";
 import moment from "moment";
 import { feeType, riderGroup } from "../../lib/util/codeUtil";
+import { comma } from "../../lib/util/numberUtil";
 
 const FormItem = Form.Item;
 const Search = Input.Search;
@@ -27,10 +28,9 @@ class DeliveryHistoryRider extends Component {
         current: 1,
         pageSize: 10,
       },
-      frName: "",
+      riderName: "",
+      riderPhone: "",
       searchMonth:"",
-      userName: "",
-      userPhone: "",
       franchisee: "",
       rider: "",
       Phone: "",
@@ -70,16 +70,16 @@ class DeliveryHistoryRider extends Component {
   getList = () => {
     let pageNum = this.state.pagination.current;
     let pageSize = this.state.pagination.pageSize;
-    // let searchMonth= this.state.searchMonth;
-    // let userName=this.state.userName;
-    // let userPhone=this.state.userPhone;
-    httpGet(httpUrl.riderDeliveryList, [ pageNum, pageSize ],{})
+    let riderName=this.state.riderName;
+    let riderPhone=this.state.riderPhone;
+    let searchMonth= this.state.searchMonth;
+    httpGet(httpUrl.riderDeliveryList, [ pageNum, pageSize, riderName, riderPhone, searchMonth ],{})
     .then((res) => {
       const pagination = { ...this.state.pagination };
       pagination.current = res.data.currentPage;
       pagination.total = res.data.totalCount;
       this.setState({
-      list: res.data.orders,
+      list: res.data.incomes,
       pagination,
     });
   });
@@ -179,7 +179,7 @@ class DeliveryHistoryRider extends Component {
     const columns = [
       {
         title: "월",
-        dataIndex: "orderDate",
+        dataIndex: "incomeDate",
         className: "table-column-center",
         width: '5%',
         render: (data) => <div>{moment(data).format("M")+"월"}</div>
@@ -217,7 +217,7 @@ class DeliveryHistoryRider extends Component {
       },
       {
         title: "수수료",
-        dataIndex: "deliveryPriceFee",
+        dataIndex: "feeAmount",
         className: "table-column-center",
         width: '8%',
       },
@@ -230,9 +230,10 @@ class DeliveryHistoryRider extends Component {
       },
       {
         title: "수익",
-        dataIndex: "extraDeliveryPrice",
+        dataIndex: "incomeAmount",
         className: "table-column-center",
         width: '8%',
+        render: (data) => <div>{comma(data)}</div>
       },
     ];
 
@@ -241,7 +242,20 @@ class DeliveryHistoryRider extends Component {
       <FormItem>
           <Space direction="vertical">
             <DatePicker
-              onChange={this.onChangeDate}
+              onChange={(_, dateString) => {
+                if (dateString) {
+                  this.setState(
+                    { searchMonth: dateString },
+                    () => this.getList()
+                    );
+                  }
+                else {
+                  this.setState(
+                    { searchMonth: "" },
+                    () => this.getList()
+                  );
+                }
+                }}
               picker="month"
               placeholder="월별검색" />
           </Space>
@@ -250,8 +264,8 @@ class DeliveryHistoryRider extends Component {
               placeholder="라이더명 검색"
               enterButton
               allowClear
-              onChange={(e) => this.setState({ rider: e.target.value })}
-              onSearch={this.onSearchRider}
+              onChange={(e) => this.setState({ riderName: e.target.value })}
+              onSearch={this.getList}
               style={{
                 width: 220,
                 marginLeft: 20,
@@ -261,8 +275,8 @@ class DeliveryHistoryRider extends Component {
               placeholder="전화번호 검색"
               enterButton
               allowClear
-              onChange={(e) => this.setState({ Phone: e.target.value })}
-              onSearch={this.onSearchPhone}
+              onChange={(e) => this.setState({ riderPhone: e.target.value })}
+              onSearch={this.getList}
               style={{
                 width: 220,
                 marginLeft: 20,
@@ -278,7 +292,7 @@ class DeliveryHistoryRider extends Component {
 
 
             <Table
-              rowKey={(record) => record}
+              rowKey={(record) => record.idx}
               dataSource={this.state.list}
               columns={columns}
               pagination={this.state.pagination}

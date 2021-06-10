@@ -18,6 +18,7 @@ class DeliveryHistoryEmployee extends Component {
         current: 1,
         pageSize: 10,
       },
+      frName: "",
       userName: "",
       userPhone: "",
     };
@@ -29,16 +30,23 @@ class DeliveryHistoryEmployee extends Component {
   }
 
   getList = () => {
-    let pageNum = this.state.pagination.current;
-    let pageSize = this.state.pagination.pageSize;
-    httpGet(httpUrl.riderDeliveryList, [ pageNum, pageSize],{})
+    const pagination = this.state.pagination;
+    httpGet(httpUrl.deliveryList, [
+      this.state.frName,
+      pagination.current,
+      pagination.pageSize,
+      this.state.searchMonth,
+      this.state.userName,
+      this.state.userPhone,
+    ],{})
     .then((res) => {
-        const pagination = { ...this.state.pagination };
-        pagination.current = res.data.currentPage;
-        pagination.total = res.data.totalCount;
-        this.setState({
-          list: res.data.orders,
-          pagination
+      this.setState({
+        list: res.data.orders,
+        pagination:{
+        ...this.state.pagination,
+        current:res.data.currentPage,
+        total: res.data.totalPage,
+        }, 
         });
     });
   };
@@ -142,8 +150,8 @@ class DeliveryHistoryEmployee extends Component {
           placeholder="직원명 검색"
           enterButton
           allowClear
-          onChange={(e) => this.setState({ rider: e.target.value })}
-          onSearch={this.onSearchRider}
+          onChange={(e) => this.setState({ userName: e.target.value })}
+          onSearch={this.getList}
           style={{
             width: 220,
             marginLeft: 20,
@@ -154,8 +162,8 @@ class DeliveryHistoryEmployee extends Component {
           placeholder="전화번호 검색"
           enterButton
           allowClear
-          onChange={(e) => this.setState({ Phone: e.target.value })}
-          onSearch={this.onSearchPhone}
+          onChange={(e) => this.setState({ userPhone: e.target.value })}
+          onSearch={this.getList}
           style={{
             width: 220,
             marginLeft: 20,

@@ -18,7 +18,7 @@ import { OperatorManage } from "../pages";
 export default class Content extends Component {
   render() {
     return (
-      <Layout.Content style={{ margin: "24px 16px 0" }}>
+      <Layout.Content style={{ margin: "2.5vh 16px 0",height:'82.5vh' }}>
         <div style={{ padding: 24, background: "#fff" }}>
           <Switch>
 
