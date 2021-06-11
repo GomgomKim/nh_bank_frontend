@@ -9,8 +9,7 @@ import {
   endDateFormat
 } from "../../lib/util/dateUtil";
 import SelectBox from "../../components/input/SelectBox";
-import InquiryCompleteModal from './InquiryCompleteModal';
-import InquiryMemoModal from './InquiryMemoModal';
+
 
 const Search = Input.Search;
 const RangePicker = DatePicker.RangePicker;
@@ -25,8 +24,8 @@ class Inquiry extends Component {
         pageSize: 10,
       },
       list: [],
-      completeVisible: false, 
-      memoVisible: false, 
+      completeVisible: false,
+      memoVisible: false,
       selectedRow: 0
     };
   }
@@ -60,9 +59,9 @@ class Inquiry extends Component {
 
   expandedRowRender = (record) => {
     return (
-      <div style={{paddingLeft: '100px'}}>
-        <div style={{display: 'inline-block', width: '40%', verticalAlign:'top'}}>
-          <div style={{color: 'blue'}}>[문의내용]</div>
+      <div style={{ paddingLeft: '100px' }}>
+        <div style={{ display: 'inline-block', width: '40%', verticalAlign: 'top' }}>
+          <div style={{ color: 'blue' }}>[문의내용]</div>
           {record.content && record.content.split(',').map(row => {
             return (
               <div>{row}</div>
@@ -70,8 +69,8 @@ class Inquiry extends Component {
           }
           )}
         </div>
-        <div style={{display: 'inline-block', width: '40%', verticalAlign:'top'}}>
-          <div style={{color: 'blue'}}>[메모]</div>
+        <div style={{ display: 'inline-block', width: '40%', verticalAlign: 'top' }}>
+          <div style={{ color: 'blue' }}>[메모]</div>
           {record.memo && record.memo.split('\n').map(row => {
             return (
               <div>{row}</div>
@@ -138,13 +137,13 @@ class Inquiry extends Component {
         title: "메모",
         dataIndex: "memo",
         className: "table-column-center",
-        render: (data, row) => 
-        <div style={{cursor: 'pointer'}} onClick={(e)=>{
-          e.stopPropagation();
-          this.setState({memoVisible: true, selectedRow: row})
-        }}>
-          {data ? (data.length > 10 ? data.substr(0, 10) + '...' : data) : '-'}
-        </div>
+        render: (data, row) =>
+          <div style={{ cursor: 'pointer' }} onClick={(e) => {
+            e.stopPropagation();
+            this.setState({ memoVisible: true, selectedRow: row })
+          }}>
+            {data ? (data.length > 10 ? data.substr(0, 10) + '...' : data) : '-'}
+          </div>
       },
       {
         title: "완료처리",
@@ -153,7 +152,7 @@ class Inquiry extends Component {
         render: (data, row) => {
           if (row.status != 'NEW') return (<></>);
           return (
-            <Button onClick={(e)=>{
+            <Button onClick={(e) => {
               e.stopPropagation();
               this.setState({
                 selectedRow: row,
@@ -170,7 +169,7 @@ class Inquiry extends Component {
       <>
         <Table
           rowKey={(record) => record.idx}
-          rowClassName={(record) => (record.status == 'COMPLETE' ? "table-disabled" : "")}
+          rowClassName={(record) => (record.status === 'COMPLETE' ? "table-disabled" : "")}
           dataSource={this.state.list}
           columns={columns}
           pagination={this.state.pagination}
@@ -178,16 +177,16 @@ class Inquiry extends Component {
           expandedRowRender={this.expandedRowRender}
           expandRowByClick={true}
         />
-        <InquiryMemoModal 
-          visible={this.state.memoVisible} 
-          data={this.state.selectedRow} 
-          close={()=>{this.setState({memoVisible: false})}}
-          reload={this.getList}/>
-        <InquiryCompleteModal 
-          visible={this.state.completeVisible} 
-          data={this.state.selectedRow} 
-          close={()=>{this.setState({completeVisible: false})}}
-          reload={this.getList}/>
+        {/* <InquiryMemoModal
+          visible={this.state.memoVisible}
+          data={this.state.selectedRow}
+          close={() => { this.setState({ memoVisible: false }) }}
+          reload={this.getList} />
+        <InquiryCompleteModal
+          visible={this.state.completeVisible}
+          data={this.state.selectedRow}
+          close={() => { this.setState({ completeVisible: false }) }}
+          reload={this.getList} /> */}
       </>
     )
   }

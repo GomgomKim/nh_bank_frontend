@@ -1,7 +1,7 @@
 import Axios from "axios";
+import { reactLocalStorage } from "reactjs-localstorage";
 import util from "util";
 import Const from "../const";
-import { reactLocalStorage } from "reactjs-localstorage";
 let loadingCount = 0;
 
 global.language = "ko";
@@ -139,8 +139,7 @@ const httpDownload = (url, params, data) => {
     })
       .then((response) => {
         var blob = new Blob([response.data], {
-          type:
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
         resolve(blob);
       })
@@ -157,6 +156,14 @@ const httpUrl = {
   //게시판
   inquiryList: "/inquiry/list?pageSize=%s&pageNum=%s",
   inquiryUpdate: "/inquiry/modify",
+
+  // 배달내역
+  deliveryList:
+    "/delivery/all/list?endDate=%s&frName=%s&frPhone=%s&pageNum=%s&pageSize=%s&riderName=%s&startDate=%s",
+  riderDeliveryList:
+    "/delivery/rider/list?pageNum=%s&pageSize=%s&riderName=%s&riderPhone=%s&searchMonth=%s",
+  staffDeliveryList:
+    "/delivery/staff/list?pageNum=%s&pageSize=%s&searchMonth=%s&staffName=%s&staffPhone=%s",
 };
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];
@@ -172,3 +179,4 @@ export {
   httpDownload,
   imageType,
 };
+

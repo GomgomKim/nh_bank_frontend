@@ -38,7 +38,7 @@ class Header extends React.Component {
 
   render() {
     return (
-      <Layout.Header style={{ background: "#fff", padding: 0 }}>
+      <Layout.Header style={{ background: "#fff", padding: 0, height:"5vh" }}>
         <div
           style={{
             backgroundColor: "#000",

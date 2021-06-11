@@ -58,6 +58,16 @@ const dateFormat = date => {
     : hour + "시간 " + minute + "분";
 };
 
+const formatDates = date => {
+  if (!date) return null;
+  let newDate = new Date(date);
+  return (
+    newDate.getFullYear() + "-" +
+    formatDateNumber(newDate.getMonth() + 1) + "-" +
+    formatDateNumber(newDate.getDate())
+  );
+};
+
 const minFormat = date => {
   if (!date) return null;
   let newDate = new Date(date);
@@ -150,4 +160,5 @@ export {
   endDateFormat,
   statFormat,
   statMonthFormat,
+  formatDates,
 };
