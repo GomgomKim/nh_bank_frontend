@@ -159,6 +159,8 @@ const httpUrl = {
 
   // 배달내역
   deliveryList:
+    "/delivery/all/list?frName=%s&frPhone=%s&pageNum=%s&pageSize=%s&riderName=%s",
+  deliverySearchList:
     "/delivery/all/list?endDate=%s&frName=%s&frPhone=%s&pageNum=%s&pageSize=%s&riderName=%s&startDate=%s",
   riderDeliveryList:
     "/delivery/rider/list?pageNum=%s&pageSize=%s&riderName=%s&riderPhone=%s&searchMonth=%s",

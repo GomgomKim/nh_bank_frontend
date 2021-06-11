@@ -219,7 +219,7 @@ class DeliveryHistoryEmployee extends Component {
         </Button>
 
         <Table
-          rowKey={(record) => record}
+          rowKey={(record) => record.idx}
           dataSource={this.state.list}
           columns={columns}
           pagination={this.state.pagination}
