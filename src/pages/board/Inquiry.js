@@ -62,7 +62,7 @@ class Inquiry extends Component {
       <div style={{ paddingLeft: '100px' }}>
         <div style={{ display: 'inline-block', width: '40%', verticalAlign: 'top' }}>
           <div style={{ color: 'blue' }}>[문의내용]</div>
-          {record.content.split(',').map(row => {
+          {record.content && record.content.split(',').map(row => {
             return (
               <div>{row}</div>
             )
@@ -71,7 +71,7 @@ class Inquiry extends Component {
         </div>
         <div style={{ display: 'inline-block', width: '40%', verticalAlign: 'top' }}>
           <div style={{ color: 'blue' }}>[메모]</div>
-          {record.memo.split('\n').map(row => {
+          {record.memo && record.memo.split('\n').map(row => {
             return (
               <div>{row}</div>
             )
@@ -83,9 +83,11 @@ class Inquiry extends Component {
   }
   render() {
     const categoryString = {
-      EXP: '전문가문의',
       FRAN: '가맹점문의',
       RIDE: '라이더문의',
+      TAX: '전문가 세무문의',
+      LAW: '전문가 법률문의',
+      EXP: '전문가 기타문의',
     }
     const statusString = {
       NEW: '신규',
@@ -104,10 +106,20 @@ class Inquiry extends Component {
         render: (data, row) => <div>{categoryString[data]}</div>
       },
       {
+        title: "이름",
+        dataIndex: "name",
+        className: "table-column-center",
+      },
+      {
         title: "내용",
         dataIndex: "content",
         className: "table-column-text",
         render: (data, row) => <div>{data && data.length > 10 ? data.substr(0, 10) + '...' : data}</div>
+      },
+      {
+        title: "연락처",
+        dataIndex: "phone",
+        className: "table-column-center",
       },
       {
         title: "등록일",
