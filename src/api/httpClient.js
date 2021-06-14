@@ -166,7 +166,11 @@ const httpUrl = {
     "/delivery/rider/list?pageNum=%s&pageSize=%s&riderName=%s&riderPhone=%s&searchMonth=%s",
   staffDeliveryList:
     "/delivery/staff/list?pageNum=%s&pageSize=%s&searchMonth=%s&staffName=%s&staffPhone=%s",
-};
+
+  // 가맹점
+  franchiseList:
+    "/fr/list?branchName=%s&frName=%s&pageNum=%s&pageSize=%s",
+  };
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];
 
