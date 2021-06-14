@@ -19,6 +19,11 @@
    5: "E",
  }
 
+ const pgUseRate = {
+  0:"미사용",
+  100:"사용",
+};
+
  const riderLevel = [
    "",
    "라이더",
@@ -36,6 +41,7 @@
     bikeStatus,
     riderGroup,
     feeType,
+    pgUseRate,
     riderLevel
   };
   

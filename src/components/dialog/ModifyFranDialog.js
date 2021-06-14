@@ -4,6 +4,9 @@ import {
 } from "antd";
 import { comma } from "../../lib/util/numberUtil";
 import '../../css/main.css';
+import { pgUseRate } from "../../lib/util/codeUtil";
+import { httpUrl, httpPost } from "../../api/httpClient";
+
 
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -24,14 +27,23 @@ class ModifyFranDialog extends Component {
     }
 
     componentDidMount() {
-        // this.getList()
+
     }
 
+    handleSubmit = () => {
+        // console.log(this.formRef.current.getFieldsValue())
+        httpPost(httpUrl.updateFranchise, [], {
+            ...this.formRef.current.getFieldsValue(),
+            userIdx: this.props.data.userIdx
+        }).then((res) => {
+            // console.log(res);
+            this.props.close();
+            this.props.getList();
+          })
+          .catch((e) => {});
+      };
 
     render() {
-
-
-
 
         const { close, data } = this.props;
 
@@ -47,22 +59,17 @@ class ModifyFranDialog extends Component {
                         </div>
                         <img onClick={close} src={require('../../img/close.png').default} className="dialog-close" alt="img" />
                         <div className="modifyfran-inner">
-
+                        <Form ref={this.formRef} onFinish={this.handleSubmit}>
                             <div className="modifyfran-innerbox">
                                 <div className="contentBlock">
                                     <div className="mainTitle">가맹점명</div>
                                     <div className="formItem">
                                         <FormItem
-                                            name="price"
+                                            name="frName"
                                             className="selectItem"
                                             style={{ marginLeft: 20 }}
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: "",
-                                                },
-                                            ]}
-                                            initialValue={data ? data.price : ""}
+                                            rules={[{ required: true, message: "" }]}
+                                            initialValue={data ? data.frName : ""}
                                         >
                                             <Input
                                                 placeholder="가맹점명을 입력하세요"
@@ -76,16 +83,11 @@ class ModifyFranDialog extends Component {
                                     <div className="mainTitle">가맹점번호</div>
                                     <div className="formItem">
                                         <FormItem
-                                            name="price"
+                                            name="frPhone"
                                             className="selectItem"
                                             style={{ marginLeft: 20 }}
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: "",
-                                                },
-                                            ]}
-                                            initialValue={data ? data.price : ""}
+                                            rules={[{ required: true, message: "" }]}
+                                            initialValue={data ? data.frPhone : ""}
                                         >
                                             <Input
                                                 placeholder="가맹점번호를 입력하세요"
@@ -98,16 +100,28 @@ class ModifyFranDialog extends Component {
                                     <div className="mainTitle">가맹점주소</div>
                                     <div className="formItem">
                                         <FormItem
-                                            name="price"
+                                            name="addr1"
                                             className="selectItem"
                                             style={{ marginLeft: 20 }}
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: "",
-                                                },
-                                            ]}
-                                            initialValue={data ? data.price : ""}
+                                            rules={[{ required: true, message: "" }]}
+                                            initialValue={data ? data.addr1 : ""}
+                                        >
+                                            <Input
+                                                placeholder="가맹점주소를 입력하세요"
+                                                className="override-input"
+                                            />
+                                        </FormItem>
+                                    </div>
+                                </div>
+                                <div className="contentBlock">
+                                    <div className="mainTitle">상세주소</div>
+                                    <div className="formItem">
+                                        <FormItem
+                                            name="addr2"
+                                            className="selectItem"
+                                            style={{ marginLeft: 20 }}
+                                            rules={[{ required: true, message: "" }]}
+                                            initialValue={data ? data.addr2 : ""}
                                         >
                                             <Input
                                                 placeholder="가맹점주소를 입력하세요"
@@ -120,41 +134,12 @@ class ModifyFranDialog extends Component {
                                     <div className="mainTitle">VAN</div>
                                     <div className="formItem">
                                         <FormItem
-                                            name="price"
+                                            name="vanNumber"
                                             className="selectItem"
                                             style={{ marginLeft: 20 }}
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: "",
-                                                },
-                                            ]}
-                                            initialValue={data ? data.price : ""}
+                                            initialValue={data ? data.vanNumber : ""}
                                         >
                                             <Input
-                                                placeholder=""
-                                                className="override-input"
-                                            />
-                                        </FormItem>
-                                    </div>
-                                </div>
-                                <div className="contentBlock">
-                                    <div className="mainTitle">PG정보</div>
-                                    <div className="formItem">
-                                        <FormItem
-                                            name="price"
-                                            className="selectItem"
-                                            style={{ marginLeft: 20 }}
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: "",
-                                                },
-                                            ]}
-                                            initialValue={data ? data.price : ""}
-                                        >
-                                            <Input
-                                                placeholder=""
                                                 className="override-input"
                                             />
                                         </FormItem>
@@ -162,17 +147,29 @@ class ModifyFranDialog extends Component {
                                 </div>
                                 <div className="contentBlock">
                                     <div className="mainTitle">PG 사용여부</div>
-                                    <Radio.Group
-                                        className="modify-radio"
-                                        onChange={this.onChange} style={{ marginTop: 5 }}>
-                                        <Radio value={1}>사용</Radio>
-                                        <Radio value={2}>미사용</Radio>
-                                    </Radio.Group>
+                                        <FormItem 
+                                            name="tidNormalRate"
+                                            style={{ display:'inline-block', marginLeft: 20 }}
+                                            >
+                                            <Radio.Group
+                                                style={{marginLeft:0}}
+                                                defaultValue={data ? parseInt(data.tidNormalRate): 100}
+                                            >
+                                            {Object.keys(pgUseRate).reverse().map((key) => {
+                                                return (
+                                                <Radio value={parseInt(key)}>
+                                                    {pgUseRate[key]}
+                                                </Radio>
+                                                );
+                                            })}
+                                            </Radio.Group>
+                                        </FormItem>
                                 </div>
                             </div>
-                            <Button style={{ float: 'right', marginTop: 10 }} onClick={{}}>
+                            <Button style={{ float: 'right', marginTop: 10 }} type="primary" htmlType="submit">
                                 저장하기
                             </Button>
+                            </Form>
                         </div>
                     </div>
 

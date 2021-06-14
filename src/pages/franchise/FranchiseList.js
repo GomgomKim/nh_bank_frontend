@@ -25,6 +25,7 @@ class FranchiseList extends Component {
             },
             frName: "",
             branchName: "",
+            franchiseData: [], //가맹점 수정 데이터
         };
     }
 
@@ -38,8 +39,11 @@ class FranchiseList extends Component {
 
 
     // 수정 dialog
-    openModifyFranDialogModal = () => {
-        this.setState({ modifyFranDialogOpen: true });
+    openModifyFranDialogModal = (row) => {
+        this.setState({ 
+            modifyFranDialogOpen: true, 
+            franchiseData: row
+        });
     };
     closeModifyFranDialogModal = () => {
         this.setState({ modifyFranDialogOpen: false });
@@ -71,6 +75,7 @@ class FranchiseList extends Component {
           ],
           {}
         ).then((res) => {
+        // alert(JSON.stringify(res))
           if (res.result === "SUCCESS") {
             this.setState({
               list: res.data.franchises,
@@ -102,6 +107,10 @@ class FranchiseList extends Component {
         this.setState(
           {
             frName: value,
+            pagination:{
+                current: 1,
+                pageSize: 10,
+              }
           },
           () => {
             this.getList();
@@ -113,6 +122,10 @@ class FranchiseList extends Component {
         this.setState(
           {
             branchName: value,
+            pagination:{
+                current: 1,
+                pageSize: 10,
+              }
           },
           () => {
             this.getList();
@@ -154,7 +167,7 @@ class FranchiseList extends Component {
                 title: "PG 사용비율",
                 dataIndex: "tidNormalRate",
                 className: "table-column-center",
-                render: (data) => <div>{data === 0 ? '미사용' : '사용'}</div>,
+                render: (data) => <div>{data == 0 ? '미사용' : '사용'}</div>,
             },
             {
                 title: "가맹비내역",
@@ -183,7 +196,7 @@ class FranchiseList extends Component {
                 dataIndex: "update",
                 className: "table-column-center",
                 render: (data, row) => (
-                    <Button onClick={this.openModifyFranDialogModal}>
+                    <Button onClick={() => this.openModifyFranDialogModal(row)}>
                         수정
                     </Button>
                 )
@@ -220,7 +233,9 @@ class FranchiseList extends Component {
 
                 {this.state.modifyFranDialogOpen &&
                     <ModifyFranDialog
+                        data={this.state.franchiseData}
                         close={this.closeModifyFranDialogModal}
+                        getList={this.getList}
                     />
                 }
 
