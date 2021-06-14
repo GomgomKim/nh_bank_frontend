@@ -135,10 +135,10 @@ class DeliveryList extends Component {
       },
       {
         title: "도착지",
-        dataIndex: "destAddr1",
+        // dataIndex: "destAddr1",
         className: "table-column-center",
         width: "15%",
-        render: (data) => <div className="table-column-left">{data}</div>,
+        render: (data, row) => <div className="table-column-left">{row.destAddr1 + " " + row.destAddr2}</div>,
       },
       {
         title: "가맹점",
@@ -169,28 +169,28 @@ class DeliveryList extends Component {
         dataIndex: "orderPrice",
         className: "table-column-center",
         width: "8%",
-        render: (data) => <div>{comma(data)}</div>,
+        render: (data) => <div>{comma(data)} 원</div>,
       },
       {
         title: "기본배달요금",
         dataIndex: "basicDeliveryPrice",
         className: "table-column-center",
         width: "8%",
-        render: (data) => <div>{comma(data)}</div>,
+        render: (data) => <div>{comma(data)} 원</div>,
       },
       {
         title: "할증배달요금",
         dataIndex: "extraDeliveryPrice",
         className: "table-column-center",
         width: "8%",
-        render: (data) => <div>{comma(data)}</div>,
+        render: (data) => <div>{comma(data)} 원</div>,
       },
       {
         title: "총배달요금",
         dataIndex: "deliveryPrice",
         className: "table-column-center",
         width: "8%",
-        render: (data) => <div>{comma(data)}</div>,
+        render: (data) => <div>{comma(data)} 원</div>,
       },
     ];
 
