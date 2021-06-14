@@ -223,13 +223,14 @@ class DeliveryHistoryRider extends Component {
         dataIndex: "deliveryPrice",
         className: "table-column-center",
         width: '8%',
-        render: (data) => <div>{comma(data)}</div>
+        render: (data) => <div>{comma(data)} 원</div>
       },
       {
         title: "수수료",
         dataIndex: "feeAmount",
         className: "table-column-center",
         width: '8%',
+        render: (data) => <div>{comma(data)} 원</div>
       },
       {
         title: "수수료방식",
@@ -243,7 +244,7 @@ class DeliveryHistoryRider extends Component {
         dataIndex: "incomeAmount",
         className: "table-column-center",
         width: '8%',
-        render: (data) => <div>{comma(data)}</div>
+        render: (data) => <div>{comma(data)} 원</div>
       },
     ];
 
