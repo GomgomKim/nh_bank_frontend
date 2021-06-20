@@ -222,7 +222,8 @@ class RegistFixHistoryDialog extends Component {
                                         height: 40, 
                                         fontSize: 16,
                                         marginTop: 20,
-                                    }} 
+                                    }}
+                                    htmlType="submit"
                                 >                                    
                                     {data ? "수정하기" : "등록하기"}
                                 </Button>

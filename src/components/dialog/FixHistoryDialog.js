@@ -39,6 +39,7 @@ class fixHistoryDialog extends Component {
         let pageSize = this.state.pagination.pageSize;
         httpGet(httpUrl.bikeFixHistoryList, [pageNum, pageSize],{})
         .then((res)=>{
+            console.log(JSON.stringify(res, null, 4))
             const pagination = {...this.state.pagination};
             pagination.current = res.data.currentPage;
             pagination.total = res.data.totalCount;
@@ -233,7 +234,7 @@ class fixHistoryDialog extends Component {
                                     className="selectItem"
                                     >
                                     <Table
-                                    rowKey={(record) => record}
+                                    rowKey={(record) => record.idx}
                                     dataSource={this.state.list}
                                     columns={columns}
                                     pagination={this.state.pagination}
