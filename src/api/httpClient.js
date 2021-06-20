@@ -173,11 +173,15 @@ const httpUrl = {
   updateFranchise:
     "/fr/update",
   
-    //바이크
+  //바이크
     bikeFixHistoryList:"/bike/maintenance/list?pageNum=%s&pageSize=%s",
     deleteFixList:"/bike/maintenance/delete",
     registFixList:"/bike/maintenance/create",
     updateFixList:"/bike/maintenance/update",
+
+  //공지사항
+    noticeList:"/notice/list?pageNum=%s&pageSize=%s",
+    // noticeList:"/notice/list?endDate=%s&pageNum=%s&pageSize=%s&startDate=%s&title=%s",
 };
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];

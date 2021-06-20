@@ -30,8 +30,11 @@ class Notice extends Component {
             list: [],
             completeVisible: false,
             memoVisible: false,
-            selectedRow: 0
+            endDate: "",
+            startDate: "",
+            title: "",
         };
+        this.formRef = React.createRef();
     }
 
     componentDidMount() {
@@ -67,62 +70,32 @@ class Notice extends Component {
 
 
     getList = () => {
-        var list = [
-            {
-                noticeIdx: '10',
-                sortOrder: '10',
-                title: '냠냠박스 공지사항 #1',
-                content: '건강하게 지내고 계신지요? "건강이 최고"라는 말이 새삼 와닿는 시기입니다.',
-                createDate: '2021-06-04',
-                status: '등록',
-
-            },
-            {
-                noticeIdx: '11',
-                sortOrder: '20',
-                title: '냠냠박스 공지사항 #1',
-                content: '건강하게 지내고 계신지요? "건강이 최고"라는 말이 새삼 와닿는 시기입니다.',
-                createDate: '2021-06-04',
-                status: '등록',
-            },
-            {
-                noticeIdx: '12',
-                sortOrder: '12',
-                title: '냠냠박스 공지사항 #1',
-                content: '건강하게 지내고 계신지요? "건강이 최고"라는 말이 새삼 와닿는 시기입니다.',
-                createDate: '2021-06-04',
-                status: '등록',
-            },
-            {
-                noticeIdx: '13',
-                sortOrder: '100',
-                title: '냠냠박스 공지사항 #1',
-                content: '건강하게 지내고 계신지요? "건강이 최고"라는 말이 새삼 와닿는 시기입니다.',
-                createDate: '2021-06-04',
-                status: '등록',
-            },
-            {
-                noticeIdx: '14',
-                sortOrder: '50',
-                title: '냠냠박스 공지사항 #1',
-                content: '건강하게 지내고 계신지요? "건강이 최고"라는 말이 새삼 와닿는 시기입니다.',
-                createDate: '2021-06-04',
-                status: '등록',
-            },
-            {
-                noticeIdx: '15',
-                sortOrder: '20',
-                title: '냠냠박스 공지사항 #1',
-                content: '건강하게 지내고 계신지요? "건강이 최고"라는 말이 새삼 와닿는 시기입니다.',
-                createDate: '2021-06-04',
-                status: '등록',
-            },
-        ];
-
-        this.setState({
-            list: list,
+        let endDate=this.state.endDate;
+        let pageNum = this.state.pagination.current;
+        let pageSize = this.state.pagination.pageSize;
+        let startDate=this.state.startDate;
+        let title= this.state.title;
+        httpGet(httpUrl.noticeList, [ endDate, pageNum, pageSize, startDate, title ],{})
+        .then((res) => {
+          console.log(res)
+          const pagination = { ...this.state.pagination };
+          pagination.current = res.data.currentPage;
+          pagination.total = res.data.totalCount;
+          this.setState({
+          list: res.data.notices,
+          pagination,
+          });
         });
     }
+
+    pressSearch = () => {
+        this.setState({
+          pagination:{
+            current: 1,
+            pageSize: 10,
+          }
+        }, () => this.getList());
+      }
 
     // expandedRowRender = (record) => {
     //     return (
@@ -155,7 +128,7 @@ class Notice extends Component {
         const columns = [
             {
                 title: "번호",
-                dataIndex: "noticeIdx",
+                dataIndex: "idx",
                 className: "table-column-center",
             },
             {
@@ -177,7 +150,7 @@ class Notice extends Component {
             },
             {
                 title: "상태",
-                dataIndex: "status",
+                dataIndex: "deleted",
                 className: "table-column-center",
             },
             {
@@ -250,7 +223,8 @@ class Notice extends Component {
                     placeholder="제목 검색"
                     enterButton
                     allowClear
-                    onSearch={this.onSearch}
+                    onChange={(e)=>this.setState({title: e.target.value})}
+                    onSearch={this.pressSearch}
                     style={{
                         width: 220,
                     }}
@@ -284,13 +258,13 @@ class Notice extends Component {
 
                 <Table
                     rowKey={(record) => record.idx}
-                    rowClassName={(record) => (record.status === 'COMPLETE' ? "table-disabled" : "")}
+                    // rowClassName={(record) => (record.status === 'COMPLETE' ? "table-disabled" : "")}
                     dataSource={this.state.list}
                     columns={columns}
                     pagination={this.state.pagination}
                     onChange={this.handleTableChange}
-                    expandedRowRender={this.expandedRowRender}
-                    expandRowByClick={true}
+                    // expandedRowRender={this.expandedRowRender}
+                    // expandRowByClick={true}
                 />
 
             </>
