@@ -8,6 +8,7 @@ import RegistFixHistoryDialog from "../../components/dialog/RegistFixHistoryDial
 import { httpGet, httpUrl, httpPost } from "../../api/httpClient";
 // import Modal from "antd/lib/modal/Modal";
 import { customAlert, customError, updateError } from "../../api/Modals";
+import { formatDates } from "../../lib/util/dateUtil";
 
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -118,6 +119,7 @@ class fixHistoryDialog extends Component {
                 dataIndex: "startDate",
                 className: "table-column-center",
                 width:'15%',
+                render: (data) =><div>{formatDates(data)}</div>
             },           
             {
                 title: "바이크 종류",
@@ -148,6 +150,7 @@ class fixHistoryDialog extends Component {
                 dataIndex: "totalHours",
                 className: "table-column-center",
                 width:'10%',
+                render:(data) => <div>{data} 일</div>
             },
             {
                 title: "정비자",
