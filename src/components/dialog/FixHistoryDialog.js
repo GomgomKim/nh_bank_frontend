@@ -9,6 +9,7 @@ import { httpGet, httpUrl, httpPost } from "../../api/httpClient";
 // import Modal from "antd/lib/modal/Modal";
 import { customAlert, customError, updateError } from "../../api/Modals";
 import { formatDates } from "../../lib/util/dateUtil";
+import { bikeType } from "../../lib/util/codeUtil";
 
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -95,6 +96,7 @@ class fixHistoryDialog extends Component {
       };
       closeRegistFixDialog = () => {
         this.setState({ isRegistFixOpen: false });
+        this.getList()
       };
 
     //정비이력 수정 모달
@@ -107,6 +109,7 @@ class fixHistoryDialog extends Component {
 
       closeModifyFixDialogModal = () => {
         this.setState({ modifyFixDialogOpen: false });
+        this.getList()
       };
 
     render() {
@@ -126,6 +129,7 @@ class fixHistoryDialog extends Component {
                 dataIndex: "modelName",
                 className: "table-column-center",
                 width:'10%',
+                render: (data) => <div>{bikeType[data]}</div>
             },
             {
                 title: "바이크 넘버",

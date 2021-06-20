@@ -13,6 +13,8 @@ import {
 } from "../../lib/util/dateUtil";
 import SelectBox from "../../components/input/SelectBox";
 import { deletedStatus } from '../../lib/util/codeUtil';
+import { customAlert, customError, updateError } from "../../api/Modals";
+
 
 
 const Search = Input.Search;
@@ -23,6 +25,7 @@ class Notice extends Component {
         super(props);
         this.state = {
             modifyNoticeDialog: false, //수정
+            isRegistNoticeDialogOpen: false,
             pagination: {
                 total: 0,
                 current: 1,
@@ -34,6 +37,8 @@ class Notice extends Component {
             endDate: "",
             startDate: "",
             title: "",
+            showContent: 0,
+
         };
         this.formRef = React.createRef();
     }
@@ -53,21 +58,90 @@ class Notice extends Component {
     };
 
 
+    // 등록 dialog
+    openRegistNoticeDialogModal = () => {
+        this.setState({ isRegistNoticeDialogOpen: true });
+    };
+
+    closeRegistNoticeDialogModal = () => {
+        this.setState({ isRegistNoticeDialogOpen: false });
+        this.getList()
+    }
+    
     // 수정 dialog
-    openModifyNoticeDialogModal = () => {
-        this.setState({ modifyNoticeDialogOpen: true });
+    openModifyNoticeDialogModal = (row) => {
+        this.setState({
+            modifyNoticeDialogOpen: true,
+            noticeData: row
+        });
     };
     closeModifyNoticeDialogModal = () => {
         this.setState({ modifyNoticeDialogOpen: false });
+        this.getList()
     };
+
     //삭제 알림창
-    delete = () => {
-        // Modal.Confirm({
-        //     title: <div> 공지 삭제</div>,
-        //     content: <div> 해당 공지를 삭제하시곘습니까? </div>
-        // })
-        alert('공지사항을 삭제합니다.')
-    };
+    onDelete = (row) => {
+        let self = this;
+        if (row.deleted === 0) {
+        Modal.confirm({
+          title:"공지사항 삭제",
+          content: "해당 공지사항을 삭제하시겠습니까?",
+          okText: "확인",
+          cancelText:"취소",
+          onOk() {
+            httpPost(httpUrl.updateNotice, [], {
+              // category:row.category,
+              // important:row.important,
+              // title:row.title,
+             // sortOrder:row.sortOrder,
+             // content:row.content,
+             // // name: this.formRef.current.getFieldsValue().surchargeName,
+             // // extraPrice: this.formRef.current.getFieldsValue().feeAdd,
+             // branchCode: self.state.branchCode,
+             // createDate: formatDateSecond(row.createDate),
+             deleted: 1,
+             // name: this.formRef.current.getFieldsValue().surchargeName,
+             // extraPrice: this.formRef.current.getFieldsValue().feeAdd,
+             // deleteDate: formatDateSecond(today),
+             // readDate: row.readDate,
+             idx: row.idx,
+            })
+          .then((result) => {
+            if(result.result === "SUCCESS" && result.data === "SUCCESS"){
+            customAlert("완료", "해당공지사항을 삭제합니다.")      
+          }
+            else updateError()
+            self.getList();
+          })
+          .catch((error) => {
+            customError("삭제오류", "에러가 발생하였습니다. 다시 시도해주세요.") 
+          });
+      }});
+    }
+      else {
+        Modal.confirm({
+          title:"공지사항 재공지",
+          content: "해당 공지사항을 재공지하시겠습니까?",
+          okText: "확인",
+          cancelText:"취소",
+          onOk() {
+            httpPost(httpUrl.updateNotice, [], {
+             deleted: 0,
+             idx: row.idx,
+            })
+          .then((result) => {
+            if(result.result === "SUCCESS" && result.data === "SUCCESS"){
+            customAlert("완료", "해당공지사항을 재공지합니다.") 
+          }
+            else updateError()
+            self.getList();
+          })
+          .catch((error) => {
+            updateError()
+          });
+      }})};
+      }
 
 
     getList = () => {
@@ -123,6 +197,18 @@ class Notice extends Component {
     //     )
     // }
 
+    changeShowContent = (idx) =>{
+        if (this.state.showContent === idx){
+          this.setState({
+            showContent:0
+          })
+        }
+        else
+        this.setState({
+          showContent:idx
+        })
+      }
+
     
     render() {
 
@@ -131,43 +217,62 @@ class Notice extends Component {
                 title: "번호",
                 dataIndex: "idx",
                 className: "table-column-center",
+                width: "10%"
             },
             {
                 title: "제목",
                 dataIndex: "title",
                 className: "table-column-center",
+                render: (data, row) => (
+                    <>
+                    <div
+                    className="noticeTag"
+                    onClick={()=>{this.changeShowContent(row.idx)}}>{data}</div>
+                    {this.state.showContent === row.idx &&
+                      <div className= "table-column-content">
+                        {row.content.split('\n').map(line=>{
+                          return(<span>{line}<br/></span>)
+                        })}
+                      </div>
+                    }
+                    </>
+                  ),
 
             },
-            {
-                title: "내용",
-                dataIndex: "content",
-                className: "table-column-center",
-                // render: (data, row) => <div>{data && data.length > 10 ? data.substr(0, 10) + '...' : data}</div>
-            },
+            // {
+            //     title: "내용",
+            //     dataIndex: "content",
+            //     className: "table-column-center",
+            //     // render: (data, row) => <div>{data && data.length > 10 ? data.substr(0, 10) + '...' : data}</div>
+            // },
             {
                 title: "노출순위",
                 dataIndex: "sortOrder",
                 className: "table-column-center",
+                width: "10%"
             },
             {
                 title: "상태",
                 dataIndex: "deleted",
                 className: "table-column-center",
+                width: "10%",
                 render: (data) => <div>{deletedStatus[data]}</div>
             },
             {
                 title: "등록일",
                 dataIndex: "createDate",
                 className: "table-column-center",
+                width: "15%",
                 render: (data) => <div>{formatDate(data)}</div>
             },
             {
                 title: "수정",
                 dataIndex: "update",
                 className: "table-column-center",
+                width: "6%",
                 render: (data, row) => (
 
-                    <Button onClick={this.openModifyNoticeDialogModal}>
+                    <Button onClick={() => this.openModifyNoticeDialogModal(row)}>
                         수정
                     </Button>
 
@@ -178,10 +283,15 @@ class Notice extends Component {
                 title: "삭제",
                 dataIndex: "delete",
                 className: "table-column-center",
+                width: "6%",
                 render: (data, row) => (
 
-                    <Button onClick={() => { this.delete(row.idx); }}>
-                        삭제
+                    <Button onClick={() => { this.onDelete(row); }}>
+                        {row.deleted === 0 ? (
+                        <div>삭제</div>
+                        ) : (
+                        <div>등록</div>
+                        )}
                     </Button>
 
                 )
@@ -232,15 +342,14 @@ class Notice extends Component {
                     }}
                 />
                 <Button 
-                    onClick={this.openModifyNoticeDialogModal}
+                    onClick={this.openRegistNoticeDialogModal}
                     style={{marginLeft:20}}>
                     공지사항 등록
                 </Button>
                 {/* <Space direction="vertical"> */}
                 <RangePicker
-                    style={{ marginBottom: 20, float: 'right' }}
+                    style={{ width: 300, marginBottom: 20, float: 'right' }}
                     onChange={this.onChangeDate}
-                    showTime={{ format: 'MM:dd' }}
                     placeholder={['시작일', '종료일']}
                     onChange={(_, dateStrings) => {
                         if (dateStrings[0,1]) {
@@ -270,9 +379,17 @@ class Notice extends Component {
                     />
                 {/* </Space> */}
 
+                {this.state.isRegistNoticeDialogOpen &&
+                    <ModifyNoticeDialog
+                        close={this.closeRegistNoticeDialogModal}
+                    />
+                }
+
                 {this.state.modifyNoticeDialogOpen &&
                     <ModifyNoticeDialog
+                        data={this.state.noticeData}
                         close={this.closeModifyNoticeDialogModal}
+                        getList={this.getList}
                     />
                 }
 

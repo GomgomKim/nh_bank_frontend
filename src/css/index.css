@@ -97,6 +97,15 @@ body {
   text-align: left !important;
 }
 
+.table-column-content {
+  text-align: left;
+  border: 1px solid #d1d1d1;
+  background-color: #f5f5f5;
+  margin-bottom: 10px;
+  padding: 10px 15px 10px 20px;
+  word-break: keep-all;
+}
+
 /* notice */
 .detailModal-wrapper {
   /* border: 1px solid #696968; */

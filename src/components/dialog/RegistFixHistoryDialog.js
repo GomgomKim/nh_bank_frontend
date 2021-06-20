@@ -123,9 +123,10 @@ class RegistFixHistoryDialog extends Component {
                                 <div>
                                     <Radio.Group
                                         onChange={(e) => {
-                                        this.setState({ bikeType: e.target.checked}); }} 
+                                        this.setState({ modelName: e.target.checked}); }} 
                                         checked={this.state.modelName}
                                         style={{verticalAlign: '2px'}}
+                                        defaultValue={data ? parseInt(data.modelName): 1}
                                         >
                                         <Radio value={1}>PCX</Radio>
                                         <Radio value={2}>NMAX</Radio>

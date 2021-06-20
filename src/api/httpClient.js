@@ -181,6 +181,8 @@ const httpUrl = {
 
   //공지사항
     noticeList:"/notice/list?endDate=%s&pageNum=%s&pageSize=%s&startDate=%s&title=%s",
+    updateNotice: "/notice/update",
+    registNotice: "/notice/create",
 };
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];

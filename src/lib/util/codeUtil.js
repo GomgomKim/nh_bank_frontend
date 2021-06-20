@@ -37,10 +37,16 @@
    "센터장",
  ]
 
- const deletedStatus = {
-   0: "삭제",
-   1: "등록"
- }
+ const deletedStatus = [
+   "등록",
+   "삭제"
+ ]
+
+ const bikeType = [
+   "",
+   "PCX",
+   "NMAX"
+ ]
 
  export {
     bikeStatus,
@@ -48,6 +54,7 @@
     feeType,
     pgUseRate,
     riderLevel,
-    deletedStatus
+    deletedStatus,
+    bikeType
   };
   
