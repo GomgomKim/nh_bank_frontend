@@ -180,8 +180,7 @@ const httpUrl = {
     updateFixList:"/bike/maintenance/update",
 
   //공지사항
-    noticeList:"/notice/list?pageNum=%s&pageSize=%s",
-    // noticeList:"/notice/list?endDate=%s&pageNum=%s&pageSize=%s&startDate=%s&title=%s",
+    noticeList:"/notice/list?endDate=%s&pageNum=%s&pageSize=%s&startDate=%s&title=%s",
 };
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];

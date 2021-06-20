@@ -12,6 +12,7 @@ import {
     endDateFormat
 } from "../../lib/util/dateUtil";
 import SelectBox from "../../components/input/SelectBox";
+import { deletedStatus } from '../../lib/util/codeUtil';
 
 
 const Search = Input.Search;
@@ -152,6 +153,7 @@ class Notice extends Component {
                 title: "상태",
                 dataIndex: "deleted",
                 className: "table-column-center",
+                render: (data) => <div>{deletedStatus[data]}</div>
             },
             {
                 title: "등록일",
@@ -239,7 +241,33 @@ class Notice extends Component {
                     style={{ marginBottom: 20, float: 'right' }}
                     onChange={this.onChangeDate}
                     showTime={{ format: 'MM:dd' }}
-                    placeholder={['시작일', '종료일']} />
+                    placeholder={['시작일', '종료일']}
+                    onChange={(_, dateStrings) => {
+                        if (dateStrings[0,1]) {
+                          this.setState(
+                            { startDate: dateStrings[0],
+                              endDate: dateStrings[1],
+                            pagination:{
+                              current: 1,
+                              pageSize: 10,
+                            }
+                          }, () => this.getList()
+                            );
+                          }
+                        else {
+                          // console.log('test')
+                          this.setState(
+                            { startDate: "",
+                              endDate: "",
+                            pagination:{
+                              current: 1,
+                              pageSize: 10,
+                            }
+                          }, () => this.getList()
+                          );
+                        }
+                        }}
+                    />
                 {/* </Space> */}
 
                 {this.state.modifyNoticeDialogOpen &&

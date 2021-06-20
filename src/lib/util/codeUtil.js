@@ -37,11 +37,17 @@
    "센터장",
  ]
 
+ const deletedStatus = {
+   0: "삭제",
+   1: "등록"
+ }
+
  export {
     bikeStatus,
     riderGroup,
     feeType,
     pgUseRate,
-    riderLevel
+    riderLevel,
+    deletedStatus
   };
   
