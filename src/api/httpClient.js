@@ -165,7 +165,7 @@ const httpUrl = {
   riderDeliveryList:
     "/delivery/rider/list?pageNum=%s&pageSize=%s&riderName=%s&riderPhone=%s&searchMonth=%s",
   staffDeliveryList:
-    "/delivery/staff/list?pageNum=%s&pageSize=%s&searchMonth=%s&staffName=%s&staffPhone=%s",
+    "/delivery/staff/list?categories=2&categories=3&categories=5&pageNum=%s&pageSize=%s&searchMonth=%s&staffName=%s&staffPhone=%s",
 
   // 가맹점
   franchiseList:
@@ -173,6 +173,11 @@ const httpUrl = {
   updateFranchise:
     "/fr/update",
   
+    //바이크
+    bikeFixHistoryList:"/bike/maintenance/list?pageNum=%s&pageSize=%s",
+    deleteFixList:"/bike/maintenance/delete",
+    registFixList:"/bike/maintenance/create",
+    updateFixList:"/bike/maintenance/update",
 };
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];

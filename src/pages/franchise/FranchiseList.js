@@ -41,7 +41,7 @@ class FranchiseList extends Component {
     // 수정 dialog
     openModifyFranDialogModal = (row) => {
         this.setState({ 
-            modifyFranDialogOpen: true, 
+            modifyFranDialogOpen: true,
             franchiseData: row
         });
     };

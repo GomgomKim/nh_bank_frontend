@@ -144,7 +144,7 @@ class DeliveryHistoryEmployee extends Component {
       },
       {
         title: "추가 인센티브",
-        dataIndex: "overCallIncen",
+        dataIndex: "additionalIncenAmount",
         className: "table-column-center",
         width: "8%",
         render: (data) => <div>{comma(data)} 원</div>,

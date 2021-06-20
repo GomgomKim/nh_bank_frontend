@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import {
-    Form, Input, Table, Button, Select, Radio, Checkbox, DatePicker , 
+    Form, Input, Table, Button, Select, Radio, Checkbox, DatePicker , Modal
 } from "antd";
 import { comma } from "../../lib/util/numberUtil";
 import moment from "moment";
 import '../../css/main.css';
+import { httpUrl, httpPost } from "../../api/httpClient";
+import { customAlert, customError, updateError } from "../../api/Modals";
 
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -33,6 +35,50 @@ class RegistFixHistoryDialog extends Component {
         }
     }
 
+    handleSubmit = () => {
+        let self = this;
+        let { data } = this.props;
+        console.log(data)
+        Modal.confirm({
+            title: <div> {data ? "이력 수정" : "이력 등록" } </div>,
+            content:  
+            <div> {data ? '정비이력을 수정하시겠습니까?' : '새 정비이력을 등록하시겠습니까?'} </div>,
+            okText: "확인",
+            cancelText: "취소",
+          onOk() {
+              data ?
+            httpPost(httpUrl.updateFixList, [], {
+              ...self.formRef.current.getFieldsValue(),
+              idx: data.idx,
+            }).then((result) => {
+              console.log(result)
+              if(result.result === "SUCCESS" && result.data === "SUCCESS"){
+                customAlert("완료", "정비이력이 수정되었습니다.")
+              }
+              else updateError()
+              self.props.close()
+            }).catch((error) => {
+              updateError()
+            })
+
+              :
+
+              httpPost(httpUrl.registFixList, [], {
+                ...self.formRef.current.getFieldsValue(),
+                bikeIdx: this.state.bikeIdx,
+              }).then((result) => {
+                  if(result.result === "SUCCESS" && result.data === "SUCCESS"){
+                    customAlert("완료", "정비이력이 등록되었습니다.")
+                  }
+                  else updateError()
+                self.props.close()
+              }).catch((error) => {
+                updateError()
+              })
+          }
+        })
+        }
+
     render() {
 
         const { close, data } = this.props;
@@ -51,13 +97,13 @@ class RegistFixHistoryDialog extends Component {
                         <img onClick={close} src={require('../../img/close.png').default} className="dialog-close" alt="exit" />                       
                        
                         <div className="dialog-inner">
-
+                        <Form ref={this.formRef} onFinish={this.handleSubmit}>
                             <div className="dialog-block">
 
                                 <div> 날짜 </div>
 
                                 <div>
-                                <FormItem name="payDate" className="selectItem">
+                                <FormItem name="startDate" className="selectItem">
                                     <DatePicker
                                     style={{ width: 250,}}
                                     defaultValue={moment(today, dateFormat)}
@@ -78,7 +124,7 @@ class RegistFixHistoryDialog extends Component {
                                     <Radio.Group
                                         onChange={(e) => {
                                         this.setState({ bikeType: e.target.checked}); }} 
-                                        checked={this.state.bikeType}
+                                        checked={this.state.modelName}
                                         style={{verticalAlign: '2px'}}
                                         >
                                         <Radio value={1}>PCX</Radio>
@@ -94,8 +140,8 @@ class RegistFixHistoryDialog extends Component {
 
                                 <div>
                                     <FormItem 
-                                        name="bikeNum"
-                                        initialValue={data && data.bikeNum}>
+                                        name="bikeNumber"
+                                        initialValue={data && data.bikeNumber}>
                                         <Input 
                                             placeholder="바이크 넘버를 입력해 주세요."
                                             style={{width: 250}}/>
@@ -110,8 +156,8 @@ class RegistFixHistoryDialog extends Component {
 
                                 <div>
                                     <FormItem 
-                                        name="fixDetail"
-                                        initialValue={data && data.fixDetail}>
+                                        name="content"
+                                        initialValue={data && data.content}>
                                         <Input 
                                             placeholder="정비사항을 입력해 주세요."
                                             style={{width: 250}}/>
@@ -126,8 +172,8 @@ class RegistFixHistoryDialog extends Component {
 
                                 <div>
                                     <FormItem 
-                                        name="fixReason"
-                                        initialValue={data && data.fixReason}>
+                                        name="reason"
+                                        initialValue={data && data.reason}>
                                         <Input 
                                             placeholder="정비사유를 입력해 주세요."
                                             style={{width: 250}}/>
@@ -141,8 +187,8 @@ class RegistFixHistoryDialog extends Component {
 
                             <div>
                                 <FormItem 
-                                    name="fixPeriod"
-                                    initialValue={data && data.fixPeriod}>
+                                    name="totalHours"
+                                    initialValue={data && data.totalHours}>
                                     <Input 
                                         placeholder="소요기간을 입력해 주세요."
                                         style={{width: 250}}/>
@@ -156,8 +202,8 @@ class RegistFixHistoryDialog extends Component {
 
                             <div>
                                 <FormItem 
-                                    name="fixManager"
-                                    initialValue={data && data.fixManager}>
+                                    name="worker"
+                                    initialValue={data && data.worker}>
                                     <Input 
                                         placeholder="정비자를 입력해 주세요."
                                         style={{width: 250}}/>
@@ -177,11 +223,11 @@ class RegistFixHistoryDialog extends Component {
                                         fontSize: 16,
                                         marginTop: 20,
                                     }} 
-                                    onClick={{}}
                                 >                                    
-                                    등록하기
+                                    {data ? "수정하기" : "등록하기"}
                                 </Button>
                             </div>
+                        </Form>
 
                         </div>
                     </div>
