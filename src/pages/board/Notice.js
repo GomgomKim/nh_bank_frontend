@@ -266,7 +266,6 @@ class Notice extends Component {
                 render: (data) => <div>{formatDate(data)}</div>
             },
             {
-                title: "수정",
                 dataIndex: "update",
                 className: "table-column-center",
                 width: "6%",
@@ -280,7 +279,6 @@ class Notice extends Component {
 
             },
             {
-                title: "삭제",
                 dataIndex: "delete",
                 className: "table-column-center",
                 width: "6%",

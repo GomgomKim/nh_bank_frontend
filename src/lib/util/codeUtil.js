@@ -42,11 +42,10 @@
    "삭제"
  ]
 
- const bikeType = [
-   "",
-   "PCX",
-   "NMAX"
- ]
+ const bikeType = {
+   1:"PCX",
+   2:"NMAX"
+ }
 
  export {
     bikeStatus,

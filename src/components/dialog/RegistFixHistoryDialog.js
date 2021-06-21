@@ -7,6 +7,7 @@ import moment from "moment";
 import '../../css/main.css';
 import { httpUrl, httpPost } from "../../api/httpClient";
 import { customAlert, customError, updateError } from "../../api/Modals";
+import { bikeType } from "../../lib/util/codeUtil";
 
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -116,26 +117,42 @@ class RegistFixHistoryDialog extends Component {
 
                             </div>
 
-                            <div className="dialog-block">
+                            {/* <div className="dialog-block">
 
                                 <div> 바이크 종류 </div>
 
                                 <div>
                                     <Radio.Group
+                                        name="modelName"
                                         onChange={(e) => {
-                                        this.setState({ modelName: e.target.checked}); }} 
-                                        checked={this.state.modelName}
+                                        this.setState({ modelName: e.target.value}); }}
                                         style={{verticalAlign: '2px'}}
                                         defaultValue={data ? parseInt(data.modelName): 1}
                                         >
                                         <Radio value={1}>PCX</Radio>
                                         <Radio value={2}>NMAX</Radio>
                                     </Radio.Group>
+                                    <Radio.Group
+                                        className="searchRequirement"
+                                        onChange={(e) => {
+                                            this.setState({ modelName: e.target.value}); }}
+                                        value={this.state.modelName}
+                                        defaultValue={data ? parseInt(data.modelName): 1}
+                                        style={{verticalAlign: '2px'}}
+                                    >
+                                        {Object.entries(bikeType).map(([key, value]) => {
+                                            return (
+                                            <Radio value={parseInt(key)}>
+                                                {value}
+                                            </Radio>
+                                            );
+                                        })}
+                                    </Radio.Group>
                                 </div>                               
-                            </div>
+                            </div> */}
                             
 
-                            <div className="dialog-block">
+                            {/* <div className="dialog-block">
 
                                 <div> 바이크 넘버 </div>
 
@@ -149,7 +166,7 @@ class RegistFixHistoryDialog extends Component {
                                     </FormItem>                               
                                 </div>
 
-                            </div>
+                            </div> */}
 
                             <div className="dialog-block">
 
