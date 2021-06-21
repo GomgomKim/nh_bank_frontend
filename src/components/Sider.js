@@ -172,7 +172,7 @@ class Sider extends React.Component {
               <Link exact="true" to="/deposit/DepositPaymentHistory">
                 {/* <Icon type={child.icon} theme="outlined"
                               /> */}
-                <span className="nav-text">예치금 지급내역</span>
+                <span className="nav-text">예치금 내역</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="DEPOSIT_WITHDRAW_HISTORY">

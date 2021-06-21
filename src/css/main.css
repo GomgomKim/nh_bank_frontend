@@ -31,7 +31,6 @@
   padding: 20px;
 }
 
-
 /* 배달내역관리 */
 
 .top-menu {
@@ -359,10 +358,31 @@ div:nth-child(2) {
   padding: 10px;
 }
 
-.deposit-inner .mainTitle{
-  width:100px;
+.deposit-inner .mainTitle {
+  width: 100px;
 }
+.serach-input {
+  display: inline-block;
+  margin-bottom: 24px;
+  padding-left: 30px;
+}
+/* .serach-input > .ant-input {
+  display: inline-block;
+  width: 150px;
+} */
+/* 라이더 & 가맹점 조회 dialog */
 
+.deposit-inner > .searchRider-Input {
+  width: 200px;
+  margin-bottom: 20px;
+}
+.searchRider-table {
+  width: 350px;
+}
+.deposit-inner > .searchRider-table .ant-table-thead > tr > th {
+  line-height: 16px;
+  padding: 10px;
+}
 /*메뉴권한설정*/
 
 .systemKey-Dialog {

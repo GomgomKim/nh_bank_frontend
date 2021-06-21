@@ -32,10 +32,17 @@
    "센터장",
  ]
 
+//  예치금 지급
+const searchType =[
+  "라이더",
+  "가맹점"
+]
+
  export {
     bikeStatus,
     riderGroup,
     feeType,
-    riderLevel
+    riderLevel,
+    searchType,
   };
   

@@ -45,22 +45,22 @@ class DepositPaymentHistory extends Component {
     getList = () => {
         var list = [
             {
-                idx: '배지현',
+                idx: 'apple2021',
                 payPrice: 20000,
                 payDate: '2021-06-02',
             },
             {
-                idx: '배지현',
+                idx: 'galaxy644',
                 payPrice: 20000,
                 payDate: '2021-06-02',
             },
             {
-                idx: '배지현',
+                idx: 'nokia1230',
                 payPrice: 20000,
                 payDate: '2021-06-02',
             },
             {
-                idx: '배지현',
+                idx: 'huawei444',
                 payPrice: 20000,
                 payDate: '2021-06-02',
             }
@@ -76,7 +76,7 @@ class DepositPaymentHistory extends Component {
 
         const columns = [
             {
-                title: "이름",
+                title: "아이디",
                 dataIndex: "idx",
                 className: "table-column-center",
 
@@ -98,7 +98,7 @@ class DepositPaymentHistory extends Component {
         return (
             <>
 
-                <Radio.Group onChange={this.onChange} style={{ marginTop: 5 }}>
+                <Radio.Group defaultValue={1} onChange={this.onChange} style={{ marginTop: 5 }}>
                     <Radio value={1}>라이더</Radio>
                     <Radio value={2}>가맹점</Radio>
                 </Radio.Group>
