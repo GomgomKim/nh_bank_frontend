@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import {
-    Form, Input, Table, Button, Select, Radio, Checkbox, Textarea 
+    Form, Input, Table, Button, Select, Radio, Checkbox, Textarea, Modal
 } from "antd";
 import { comma } from "../../lib/util/numberUtil";
 import '../../css/main.css';
 import RegistFixHistoryDialog from "../../components/dialog/RegistFixHistoryDialog";
+import { httpGet, httpUrl, httpPost } from "../../api/httpClient";
+// import Modal from "antd/lib/modal/Modal";
+import { customAlert, customError, updateError } from "../../api/Modals";
+import { formatDates } from "../../lib/util/dateUtil";
+import { bikeType } from "../../lib/util/codeUtil";
 
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -21,6 +26,8 @@ class fixHistoryDialog extends Component {
                 pageSize: 5,
             },
             isRegistFixOpen: false,
+            fixBikeData: [],
+            modifyFixDialogOpen: false,
         };
         this.formRef = React.createRef();
     }
@@ -28,40 +35,46 @@ class fixHistoryDialog extends Component {
     componentDidMount() {
         this.getList()
     }
+
     getList = () => {
-        var list = [
-            {           
-                fixData: '2021-06-05',
-                bikeType: 'PCX',
-                bikeNum: '10호',
-                fixDetail: '타이어 교체',
-                fixReason: '타이어 노후로 인한 펑크',
-                fixPeriod: '1일',
-                fixManager: '구아무개',              
-            },
-            {           
-                fixData: '2021-05-31',
-                bikeType: 'NMAX',
-                bikeNum: '10호',
-                fixDetail: '사이드 미러 교체',
-                fixReason: '주행 중 넘어짐',
-                fixPeriod: '1일',
-                fixManager: '최아무개',               
-            },
-            {           
-                fixData: '2021-04-31',
-                bikeType: 'PCX',
-                bikeNum: '10호',
-                fixDetail: '사이드 미러 교체',
-                fixReason: '주행 중 넘어짐',
-                fixPeriod: '1일',
-                fixManager: '최아무개',               
-            },
-        ];
-        this.setState({
-            list: list,
+        let pageNum = this.state.pagination.current;
+        let pageSize = this.state.pagination.pageSize;
+        httpGet(httpUrl.bikeFixHistoryList, [pageNum, pageSize],{})
+        .then((res)=>{
+            console.log(JSON.stringify(res, null, 4))
+            const pagination = {...this.state.pagination};
+            pagination.current = res.data.currentPage;
+            pagination.total = res.data.totalCount;
+            this.setState({
+                list: res.data.bikeMaintenances,
+                pagination,
+            });
         });
     }
+
+    onDelete = (row) => {
+        let self = this;
+        Modal.confirm({
+            title:"정비이력 삭제",
+            content:"해당 이력을 삭제하시겠습니까?",
+            okText:"확인",
+            cancelText:"취소",
+            onOk() {
+                httpPost(httpUrl.deleteFixList,[],{idx:row.idx})
+                .then((result)=>{
+                    if(result.result === "SUCCESS" && result.data === "SUCCESS"){
+                        customAlert("완료", "해당 이력을 삭제합니다.")      
+                      }
+                        else updateError()
+                        self.getList();
+                })
+                .catch((error) => {
+                    customError("삭제오류", "에러가 발생하였습니다. 다시 시도해주세요.") 
+                  });
+            }
+        });
+    }
+
     handleTableChange = (pagination) => {
         const pager = {
           ...this.state.pagination,
@@ -83,6 +96,20 @@ class fixHistoryDialog extends Component {
       };
       closeRegistFixDialog = () => {
         this.setState({ isRegistFixOpen: false });
+        this.getList()
+      };
+
+    //정비이력 수정 모달
+      openModifyFixDialogModal = (row) => {
+        this.setState({ 
+            modifyFixDialogOpen: true, 
+            fixBikeData: row
+        });
+      };
+
+      closeModifyFixDialogModal = () => {
+        this.setState({ modifyFixDialogOpen: false });
+        this.getList()
       };
 
     render() {
@@ -92,43 +119,46 @@ class fixHistoryDialog extends Component {
         const columns = [
             {
                 title: "날짜",
-                dataIndex: "fixData",
+                dataIndex: "startDate",
                 className: "table-column-center",
                 width:'15%',
+                render: (data) =><div>{formatDates(data)}</div>
             },           
             {
                 title: "바이크 종류",
-                dataIndex: "bikeType",
+                dataIndex: "modelName",
                 className: "table-column-center",
                 width:'10%',
+                render: (data) => <div>{bikeType[data]}</div>
             },
             {
                 title: "바이크 넘버",
-                dataIndex: "bikeNum",
+                dataIndex: "bikeNumber",
                 className: "table-column-center",
                 width:'10%',
             },
             {
                 title: "정비사항",
-                dataIndex: "fixDetail",
+                dataIndex: "content",
                 className: "table-column-center",
                 width:'20%',
             },
             {
                 title: "정비사유",
-                dataIndex: "fixReason",
+                dataIndex: "reason",
                 className: "table-column-center",
                 width:'25%',
             },
             {
                 title: "소요기간",
-                dataIndex: "fixPeriod",
+                dataIndex: "totalHours",
                 className: "table-column-center",
                 width:'10%',
+                render:(data) => <div>{data} 일</div>
             },
             {
                 title: "정비자",
-                dataIndex: "fixManager",
+                dataIndex: "worker",
                 className: "table-column-center",
                 width:'10%',
             },   
@@ -139,7 +169,7 @@ class fixHistoryDialog extends Component {
                 width:'10%',
                 render: (data, row) => (
                     <div>
-                    <Button onClick={this.openRegistFixDialog}>
+                    <Button onClick={() => this.openModifyFixDialogModal(row)}>
                         수정
                     </Button>
                     </div>
@@ -152,7 +182,7 @@ class fixHistoryDialog extends Component {
                 width: '10%',
                 render: (data, row) => (
                   <div>            
-                    <Button onClick={() => {}}>
+                    <Button onClick={() => {this.onDelete(row)}}>
                       삭제
                     </Button>
                   </div>
@@ -179,8 +209,16 @@ class fixHistoryDialog extends Component {
                             <div className="fixHistory-btn">  
 
                             {this.state.isRegistFixOpen && (
-                                    <RegistFixHistoryDialog close={this.closeRegistFixDialog} />
-                                )}
+                                <RegistFixHistoryDialog close={this.closeRegistFixDialog} />
+                            )}
+                                                
+                            {this.state.modifyFixDialogOpen &&
+                                <RegistFixHistoryDialog
+                                    data={this.state.fixBikeData}
+                                    close={this.closeModifyFixDialogModal}
+                                    getList={this.getList}
+                                />
+                            }
 
                                 <Button 
                                     style={{ 
@@ -203,7 +241,7 @@ class fixHistoryDialog extends Component {
                                     className="selectItem"
                                     >
                                     <Table
-                                    rowKey={(record) => record}
+                                    rowKey={(record) => record.idx}
                                     dataSource={this.state.list}
                                     columns={columns}
                                     pagination={this.state.pagination}

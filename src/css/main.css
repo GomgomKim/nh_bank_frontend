@@ -383,6 +383,15 @@ div:nth-child(2) {
   line-height: 16px;
   padding: 10px;
 }
+/* 홈페이지공지 */
+.noticeTag {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
 /*메뉴권한설정*/
 
 .systemKey-Dialog {

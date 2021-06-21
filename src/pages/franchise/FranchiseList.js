@@ -6,18 +6,15 @@ import ModifyFranDialog from "../../components/dialog/ModifyFranDialog";
 import FranFeeDialog from "../../components/dialog/FranFeeDialog";
 import ChargeDialog from "../../components/dialog/ChargeDialog";
 import '../../css/main.css';
-
-
-
 const Search = Input.Search;
 const RangePicker = DatePicker.RangePicker;
-
 class FranchiseList extends Component {
 
 
     constructor(props) {
         super(props);
         this.state = {
+            list: [],
             franFeeDialog: false, //가맹비내역
             modifyFranDialog: false, //수정
             chargeDialog: false, //충전내역
@@ -26,7 +23,9 @@ class FranchiseList extends Component {
                 current: 1,
                 pageSize: 10,
             },
-            list: [],
+            frName: "",
+            branchName: "",
+            franchiseData: [], //가맹점 수정 데이터
         };
     }
 
@@ -40,8 +39,11 @@ class FranchiseList extends Component {
 
 
     // 수정 dialog
-    openModifyFranDialogModal = () => {
-        this.setState({ modifyFranDialogOpen: true });
+    openModifyFranDialogModal = (row) => {
+        this.setState({ 
+            modifyFranDialogOpen: true,
+            franchiseData: row
+        });
     };
     closeModifyFranDialogModal = () => {
         this.setState({ modifyFranDialogOpen: false });
@@ -61,70 +63,75 @@ class FranchiseList extends Component {
         this.setState({ chargeDialogOpen: false });
     };
 
-
     getList = () => {
-        var list = [
-            {
-                branchName: '김포점',
-                franIdx: '냠냠박스 1지점',
-                franNum: '02-222-3333',
-                franAddr: '서울시 논현동 111-22, 3층',
-                van: '12343453463',
-                pgInfo: '사용',
-                pgPercent: '100%',
-            },
-            {
-                branchName: '김포점',
-                franIdx: '냠냠박스 2지점',
-                franNum: '02-222-3333',
-                franAddr: '서울시 논현동 111-22, 3층',
-                van: '12343453463',
-                pgInfo: '사용',
-                pgPercent: '0%',
-            },
-            {
-                branchName: '김포점',
-                franIdx: '냠냠박스 3지점',
-                franNum: '02-222-3333',
-                franAddr: '서울시 논현동 111-22, 3층',
-                van: '12343453463',
-                pgInfo: '사용',
-                pgPercent: '100%',
-            },
-            {
-                branchName: '김포점',
-                franIdx: '냠냠박스 4지점',
-                franNum: '02-222-3333',
-                franAddr: '서울시 논현동 111-22, 3층',
-                van: '12343453463',
-                pgInfo: '사용',
-                pgPercent: '0%',
-            },
-            {
-                branchName: '김포점',
-                franIdx: '냠냠박스 5지점',
-                franNum: '02-222-3333',
-                franAddr: '서울시 논현동 111-22, 3층',
-                van: '12343453463',
-                pgInfo: '사용',
-                pgPercent: '0%',
-            },
-            {
-                branchName: '김포점',
-                franIdx: '냠냠박스 6지점',
-                franNum: '02-222-3333',
-                franAddr: '서울시 논현동 111-22, 3층',
-                van: '12343453463',
-                pgInfo: '사용',
-                pgPercent: '0%',
-            },
-        ];
-
-        this.setState({
-            list: list,
+        const pagination = this.state.pagination;
+        httpGet(
+          httpUrl.franchiseList,
+          [
+            this.state.branchName,
+            this.state.frName,
+            pagination.current,
+            pagination.pageSize,
+          ],
+          {}
+        ).then((res) => {
+        // alert(JSON.stringify(res))
+          if (res.result === "SUCCESS") {
+            this.setState({
+              list: res.data.franchises,
+              pagination: {
+                ...this.state.pagination,
+                current: res.data.currentPage,
+                total: res.data.totalCount,
+              },
+            });
+          }
         });
-    }
+      };
 
+    handleTableChange = (pagination) => {
+        const pager = {
+          ...this.state.pagination,
+        };
+        pager.current = pagination.current;
+        pager.pageSize = pagination.pageSize;
+        this.setState(
+          {
+            pagination: pager,
+          },
+          () => this.getList()
+        );
+      };
+
+    onSearchFranchse = (value) => {
+        this.setState(
+          {
+            frName: value,
+            pagination:{
+                current: 1,
+                pageSize: 10,
+              }
+          },
+          () => {
+            this.getList();
+          }
+        );
+    };
+
+    onSearchBranch = (value) => {
+        this.setState(
+          {
+            branchName: value,
+            pagination:{
+                current: 1,
+                pageSize: 10,
+              }
+          },
+          () => {
+            this.getList();
+          }
+        );
+    };
 
     render() {
 
@@ -133,55 +140,43 @@ class FranchiseList extends Component {
                 title: "지점명",
                 dataIndex: "branchName",
                 className: "table-column-center",
-
             },
 
             {
                 title: "가맹점명",
-                dataIndex: "franIdx",
+                dataIndex: "frName",
                 className: "table-column-center",
-
             },
             {
                 title: "가맹점번호",
-                dataIndex: "franNum",
+                dataIndex: "frPhone",
                 className: "table-column-center",
-
             },
             {
                 title: "가맹점주소",
-                dataIndex: "franAddr",
+                // dataIndex: "franAddr",
                 className: "table-column-center",
-
+                render: (data, row) => <div>{row.addr1 + row.addr2}</div>,
             },
             {
                 title: "VAN",
-                dataIndex: "van",
+                dataIndex: "vanNumber",
                 className: "table-column-center",
-
             },
             {
-                title: "PG정보",
-                dataIndex: "pgInfo",
+                title: "PG 사용비율",
+                dataIndex: "tidNormalRate",
                 className: "table-column-center",
-
-            },
-            {
-                title: "PG사용비율",
-                dataIndex: "pgPercent",
-                className: "table-column-center",
-
+                render: (data) => <div>{data == 0 ? '미사용' : '사용'}</div>,
             },
             {
                 title: "가맹비내역",
                 dataIndex: "franFeeList",
                 className: "table-column-center",
                 render: (data, row) => (
-
                     <Button onClick={this.openFranFeeDialogModal}>
                         가맹비내역
                     </Button>
-
                 )
 
             },
@@ -194,34 +189,28 @@ class FranchiseList extends Component {
                     <Button onClick={this.openChargeDialogModal}>
                         충전내역
                     </Button>
-
                 )
-
             },
             {
                 title: "수정",
                 dataIndex: "update",
                 className: "table-column-center",
                 render: (data, row) => (
-
-                    <Button onClick={this.openModifyFranDialogModal}>
+                    <Button onClick={() => this.openModifyFranDialogModal(row)}>
                         수정
                     </Button>
-
                 )
-
             },
 
-
-
         ];
+
         return (
             <>
                 <Search
                     placeholder="지점명 검색"
                     enterButton
                     allowClear
-                    onSearch={this.onSearch}
+                    onSearch={this.onSearchBranch}
                     style={{
                         width: 220,
                     }}
@@ -230,7 +219,7 @@ class FranchiseList extends Component {
                     placeholder="가맹점 검색"
                     enterButton
                     allowClear
-                    onSearch={this.onSearch}
+                    onSearch={this.onSearchFranchse}
                     style={{
                         width: 220,
                         marginLeft: 20
@@ -244,7 +233,9 @@ class FranchiseList extends Component {
 
                 {this.state.modifyFranDialogOpen &&
                     <ModifyFranDialog
+                        data={this.state.franchiseData}
                         close={this.closeModifyFranDialogModal}
+                        getList={this.getList}
                     />
                 }
 

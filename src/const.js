@@ -1,4 +1,5 @@
 export default {
+  appName: 'nnboxAdmin',
 
   /////////////////////////개발/////////////////////////////
   appName: 'nnboxAdmin',

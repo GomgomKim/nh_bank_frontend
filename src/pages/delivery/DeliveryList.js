@@ -46,6 +46,32 @@ class DeliveryList extends Component {
     httpGet(
       httpUrl.deliveryList,
       [
+        this.state.frName,
+        this.state.frPhone,
+        pagination.current,
+        pagination.pageSize,
+        this.state.riderName,
+      ],
+      {}
+    ).then((res) => {
+      if (res.result === "SUCCESS") {
+        this.setState({
+          list: res.data.orders,
+          pagination: {
+            ...this.state.pagination,
+            current: res.data.currentPage,
+            total: res.data.totalCount,
+          },
+        });
+      }
+    });
+  };
+
+  getSearchList = () => {
+    const pagination = this.state.pagination;
+    httpGet(
+      httpUrl.deliverySearchList,
+      [
         this.state.endDate,
         this.state.frName,
         this.state.frPhone,
@@ -68,6 +94,7 @@ class DeliveryList extends Component {
       }
     });
   };
+
   handleTableChange = (pagination) => {
     const pager = {
       ...this.state.pagination,
@@ -88,7 +115,7 @@ class DeliveryList extends Component {
         current: 1,
         pageSize: 10,
       }
-    }, () => this.getList());
+    }, () => {this.state.startDate === "" ? this.getList(): this.getSearchList()});
   }
 
   render() {
@@ -108,10 +135,10 @@ class DeliveryList extends Component {
       },
       {
         title: "도착지",
-        dataIndex: "destAddr1",
+        // dataIndex: "destAddr1",
         className: "table-column-center",
         width: "15%",
-        render: (data) => <div className="table-column-left">{data}</div>,
+        render: (data, row) => <div className="table-column-left">{row.destAddr1 + " " + row.destAddr2}</div>,
       },
       {
         title: "가맹점",
@@ -142,28 +169,28 @@ class DeliveryList extends Component {
         dataIndex: "orderPrice",
         className: "table-column-center",
         width: "8%",
-        render: (data) => <div>{comma(data)}</div>,
+        render: (data) => <div>{comma(data)} 원</div>,
       },
       {
         title: "기본배달요금",
         dataIndex: "basicDeliveryPrice",
         className: "table-column-center",
         width: "8%",
-        render: (data) => <div>{comma(data)}</div>,
+        render: (data) => <div>{comma(data)} 원</div>,
       },
       {
         title: "할증배달요금",
         dataIndex: "extraDeliveryPrice",
         className: "table-column-center",
         width: "8%",
-        render: (data) => <div>{comma(data)}</div>,
+        render: (data) => <div>{comma(data)} 원</div>,
       },
       {
         title: "총배달요금",
         dataIndex: "deliveryPrice",
         className: "table-column-center",
         width: "8%",
-        render: (data) => <div>{comma(data)}</div>,
+        render: (data) => <div>{comma(data)} 원</div>,
       },
     ];
 
@@ -215,7 +242,31 @@ class DeliveryList extends Component {
         <RangePicker
           style={{ width: 300, float: "right", marginRight: 10 }}
           placeholder={["시작일", "종료일"]}
-          onChange={this.onChangeDate}
+          onChange={(_, dateStrings) => {
+            if (dateStrings[0,1]) {
+              this.setState(
+                { startDate: dateStrings[0],
+                  endDate: dateStrings[1],
+                pagination:{
+                  current: 1,
+                  pageSize: 10,
+                }
+              }, () => this.getSearchList()
+                );
+              }
+            else {
+              // console.log('test')
+              this.setState(
+                { startDate: "",
+                  endDate: "",
+                pagination:{
+                  current: 1,
+                  pageSize: 10,
+                }
+              }, () => this.getList()
+              );
+            }
+            }}
         />
 
         <Table

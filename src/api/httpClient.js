@@ -159,11 +159,30 @@ const httpUrl = {
 
   // 배달내역
   deliveryList:
+    "/delivery/all/list?frName=%s&frPhone=%s&pageNum=%s&pageSize=%s&riderName=%s",
+  deliverySearchList:
     "/delivery/all/list?endDate=%s&frName=%s&frPhone=%s&pageNum=%s&pageSize=%s&riderName=%s&startDate=%s",
   riderDeliveryList:
     "/delivery/rider/list?pageNum=%s&pageSize=%s&riderName=%s&riderPhone=%s&searchMonth=%s",
   staffDeliveryList:
-    "/delivery/staff/list?pageNum=%s&pageSize=%s&searchMonth=%s&staffName=%s&staffPhone=%s",
+    "/delivery/staff/list?categories=2&categories=3&categories=5&pageNum=%s&pageSize=%s&searchMonth=%s&staffName=%s&staffPhone=%s",
+
+  // 가맹점
+  franchiseList:
+    "/fr/list?branchName=%s&frName=%s&pageNum=%s&pageSize=%s",  
+  updateFranchise:
+    "/fr/update",
+  
+  //바이크
+    bikeFixHistoryList:"/bike/maintenance/list?pageNum=%s&pageSize=%s",
+    deleteFixList:"/bike/maintenance/delete",
+    registFixList:"/bike/maintenance/create",
+    updateFixList:"/bike/maintenance/update",
+
+  //공지사항
+    noticeList:"/notice/list?endDate=%s&pageNum=%s&pageSize=%s&startDate=%s&title=%s",
+    updateNotice: "/notice/update",
+    registNotice: "/notice/create",
 };
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];

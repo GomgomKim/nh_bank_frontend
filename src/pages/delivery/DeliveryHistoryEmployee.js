@@ -144,7 +144,7 @@ class DeliveryHistoryEmployee extends Component {
       },
       {
         title: "추가 인센티브",
-        dataIndex: "overCallIncen",
+        dataIndex: "additionalIncenAmount",
         className: "table-column-center",
         width: "8%",
         render: (data) => <div>{comma(data)} 원</div>,
@@ -219,7 +219,7 @@ class DeliveryHistoryEmployee extends Component {
         </Button>
 
         <Table
-          rowKey={(record) => record}
+          rowKey={(record) => record.idx}
           dataSource={this.state.list}
           columns={columns}
           pagination={this.state.pagination}

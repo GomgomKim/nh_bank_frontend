@@ -19,6 +19,11 @@
    5: "E",
  }
 
+ const pgUseRate = {
+  0:"미사용",
+  100:"사용",
+};
+
  const riderLevel = [
    "",
    "라이더",
@@ -37,6 +42,15 @@ const searchType =[
   "라이더",
   "가맹점"
 ]
+ const deletedStatus = [
+   "등록",
+   "삭제"
+ ]
+
+ const bikeType = {
+   1:"PCX",
+   2:"NMAX"
+ }
 
  export {
     bikeStatus,
@@ -44,5 +58,9 @@ const searchType =[
     feeType,
     riderLevel,
     searchType,
+    pgUseRate,
+    riderLevel,
+    deletedStatus,
+    bikeType
   };
   
