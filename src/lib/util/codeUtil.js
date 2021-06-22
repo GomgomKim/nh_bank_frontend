@@ -9,7 +9,7 @@
  const feeType = [
     "정량",
     "정률"
- ]
+ ];
 
  const riderGroup = {
    1: "A",
@@ -17,7 +17,7 @@
    3: "C",
    4: "D",
    5: "E",
- }
+ };
 
  const pgUseRate = {
   0:"미사용",
@@ -37,23 +37,28 @@
    "센터장",
  ]
 
+//  예치금 지급
+const searchType =[
+  "라이더",
+  "가맹점"
+];
  const deletedStatus = [
    "등록",
    "삭제"
- ]
-
+ ];
  const bikeType = {
    1:"PCX",
    2:"NMAX"
- }
+ };
 
  export {
     bikeStatus,
     riderGroup,
     feeType,
-    pgUseRate,
     riderLevel,
+    searchType,
+    pgUseRate,
     deletedStatus,
-    bikeType
+    bikeType,
   };
   

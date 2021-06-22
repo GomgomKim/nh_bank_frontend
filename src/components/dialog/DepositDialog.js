@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import {
-    Form, Input, Table, Button, Select, Radio, Checkbox
+    Form, Input, Table, Button, Select, Radio
 } from "antd";
-import { comma } from "../../lib/util/numberUtil";
+import { searchType } from "../../lib/util/codeUtil";
 import '../../css/main.css';
+import SearchRiderDialog from "../dialog/SearchRiderDialog"
+import SearchFranDialog from "../dialog/SearchFranDialog"
 
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -19,6 +21,15 @@ class DepositDialog extends Component {
                 current: 1,
                 pageSize: 1,
             },
+
+            searchType: 0,
+            openSearchRiderModal : false,
+            selectedRider: null,
+
+            openSearchFranModal : false,
+            selectedFran:null,
+
+            
         };
         this.formRef = React.createRef();
     }
@@ -27,17 +38,32 @@ class DepositDialog extends Component {
         // this.getList()
     }
 
+    onCheckType = (e) => {
+        this.setState({ searchType: e.target.value });
+      };
+    
+    openSearchRiderModal =() => {
+        this.setState({ openSearchRiderModal: true})
+    };
+    closeSerchRiderModal = () => {
+        this.setState({ openSearchRiderModal: false})
+    };
+
+    openSearchFranModal =() => {
+        this.setState({ openSearchFranModal: true})
+    };
+    closeSerchFranModal = () => {
+        this.setState({ openSearchFranModal: false})
+    };
 
     render() {
-
-
-
 
         const { close, data } = this.props;
 
         return (
             <React.Fragment>
                 <div className="Dialog-overlay" onClick={close} />
+
                 <div className="deposit-Dialog">
 
                     <div className="deposit-content">
@@ -47,48 +73,91 @@ class DepositDialog extends Component {
                         </div>
                         <img onClick={close} src={require('../../img/close.png').default} className="dialog-close" alt="img" />
                         <div className="deposit-inner">
-                            <div className="contentBlock">
-                                {/* 
-                                <Radio.Group onChange={this.onChange} style={{ marginTop: 5 }}>
-                                    <Radio value={1}>라이더</Radio>
-                                    <Radio value={2}>가맹점</Radio>
+                            <div className="contentBlock">                                
+                                <Radio.Group
+                                    onChange={this.onCheckType}
+                                    value={this.state.searchType}
+                                    defaultValue={searchType[0]}
+                                    style={{marginRight:19}}>
+
+                                    {Object.entries(searchType).map(([key, value]) => {
+                                    return <Radio value={parseInt(key)}>{value}</Radio>;
+                                    })}                                    
                                 </Radio.Group>
 
-                                <Search
-                                    placeholder="아이디 검색"
-                                    enterButton
-                                    allowClear
-                                    onSearch={this.onSearch}
-                                    style={{
-                                        width: 220,
-                                        marginBottom: 20
-                                    }}
-                                /> */}
-                            </div>
-                            <div className="contentBlock">
-                                {/* <div className="contentBlock-inner"> */}
-                                <div className="mainTitle">이름</div>
-                                <div className="formItem">
-                                    <FormItem
-                                        name="price"
-                                        className="selectItem"
-                                        style={{ marginLeft: 20 }}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: "이름을 입력해주세요",
-                                            },
-                                        ]}
-                                        initialValue={data ? data.price : ""}
-                                    >
-                                        <Input
-                                            placeholder="이름을 입력해주세요."
-                                            className="override-input"
+                                    {this.state.openSearchRiderModal && (
+                                        <SearchRiderDialog
+                                            onSelect={(selectedRider) =>
+                                            this.setState({ selectedRider: selectedRider })
+                                            }
+                                            close={this.closeSerchRiderModal}
                                         />
-                                    </FormItem>
-                                </div>
+                                    )}
+
+                                    {this.state.openSearchFranModal && (
+                                        <SearchFranDialog
+                                            onSelect={(selectedFran) =>
+                                            this.setState({ selectedFran: selectedFran })
+                                            }
+                                            close={this.closeSerchFranModal}
+                                        />
+                                    )}
+
+                                {this.state.searchType === 0? 
+                                    <Button style={{ marginBottom: 20, marginLeft: 20 }} onClick={this.openSearchRiderModal}>
+                                        라이더 검색
+                                    </Button>
+                                :
+                                    <Button style={{ marginBottom: 20, marginLeft: 20 }} onClick={this.openSearchFranModal}>
+                                        가맹점 검색
+                                    </Button>
+                                }
+                            </div>
+
+                            <div className="contentBlock">
+
+                                {/* <div className="contentBlock-inner"> */}
+                                {this.state.searchType === 0? (
+                                    <div>
+                                        <div className="mainTitle">라이더명</div>
+                                        <div className="serach-input">                                   
+                                                <Input
+                                                    value={
+                                                    this.state.selectedRider
+                                                        ? this.state.selectedRider.searchRider
+                                                        : this.props.data
+                                                        ? this.props.data.searchRider
+                                                        : ""
+                                                    }
+                                                    className="override-input"
+                                                    placeholder="검색해주세요."
+                                                    disabled
+                                                />
+                                        </div>
+                                    </div>
+
+                                 ) : (
+                                    <div>
+                                        <div className="mainTitle">가맹점명</div>  
+                                        <div className="serach-input">
+                                            <Input
+                                                value={
+                                                this.state.selectedFran
+                                                    ? this.state.selectedFran.searchFran
+                                                    : this.props.data
+                                                    ? this.props.data.searchFran
+                                                    : ""
+                                                }
+                                                className="override-input"
+                                                placeholder="검색해주세요."
+                                                disabled
+                                            />
+                                        </div>
+                                    </div>
+                               )}
                                 {/* </div> */}
                             </div>
+
                             <div className="contentBlock">
                                 {/* <div className="contentBlock-inner"> */}
                                 <div className="mainTitle">지급금액</div>
@@ -96,7 +165,7 @@ class DepositDialog extends Component {
                                     <FormItem
                                         name="price"
                                         className="selectItem"
-                                        style={{ marginLeft: 20 }}
+                                        style={{ marginLeft: 30 }}
                                         rules={[
                                             {
                                                 required: true,
@@ -113,7 +182,7 @@ class DepositDialog extends Component {
                                 </div>
                                 {/* </div> */}
                             </div>
-                            <Button style={{ float: 'right', marginTop: 10 }} onClick={{}}>
+                            <Button style={{ float: 'right'}} onClick={{}}>
                                 지급하기
                             </Button>
                         </div>
