@@ -183,6 +183,9 @@ const httpUrl = {
     noticeList:"/notice/list?endDate=%s&pageNum=%s&pageSize=%s&startDate=%s&title=%s",
     updateNotice: "/notice/update",
     registNotice: "/notice/create",
+
+  // 문의사항
+  inquiryList: "/inquiry/list?pageNum=%s&pageSize=%s"
 };
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];

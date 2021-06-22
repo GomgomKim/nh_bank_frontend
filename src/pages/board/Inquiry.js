@@ -45,13 +45,14 @@ class Inquiry extends Component {
   };
 
   getList = () => {
-    let { pageSize, current } = this.state.pagination;
-    httpGet(httpUrl.inquiryList, [pageSize, current], {}).then((res) => {
+    let pageNum = this.state.pagination.current;
+    let pageSize = this.state.pagination.pageSize;
+    httpGet(httpUrl.inquiryList, [pageNum, pageSize], {}).then((res) => {
       const pagination = { ...this.state.pagination };
       pagination.current = res.data.currentPage;
       pagination.total = res.data.totalCount;
       this.setState({
-        list: res.data.list,
+        list: res.data.inquirys,
         pagination,
       });
     });
