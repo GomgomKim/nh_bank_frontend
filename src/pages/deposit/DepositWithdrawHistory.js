@@ -20,7 +20,10 @@ class DepositWithdrawHistory extends Component {
                 current: 1,
                 pageSize: 10,
             },
+            userId: "",
             list: [],
+            // userType: 1,
+            searchType: 1
         };
     }
 
@@ -33,36 +36,74 @@ class DepositWithdrawHistory extends Component {
     }
 
     getList = () => {
-        var list = [
-            {
-                idx: '배지현',
-                withdrawAccount: '신한은행 1002-000-000000',
-                withdrawPrice: 20000,
-                withdrawDate: '2021-06-02',
-            },
-            {
-                idx: '배지현',
-                withdrawAccount: '신한은행 1002-000-000000',
-                withdrawPrice: 20000,
-                withdrawDate: '2021-06-02',
-            },
-            {
-                idx: '배지현',
-                withdrawAccount: '신한은행 1002-000-000000',
-                withdrawPrice: 20000,
-                withdrawDate: '2021-06-02',
-            },
-            {
-                idx: '배지현',
-                withdrawAccount: '신한은행 1002-000-000000',
-                withdrawPrice: 20000,
-                withdrawDate: '2021-06-02',
-            }
-        ];
-
+        let pageNum = this.state.pagination.current;
+        let pageSize = this.state.pagination.pageSize;
+        let userId = this.state.userId;
+        let userType = this.state.searchType;
+        httpGet(httpUrl.depositWithdrawList, [ pageNum, pageSize, userId, userType ],{})
+        .then((res) => {
+          const pagination = { ...this.state.pagination };
+          pagination.current = res.data.currentPage;
+          pagination.total = res.data.totalCount;
         this.setState({
-            list: list,
+            list: res.data.withdraws,
+            pagination,
         });
+        });
+    }
+
+    // getList = () => {
+    //     var list = [
+    //         {
+    //             idx: '배지현',
+    //             withdrawAccount: '신한은행 1002-000-000000',
+    //             withdrawPrice: 20000,
+    //             withdrawDate: '2021-06-02',
+    //         },
+    //         {
+    //             idx: '배지현',
+    //             withdrawAccount: '신한은행 1002-000-000000',
+    //             withdrawPrice: 20000,
+    //             withdrawDate: '2021-06-02',
+    //         },
+    //         {
+    //             idx: '배지현',
+    //             withdrawAccount: '신한은행 1002-000-000000',
+    //             withdrawPrice: 20000,
+    //             withdrawDate: '2021-06-02',
+    //         },
+    //         {
+    //             idx: '배지현',
+    //             withdrawAccount: '신한은행 1002-000-000000',
+    //             withdrawPrice: 20000,
+    //             withdrawDate: '2021-06-02',
+    //         }
+    //     ];
+
+    //     this.setState({
+    //         list: list,
+    //     });
+    // }
+
+    pressSearch = () => {
+        this.setState({
+          pagination:{
+            current: 1,
+            pageSize: 10,
+          }
+        }, () => this.getList());
+      }
+
+    onChange = (e) => {
+        this.setState({
+            searchType: e.target.value,
+            pagination: {
+                current: 1,
+                pageSize: 10,
+            }
+        }, ()=>{
+            this.getList();
+        })
     }
 
 
@@ -70,26 +111,26 @@ class DepositWithdrawHistory extends Component {
 
         const columns = [
             {
-                title: "이름",
-                dataIndex: "idx",
+                title: "아이디",
+                dataIndex: "userId",
                 className: "table-column-center",
 
             },
             {
                 title: "출금계좌",
-                dataIndex: "withdrawAccount",
+                dataIndex: "bankAccount",
                 className: "table-column-center",
 
             },
             {
                 title: "출금금액",
-                dataIndex: "withdrawPrice",
+                dataIndex: "reqAmount",
                 className: "table-column-center",
                 render: (data) => <div>{comma(data)}원</div>
             },
             {
                 title: "출금일시",
-                dataIndex: "withdrawDate",
+                dataIndex: "reqDate",
                 className: "table-column-center",
 
             },
@@ -98,7 +139,7 @@ class DepositWithdrawHistory extends Component {
         return (
             <>
 
-                <Radio.Group onChange={this.onChange} style={{ marginTop: 5 }}>
+                <Radio.Group defaultValue={1} onChange={this.onChange} style={{ marginTop: 5 }}>
                     <Radio value={1}>라이더</Radio>
                     <Radio value={2}>가맹점</Radio>
                 </Radio.Group>
@@ -108,7 +149,8 @@ class DepositWithdrawHistory extends Component {
                     placeholder="아이디 검색"
                     enterButton
                     allowClear
-                    onSearch={this.onSearch}
+                    onChange={(e) => this.setState({ userId: e.target.value})}
+                    onSearch={this.pressSearch}
                     style={{
                         width: 220,
                         marginBottom: 20

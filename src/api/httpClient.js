@@ -192,7 +192,8 @@ const httpUrl = {
 
   // 예치금
   depositList: "/ncash/deposit/list?pageNum=%s&pageSize=%s&userId=%s&userType=%s",
-  depositSend: "/ncash/create"
+  depositSend: "/ncash/create",
+  depositWithdrawList: "/ncash/withdraw/list?pageNum=%s&pageSize=%s&userId=%s&userType=%s",
 };
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];
