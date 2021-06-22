@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import {
-    Form, Input, Table, Button, Select, Radio
+    Form, Input, Table, Button, Select, Radio, Modal
 } from "antd";
 import { httpGet, httpUrl, httpDownload, httpPost, httpPut } from '../../api/httpClient';
 import { searchType } from "../../lib/util/codeUtil";
 import '../../css/main.css';
 import SearchRiderDialog from "../dialog/SearchRiderDialog"
 import SearchFranDialog from "../dialog/SearchFranDialog"
+import { customAlert, customError, updateError } from "../../api/Modals";
 
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -53,45 +54,67 @@ class DepositDialog extends Component {
     openSearchFranModal =() => {
         this.setState({ openSearchFranModal: true})
     };
-    closeSerchFranModal = () => {
+    closeSearchFranModal = () => {
         this.setState({ openSearchFranModal: false})
     };
 
     handleSubmit = () =>{
         let self = this;
-        if(this.state.selectedFran !== null){
+        const form = this.formRef.current;
+        if(this.state.searchType === 0){
+        Modal.confirm({
+            title: "예치금 지금",
+            content: this.state.selectedRider.riderName + " 라이더에 " + " 예치금 " 
+            + form.getFieldValue('ncashAmount') + " 원을 지급하시겠습니까?",
+            okText: "확인",
+            cancelText:"취소",
+            onOk() {
+                httpPost(httpUrl.depositSend, [], {
+                    receiveUserIdx: self.state.selectedRider.userIdx,
+                    ...self.formRef.current.getFieldsValue(),
+                    userType: 1
+                }).then((result) =>{
+                    if(result.result === "SUCCESS" && result.data === "SUCCESS") {
+                        customAlert('예치금 지급 완료', '해당 라이더에게 예치금을 지급하였습니다.')
+                        self.props.close()
+                        self.props.getList()
+                    } 
+                        else {
+                        customError('예치금 지급 에러', '서버 에러로 인해 예치금 지급에 실패하였습니다')
+                        }
+                    })
+                    .catch((e) => {
+                        customError('예치금 지급 에러', '서버 에러로 인해 예치금 지급에 실패하였습니다')
+                    });
+                }});
+        }
+        else 
+        Modal.confirm({
+            title: "예치금 지금",
+            content: self.state.selectedFran.frName + " 가맹점에 " + " 예치금 " 
+            + form.getFieldValue('ncashAmount') + " 원을 지급하시겠습니까?",
+            okText: "확인",
+            cancelText:"취소",
+            onOk() {
             httpPost(httpUrl.depositSend, [], {
-                receiveUserIdx: this.state.selectedFran.userIdx,
-                ...this.formRef.current.getFieldsValue(),
+                receiveUserIdx: self.state.selectedFran.userIdx,
+                ...self.formRef.current.getFieldsValue(),
                 userType: 2
             }).then((result) =>{
                 if(result.result === "SUCCESS" && result.data === "SUCCESS") {
-                    self.handleClear();
+                    customAlert('예치금 지급 완료', '해당 가맹점에 예치금을 지급하였습니다.')
+                    self.props.close()
+                    self.props.getList()
                 } 
                 else {
+                    customError('예치금 지급 에러', '서버 에러로 인해 예치금 지급에 실패하였습니다')
                 }
             })
             .catch((e) => {
-            });
-        }
-        if(this.state.selectedRider !== null){
-            httpPost(httpUrl.depositSend, [], {
-                receiveUserIdx: this.state.selectedFran.userIdx,
-                ...this.formRef.current.getFieldsValue(),
-                userType: 2
-            }).then((result) =>{
-                if(result.result === "SUCCESS" && result.data === "SUCCESS") {
-                    self.handleClear();
-                } 
-                else {
-                }
-            })
-            .catch((e) => {
-            });
-        }
-        else {
-            alert('에러')
-        }
+                customError('예치금 지급 에러', '서버 에러로 인해 예치금 지급에 실패하였습니다')
+                });
+            }}); 
+        
     }
 
     render() {
@@ -127,7 +150,7 @@ class DepositDialog extends Component {
                                     {this.state.openSearchRiderModal && (
                                         <SearchRiderDialog
                                             onSelect={(selectedRider) =>
-                                            this.setState({ selectedRider: selectedRider })
+                                            this.setState({ selectedRider })
                                             }
                                             close={this.closeSerchRiderModal}
                                         />
@@ -136,9 +159,9 @@ class DepositDialog extends Component {
                                     {this.state.openSearchFranModal && (
                                         <SearchFranDialog
                                             onSelect={(selectedFran) =>
-                                            this.setState({ selectedFran: selectedFran })
+                                            this.setState({ selectedFran })
                                             }
-                                            close={this.closeSerchFranModal}
+                                            close={this.closeSearchFranModal}
                                         />
                                     )}
 
@@ -163,9 +186,7 @@ class DepositDialog extends Component {
                                                 <Input
                                                     value={
                                                     this.state.selectedRider
-                                                        ? this.state.selectedRider.searchRider
-                                                        : this.props.data
-                                                        ? this.props.data.searchRider
+                                                        ? this.state.selectedRider.riderName
                                                         : ""
                                                     }
                                                     className="override-input"
@@ -174,7 +195,6 @@ class DepositDialog extends Component {
                                                 />   
                                         </div>
                                     </div>
-
                                  ) : (
                                     <div>
                                         <div className="mainTitle">가맹점명</div>  
