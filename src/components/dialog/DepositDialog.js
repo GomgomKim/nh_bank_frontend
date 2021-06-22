@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
     Form, Input, Table, Button, Select, Radio
 } from "antd";
+import { httpGet, httpUrl, httpDownload, httpPost, httpPut } from '../../api/httpClient';
 import { searchType } from "../../lib/util/codeUtil";
 import '../../css/main.css';
 import SearchRiderDialog from "../dialog/SearchRiderDialog"
@@ -56,6 +57,43 @@ class DepositDialog extends Component {
         this.setState({ openSearchFranModal: false})
     };
 
+    handleSubmit = () =>{
+        let self = this;
+        if(this.state.selectedFran !== null){
+            httpPost(httpUrl.depositSend, [], {
+                receiveUserIdx: this.state.selectedFran.userIdx,
+                ...this.formRef.current.getFieldsValue(),
+                userType: 2
+            }).then((result) =>{
+                if(result.result === "SUCCESS" && result.data === "SUCCESS") {
+                    self.handleClear();
+                } 
+                else {
+                }
+            })
+            .catch((e) => {
+            });
+        }
+        if(this.state.selectedRider !== null){
+            httpPost(httpUrl.depositSend, [], {
+                receiveUserIdx: this.state.selectedFran.userIdx,
+                ...this.formRef.current.getFieldsValue(),
+                userType: 2
+            }).then((result) =>{
+                if(result.result === "SUCCESS" && result.data === "SUCCESS") {
+                    self.handleClear();
+                } 
+                else {
+                }
+            })
+            .catch((e) => {
+            });
+        }
+        else {
+            alert('에러')
+        }
+    }
+
     render() {
 
         const { close, data } = this.props;
@@ -73,6 +111,7 @@ class DepositDialog extends Component {
                         </div>
                         <img onClick={close} src={require('../../img/close.png').default} className="dialog-close" alt="img" />
                         <div className="deposit-inner">
+                        <Form ref={this.formRef} onFinish={this.handleSubmit}>
                             <div className="contentBlock">                                
                                 <Radio.Group
                                     onChange={this.onCheckType}
@@ -104,11 +143,11 @@ class DepositDialog extends Component {
                                     )}
 
                                 {this.state.searchType === 0? 
-                                    <Button style={{ marginBottom: 20, marginLeft: 20 }} onClick={this.openSearchRiderModal}>
+                                    <Button style={{ marginBottom: 20, marginLeft: 77 }} onClick={this.openSearchRiderModal}>
                                         라이더 검색
                                     </Button>
                                 :
-                                    <Button style={{ marginBottom: 20, marginLeft: 20 }} onClick={this.openSearchFranModal}>
+                                    <Button style={{ marginBottom: 20, marginLeft: 77 }} onClick={this.openSearchFranModal}>
                                         가맹점 검색
                                     </Button>
                                 }
@@ -120,7 +159,7 @@ class DepositDialog extends Component {
                                 {this.state.searchType === 0? (
                                     <div>
                                         <div className="mainTitle">라이더명</div>
-                                        <div className="serach-input">                                   
+                                        <div className="serach-input">         
                                                 <Input
                                                     value={
                                                     this.state.selectedRider
@@ -132,7 +171,7 @@ class DepositDialog extends Component {
                                                     className="override-input"
                                                     placeholder="검색해주세요."
                                                     disabled
-                                                />
+                                                />   
                                         </div>
                                     </div>
 
@@ -142,16 +181,14 @@ class DepositDialog extends Component {
                                         <div className="serach-input">
                                             <Input
                                                 value={
-                                                this.state.selectedFran
-                                                    ? this.state.selectedFran.searchFran
-                                                    : this.props.data
-                                                    ? this.props.data.searchFran
+                                                    this.state.selectedFran
+                                                    ? this.state.selectedFran.frName
                                                     : ""
                                                 }
                                                 className="override-input"
                                                 placeholder="검색해주세요."
                                                 disabled
-                                            />
+                                                />
                                         </div>
                                     </div>
                                )}
@@ -163,9 +200,9 @@ class DepositDialog extends Component {
                                 <div className="mainTitle">지급금액</div>
                                 <div className="formItem">
                                     <FormItem
-                                        name="price"
+                                        name="ncashAmount"
                                         className="selectItem"
-                                        style={{ marginLeft: 30 }}
+                                        style={{ marginLeft: 25, width: 230 }}
                                         rules={[
                                             {
                                                 required: true,
@@ -182,9 +219,10 @@ class DepositDialog extends Component {
                                 </div>
                                 {/* </div> */}
                             </div>
-                            <Button style={{ float: 'right'}} onClick={{}}>
+                            <Button type="primary" htmlType="submit" style={{ float: 'right'}}>
                                 지급하기
                             </Button>
+                            </Form>
                         </div>
                     </div>
 

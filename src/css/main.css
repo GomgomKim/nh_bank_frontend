@@ -364,12 +364,13 @@ div:nth-child(2) {
 .serach-input {
   display: inline-block;
   margin-bottom: 24px;
-  padding-left: 30px;
+  padding-left: 24px;
 }
-/* .serach-input > .ant-input {
+.serach-input > .ant-input {
   display: inline-block;
-  width: 150px;
-} */
+  width: 230px;
+}
+
 /* 라이더 & 가맹점 조회 dialog */
 
 .deposit-inner > .searchRider-Input {

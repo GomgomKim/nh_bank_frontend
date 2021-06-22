@@ -21,15 +21,13 @@ class DepositPaymentHistory extends Component {
                 pageSize: 10,
             },
             list: [],
+            searchType: 1,
+            searchText: '',
         };
     }
 
     componentDidMount() {
         this.getList();
-    }
-
-    setDate = (date) => {
-        console.log(date)
     }
 
     openDepositDialogModal = () => {
@@ -39,57 +37,78 @@ class DepositPaymentHistory extends Component {
         this.setState({ depositDialogOpen: false });
     };
 
-
-
-
     getList = () => {
-        var list = [
-            {
-                idx: 'apple2021',
-                payPrice: 20000,
-                payDate: '2021-06-02',
-            },
-            {
-                idx: 'galaxy644',
-                payPrice: 20000,
-                payDate: '2021-06-02',
-            },
-            {
-                idx: 'nokia1230',
-                payPrice: 20000,
-                payDate: '2021-06-02',
-            },
-            {
-                idx: 'huawei444',
-                payPrice: 20000,
-                payDate: '2021-06-02',
-            }
-        ];
-
+        let pageNum = this.state.pagination.current;
+        let pageSize = this.state.pagination.pageSize;
+        let userId = this.state.searchText;
+        let userType = this.state.searchType;
+        httpGet(httpUrl.depositList, [pageNum, pageSize, userId, userType], {}).then((res) => {
+        const pagination = { ...this.state.pagination };
+        pagination.current = res.data.currentPage;
+        pagination.total = res.data.totalCount;
         this.setState({
-            list: list,
+            list: res.data.logs,
+            pagination,
+            });
         });
+    };
+
+    onChange = (e) => {
+        this.setState({
+            searchType: e.target.value,
+            pagination: {
+                current: 1,
+                pageSize: 10,
+            }
+        }, ()=>{
+            this.getList();
+        })
     }
 
+    onSearch = (value) => {
+        this.setState({
+            searchText: value,
+            pagination: {
+                current: 1,
+                pageSize: 10,
+            }
+        }, ()=>{
+            this.getList();
+        })
+    }
+
+    handleTableChange = (pagination) => {
+        const pager = {
+          ...this.state.pagination,
+        };
+        pager.current = pagination.current;
+        pager.pageSize = pagination.pageSize;
+        this.setState(
+          {
+            pagination: pager,
+          },
+          () => this.getList()
+        );
+      };
 
     render() {
 
         const columns = [
             {
                 title: "아이디",
-                dataIndex: "idx",
+                dataIndex: "userId",
                 className: "table-column-center",
 
             },
             {
                 title: "지급금액",
-                dataIndex: "payPrice",
+                dataIndex: "sendAmount",
                 className: "table-column-center",
                 render: (data) => <div>{comma(data)}원</div>
             },
             {
                 title: "지급일시",
-                dataIndex: "payDate",
+                dataIndex: "createDate",
                 className: "table-column-center",
 
             },
@@ -97,7 +116,6 @@ class DepositPaymentHistory extends Component {
         ];
         return (
             <>
-
                 <Radio.Group defaultValue={1} onChange={this.onChange} style={{ marginTop: 5 }}>
                     <Radio value={1}>라이더</Radio>
                     <Radio value={2}>가맹점</Radio>
@@ -145,8 +163,6 @@ class DepositPaymentHistory extends Component {
                     columns={columns}
                     pagination={this.state.pagination}
                     onChange={this.handleTableChange}
-                    expandedRowRender={this.expandedRowRender}
-                    expandRowByClick={true}
                 />
 
             </>

@@ -185,7 +185,11 @@ const httpUrl = {
     registNotice: "/notice/create",
 
   // 문의사항
-  inquiryList: "/inquiry/list?pageNum=%s&pageSize=%s"
+  inquiryList: "/inquiry/list?pageNum=%s&pageSize=%s",
+
+  // 예치금
+  depositList: "/ncash/deposit/list?pageNum=%s&pageSize=%s&userId=%s&userType=%s",
+  depositSend: "/ncash/create"
 };
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];
