@@ -135,7 +135,7 @@ class DepositPaymentHistory extends Component {
 
 
                 {this.state.depositDialogOpen && (
-                    <DepositDialog close={this.closeDepositDialogModal} />
+                    <DepositDialog close={this.closeDepositDialogModal} getList={this.getList}/>
                 )}
                 <Button style={{ marginBottom: 20, marginLeft: 20 }} onClick={this.openDepositDialogModal}>
                     예치금 지급

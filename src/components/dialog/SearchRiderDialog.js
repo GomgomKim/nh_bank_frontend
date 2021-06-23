@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Form, Input, Table, Button, Radio } from "antd";
+import { httpGet, httpUrl, httpDownload, httpPost, httpPut } from '../../api/httpClient';
 import '../../css/main.css';
 
 const Search = Input.Search;
@@ -14,7 +15,7 @@ class SearchRiderDialog extends Component {
       pagination: {
         total: 0,
         current: 1,
-        pageSize: 10,
+        pageSize: 5,
       },
 
       dataIdxs: [],
@@ -24,100 +25,102 @@ class SearchRiderDialog extends Component {
     this.formRef = React.createRef();
   }
   componentDidMount() {
-    // this.getList(true);
+    this.getList(true);
   }
 
   // 가맹점 검색
-//   onSearchFranchisee = (value) => {
-//     this.setState(
-//       {
-//         frName: value,
-//       },
-//       () => {
-//         this.getList();
-//       }
-//     );
-//   };
+  onSearchRiders = (value) => {
+    this.setState(
+      {
+        frName: value,
+      },
+      () => {
+        this.getList();
+      }
+    );
+  };
 
-//   handleTableChange = (pagination) => {
-//     // console.log(pagination);
-//     const pager = {
-//       ...this.state.pagination,
-//     };
-//     pager.current = pagination.current;
-//     pager.pageSize = pagination.pageSize;
-//     this.setState(
-//       {
-//         pagination: pager,
-//       },
-//       () => this.getList()
-//     );
-//   };
+  handleTableChange = (pagination) => {
+    // console.log(pagination);
+    const pager = {
+      ...this.state.pagination,
+    };
+    pager.current = pagination.current;
+    pager.pageSize = pagination.pageSize;
+    this.setState(
+      {
+        pagination: pager,
+      },
+      () => this.getList()
+    );
+  };
 
-//   getList = (isInit) => {
-//     // console.log(isInit)
-//     // console.log(this.state.franStatus);
-//     httpPost(httpUrl.franchiseList, [], {
-//       frName: this.state.frName,
-//       pageNum: this.state.pagination.current,
-//       userGroup: this.state.franGroup,
-//       userStatus: this.state.franStatus === 0 ? null : this.state.franStatus,
-//     }).then((result) => {
-//       // console.log('## result=' + JSON.stringify(result, null, 4))
-//       const pagination = {
-//         ...this.state.pagination,
-//       };
-//       pagination.current = result.data.currentPage;
-//       pagination.total = result.data.totalCount;
-//       this.setState({ list: result.data.franchises, pagination });
-//     });
-//   };
+  getList = () => {
+    let pageNum = this.state.pagination.current;
+    let pageSize = this.state.pagination.pageSize;
+    httpGet(httpUrl.riderList, [pageNum, pageSize], {}).then((res) => {
+      const pagination = { ...this.state.pagination };
+      pagination.current = res.data.currentPage;
+      pagination.total = res.data.totalCount;
+      this.setState({
+        list: res.data.riders,
+        // pagination,
+      });
+    });
+  };
+  onSelectChange = (selectedRowKeys) => {
+    // console.log("selectedRowKeys changed: ", selectedRowKeys);
+    // console.log("selectedRowKeys.length :" + selectedRowKeys.length);
 
-//   onSelectChange = (selectedRowKeys) => {
-//     // console.log("selectedRowKeys changed: ", selectedRowKeys);
-//     // console.log("selectedRowKeys.length :" + selectedRowKeys.length);
+    // console.log(this.state.list)
+    var cur_list = this.state.list;
+    var overrideData = {};
+    for (let i = 0; i < cur_list.length; i++) {
+      var idx = cur_list[i].idx;
+      if (selectedRowKeys.includes(idx)) overrideData[idx] = true;
+      else overrideData[idx] = false;
+    }
+    // console.log(overrideData)
 
-//     // console.log(this.state.list)
-//     var cur_list = this.state.list;
-//     var overrideData = {};
-//     for (let i = 0; i < cur_list.length; i++) {
-//       var idx = cur_list[i].idx;
-//       if (selectedRowKeys.includes(idx)) overrideData[idx] = true;
-//       else overrideData[idx] = false;
-//     }
-//     // console.log(overrideData)
+    var curIdxs = this.state.dataIdxs;
+    curIdxs = Object.assign(curIdxs, overrideData);
 
-//     var curIdxs = this.state.dataIdxs;
-//     curIdxs = Object.assign(curIdxs, overrideData);
+    selectedRowKeys = [];
+    for (let i = 0; i < curIdxs.length; i++) {
+      if (curIdxs[i]) {
+        // console.log("push  :" + i);
+        selectedRowKeys = [...selectedRowKeys, i];
+        // console.log(selectedRowKeys);
+      }
+    }
+    // console.log(selectedRowKeys);
+    this.setState({
+      selectedRowKeys: selectedRowKeys,
+      dataIdxs: curIdxs,
+    });
+  };
 
-//     selectedRowKeys = [];
-//     for (let i = 0; i < curIdxs.length; i++) {
-//       if (curIdxs[i]) {
-//         // console.log("push  :" + i);
-//         selectedRowKeys = [...selectedRowKeys, i];
-//         // console.log(selectedRowKeys);
-//       }
-//     }
-//     // console.log(selectedRowKeys);
-//     this.setState({
-//       selectedRowKeys: selectedRowKeys,
-//       dataIdxs: curIdxs,
-//     });
-//   };
+  onSubmit = () => {
+    // console.log("click")
+    if (this.props.callback) {
+      this.props.callback(this.state.selectedRowKeys);
+    }
+    this.props.close();
+  };
 
-//   onSubmit = () => {
-//     // console.log("click")
-//     if (this.props.callback) {
-//       this.props.callback(this.state.selectedRowKeys);
-//     }
-//     this.props.close();
-//   };
+  onSelect = (data) => {
+    // console.log(data)
+    if (this.props.callback) {
+        this.props.callback(data);
+    }
+    this.props.close()
+}
 
   render() {
     const columns = [
       {
         title: "순번",
-        dataIndex: "idx",
+        dataIndex: "userIdx",
         className: "table-column-center",
       },
       {
@@ -130,7 +133,7 @@ class SearchRiderDialog extends Component {
                 if (this.props.onSelect) {
                   this.props.onSelect(row);
                 }
-                this.onRiderSelected(row);
+                this.onSelect(row);
               }}
             >
               {data}
@@ -171,7 +174,7 @@ class SearchRiderDialog extends Component {
                             className="searchRider-Input"
                             enterButton
                             allowClear
-                            onSearch={this.onSearchFranchisee}
+                            onSearch={this.onSearchRiders}
                           />                        
 
                         <Table
