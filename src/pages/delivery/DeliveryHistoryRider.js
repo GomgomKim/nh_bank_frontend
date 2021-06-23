@@ -14,9 +14,14 @@ import "../../css/main.css";
 import moment from "moment";
 import { feeType, riderGroup } from "../../lib/util/codeUtil";
 import { comma } from "../../lib/util/numberUtil";
+import xlsx from 'xlsx';
 
 const FormItem = Form.Item;
 const Search = Input.Search;
+// const ws = xlsx.utils.json_to_sheet(arr);
+// const wb = xlsx.utils.book_new();
+// xlsx.utils.book_append_sheet(wb, ws, "sheet1");
+// xlsx.writeFile(wb, "Test.xlsx");
 
 class DeliveryHistoryRider extends Component {
   constructor(props) {
@@ -183,6 +188,47 @@ class DeliveryHistoryRider extends Component {
     }, () => this.getList());
   }
 
+  onDownload = (data) => {
+    const ws = xlsx.utils.json_to_sheet(data);
+    const wb = xlsx.utils.book_new();
+    [
+      'idx',
+      'createDate',
+      '월',
+      'incomeDate',
+      'userIdx',
+      '수익(원)',
+      'memo',
+      '라이더명',
+      '라이더 연락처',
+      '라이더 그룹(1:A,2:B,3:C,4:D,5:E)',
+      '수수료방식(0:정량, 1:정률)',
+      '수수료(원)',
+      '배달요금(원)'
+    ].forEach((x, idx) => {
+      const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
+      ws[cellAdd].v = x;
+    })
+    ws['!cols'] = [];
+    ws['!cols'][0] = { hidden: true };
+    ws['!cols'][1] = { hidden: true };
+    ws['!cols'][3] = { hidden: true };
+    ws['!cols'][4] = { hidden: true };
+    ws['!cols'][6] = { hidden: true };
+    ws['!cols'][8] = { width: 12 };
+    ws['!cols'][9] = { 
+      width: 25,
+      render: (data) => <div>{riderGroup[data]}</div>
+    }
+    ws['!cols'][10] = { 
+      width: 22,
+      render: (data) => <div>{feeType[data]}</div>
+    }
+    console.log(ws['!cols'][0]);
+    xlsx.utils.book_append_sheet(wb, ws, "sheet1");
+    xlsx.writeFile(wb, "라이더배달내역.xlsx");
+  }
+
   render() {
 
     const columns = [
@@ -304,7 +350,7 @@ class DeliveryHistoryRider extends Component {
 
 
           <Button className="download-btn"
-            style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
+            style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={() => this.onDownload(this.state.list)}>
             <img src={require("../../img/excel.png").default} alt="" />
                     엑셀 다운로드
                 </Button>

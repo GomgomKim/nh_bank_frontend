@@ -6,6 +6,8 @@ import ModifyFranDialog from "../../components/dialog/ModifyFranDialog";
 import FranFeeDialog from "../../components/dialog/FranFeeDialog";
 import ChargeDialog from "../../components/dialog/ChargeDialog";
 import '../../css/main.css';
+import xlsx from 'xlsx';
+
 const Search = Input.Search;
 const RangePicker = DatePicker.RangePicker;
 class FranchiseList extends Component {
@@ -133,6 +135,35 @@ class FranchiseList extends Component {
         );
     };
 
+    onDownload = (data) => {
+        const ws = xlsx.utils.json_to_sheet(data);
+        const wb = xlsx.utils.book_new();
+        [
+          'useridx',
+          '지점명',
+          '가맹점명',
+          '주소',
+          '상세주소',
+          'addr3',
+          'PG 사용비율\n(0:미사용,100:사용)',
+          '가맹점번호',
+          'VAN'
+        ].forEach((x, idx) => {
+          const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
+          ws[cellAdd].v = x;
+        })
+        ws['!cols'] = [];
+        ws['!cols'][0] = { hidden: true };
+        ws['!cols'][5] = { hidden: true };
+        ws['!cols'][2] = { width: 15 };
+        ws['!cols'][3] = { width: 30 };
+        ws['!cols'][4] = { width: 15 };
+        ws['!cols'][6] = { width: 20 };
+        ws['!cols'][7] = { width: 20 };
+        xlsx.utils.book_append_sheet(wb, ws, "sheet1");
+        xlsx.writeFile(wb, "가맹점목록.xlsx");
+      }
+
     render() {
 
         const columns = [
@@ -226,7 +257,7 @@ class FranchiseList extends Component {
                     }}
                 />
                 <Button className="download-btn"
-                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={() => this.onDownload(this.state.list)}>
                     <img src={require("../../img/excel.png").default} alt="" />
                     엑셀 다운로드
                 </Button>

@@ -13,6 +13,8 @@ import "../../css/main.css";
 import { httpGet, httpUrl } from "../../api/httpClient";
 import { formatDates } from "../../lib/util/dateUtil";
 import { comma } from "../../lib/util/numberUtil";
+import xlsx from 'xlsx';
+
 
 const FormItem = Form.Item;
 const Search = Input.Search;
@@ -116,6 +118,58 @@ class DeliveryList extends Component {
         pageSize: 10,
       }
     }, () => {this.state.startDate === "" ? this.getList(): this.getSearchList()});
+  }
+
+  onDownload = (data) => {
+    const ws = xlsx.utils.json_to_sheet(data,{raw:false, origin: -1, display: true, cellDates: true, dateNF: 'YYYY-MM-DD'});
+    // xlsx.utils.sheet_add_json(ws, json, { origin: -1, display: true, cellDates: true, dateNF: 'YYYY-MM-DD' })
+    const wb = xlsx.utils.book_new();
+    [
+      '주문번호',
+      '주문날짜',
+      '가격(원)',
+      '총배달요금(원)',
+      '기본배달요금(원)',
+      '할증배달요금(원)',
+      '주소',
+      '상세주소',
+      'addr3',
+      '가맹점',
+      '가맹점 번호',
+      'orderIdx',
+      '라이더명',
+      '라이더 연락처',
+      'deliveryPriceFee',
+      'pickupDate',
+      'completeDate',
+      'riderLevel',
+      'riderStatus',
+      'riderGroup',
+      'feeType',
+    ].forEach((x, idx) => {
+      const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
+      ws[cellAdd].v = x;
+    })
+    ws['!cols'] = [];
+    ws['!cols'][8] = { hidden: true };
+    ws['!cols'][11] = { hidden: true };
+    ws['!cols'][14] = { hidden: true };
+    ws['!cols'][15] = { hidden: true };
+    ws['!cols'][16] = { hidden: true };
+    ws['!cols'][17] = { hidden: true };
+    ws['!cols'][18] = { hidden: true };
+    ws['!cols'][19] = { hidden: true };
+    ws['!cols'][20] = { hidden: true };
+    ws['!cols'][3] = { width: 15 };
+    ws['!cols'][4] = { width: 15 };
+    ws['!cols'][5] = { width: 15 };
+    ws['!cols'][6] = { width: 30 };
+    ws['!cols'][7] = { width: 20 };
+    ws['!cols'][9] = { width: 20 };
+    ws['!cols'][10] = { width: 20 };
+    ws['!cols'][13] = { width: 12 };
+    xlsx.utils.book_append_sheet(wb, ws, "sheet1");
+    xlsx.writeFile(wb, "배달목록.xlsx");
   }
 
   render() {
@@ -229,16 +283,16 @@ class DeliveryList extends Component {
           }}
         />
 
-        <a href="/admin_bike_templete.xlsx" download>
+        {/* <a href="/admin_bike_templete.xlsx" download> */}
           <Button
             className="download-btn"
             style={{ float: "right", marginLeft: 10, marginBottom: 20 }}
-            onClick={{}}
+            onClick={() => this.onDownload(this.state.list)}
           >
             <img src={require("../../img/excel.png").default} alt="" />
             엑셀 다운로드
           </Button>
-        </a>
+        {/* </a> */}
         <RangePicker
           style={{ width: 300, float: "right", marginRight: 10 }}
           placeholder={["시작일", "종료일"]}

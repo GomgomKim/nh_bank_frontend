@@ -3,6 +3,8 @@ import { httpGet, httpUrl, httpDownload, httpPost, httpPut } from '../../api/htt
 import { Table, Input, Button, DatePicker, Radio } from 'antd'
 import { comma } from "../../lib/util/numberUtil";
 import '../../css/main.css';
+import xlsx from 'xlsx';
+
 
 
 
@@ -106,6 +108,43 @@ class DepositWithdrawHistory extends Component {
         })
     }
 
+    onDownload = (data) => {
+        const ws = xlsx.utils.json_to_sheet(data);
+        const wb = xlsx.utils.book_new();
+        [
+          'idx',
+          '아이디',
+          'createDate',
+          'userIdx',
+          'bank',
+          '출금계좌',
+          'depositor',
+          '출금일시',
+          'withdrawStatus',
+          '출금금액(원)',
+          'procDate',
+          'adminId',
+          'memo'
+        ].forEach((x, idx) => {
+          const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
+          ws[cellAdd].v = x;
+        })
+        ws['!cols'] = [];
+        ws['!cols'][0] = { hidden: true };
+        ws['!cols'][2] = { hidden: true };
+        ws['!cols'][3] = { hidden: true };
+        ws['!cols'][4] = { hidden: true };
+        ws['!cols'][6] = { hidden: true };
+        ws['!cols'][8] = { hidden: true };
+        ws['!cols'][10] = { hidden: true };
+        ws['!cols'][11] = { hidden: true };
+        ws['!cols'][12] = { hidden: true };
+        ws['!cols'][5] = { width: 12 };
+        ws['!cols'][7] = { width: 20 };
+        xlsx.utils.book_append_sheet(wb, ws, "sheet1");
+        xlsx.writeFile(wb, "출금내역.xlsx");
+      }
+
 
     render() {
 
@@ -158,7 +197,7 @@ class DepositWithdrawHistory extends Component {
                 />
 
                 <Button className="download-btn"
-                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={() => this.onDownload(this.state.list)}>
                     <img src={require("../../img/excel.png").default} alt="" />
                     엑셀 다운로드
                 </Button>

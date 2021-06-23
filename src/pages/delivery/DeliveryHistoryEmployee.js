@@ -5,6 +5,8 @@ import { httpGet, httpUrl } from "../../api/httpClient";
 import "../../css/main.css";
 import { riderLevel } from "../../lib/util/codeUtil";
 import { comma } from "../../lib/util/numberUtil";
+import xlsx from 'xlsx';
+
 
 const FormItem = Form.Item;
 const Search = Input.Search;
@@ -72,6 +74,50 @@ class DeliveryHistoryEmployee extends Component {
     newState[stateKey] = e.target.value;
     this.setState(newState);
   };
+
+  onDownload = (data) => {
+    const ws = xlsx.utils.json_to_sheet(data);
+    const wb = xlsx.utils.book_new();
+    [
+      'idx',
+      'userIdx',
+      '월',
+      'incenDate',
+      'category',
+      'incenPayed',
+      '기본건수',
+      '배달건수',
+      'defaultDeliveryPrice',
+      'payedAmount',
+      '관리인센티브(원)',
+      '가맹점 인센티브(원)',
+      '추가 인센티브(원)',
+      '직원명',
+      '직원 연락처',
+      '기본배달료(원)',
+      '직급\n(2:부팀장,3:팀장,4:부본부장,5:본부장,6:부지점장,7:지점장,8:부센터장,9:센터장)',
+    ].forEach((x, idx) => {
+      const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
+      ws[cellAdd].v = x;
+    })
+    ws['!cols'] = [];
+    ws['!cols'][0] = { hidden: true };
+    ws['!cols'][1] = { hidden: true };
+    ws['!cols'][3] = { hidden: true };
+    ws['!cols'][4] = { hidden: true };
+    ws['!cols'][5] = { hidden: true };
+    ws['!cols'][8] = { hidden: true };
+    ws['!cols'][9] = { hidden: true };
+    ws['!cols'][10] = { width: 15 };
+    ws['!cols'][11] = { width: 18 };
+    ws['!cols'][12] = { width: 15 };
+    ws['!cols'][14] = { width: 25 };
+    ws['!cols'][15] = { width: 15 };
+    ws['!cols'][16] = { width: 65 }
+    console.log(ws['!cols'][0]);
+    xlsx.utils.book_append_sheet(wb, ws, "sheet1");
+    xlsx.writeFile(wb, "정직원배달내역.xlsx");
+  }
 
   render() {
     const columns = [
@@ -212,7 +258,7 @@ class DeliveryHistoryEmployee extends Component {
         <Button
           className="download-btn"
           style={{ float: "right", marginLeft: 10, marginBottom: 20 }}
-          onClick={{}}
+          onClick={() => this.onDownload(this.state.list)}
         >
           <img src={require("../../img/excel.png").default} alt="" />
           엑셀 다운로드
