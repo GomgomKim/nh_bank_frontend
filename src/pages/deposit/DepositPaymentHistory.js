@@ -5,6 +5,8 @@ import { Table, Input, Button, DatePicker, Modal, Radio } from 'antd'
 import { comma } from "../../lib/util/numberUtil";
 import DepositDialog from "../../components/dialog/DepositDialog";
 import '../../css/main.css';
+import xlsx from 'xlsx';
+
 
 const Search = Input.Search;
 const RangePicker = DatePicker.RangePicker;
@@ -91,6 +93,25 @@ class DepositPaymentHistory extends Component {
         );
       };
 
+      onDownload = (data) => {
+        const ws = xlsx.utils.json_to_sheet(data);
+        const wb = xlsx.utils.book_new();
+        [
+          '아이디',
+          '지급일시',
+          '지급금액',
+          'category',
+        ].forEach((x, idx) => {
+          const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
+          ws[cellAdd].v = x;
+        })
+        ws['!cols'] = [];
+        ws['!cols'][3] = { hidden: true };
+        ws['!cols'][1] = { width: 20 };
+        xlsx.utils.book_append_sheet(wb, ws, "sheet1");
+        xlsx.writeFile(wb, "예치금내역.xlsx");
+      }
+
     render() {
 
         const columns = [
@@ -144,7 +165,7 @@ class DepositPaymentHistory extends Component {
 
 
                 <Button className="download-btn"
-                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={() => {this.onDownload(this.state.list)}}>
                     <img src={require("../../img/excel.png").default} alt="" />
                     엑셀 다운로드
                 </Button>
