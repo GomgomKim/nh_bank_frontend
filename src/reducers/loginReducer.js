@@ -18,9 +18,10 @@ const loginInitialState = {
 };
 
 const login = (state = loginInitialState, action) => {
+  // console.log(JSON.stringify(action, null, 4))
   switch (action.type) {
     case LOGIN:
-      reactLocalStorage.setObject(con + '#adminUser', action.loginInfo);
+      reactLocalStorage.setObject(con.appName + '#adminUser', action.loginInfo);
       return Object.assign({}, state, {
         isLogin: true,
         loginInfo: action.loginInfo,

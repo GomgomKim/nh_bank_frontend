@@ -25,9 +25,13 @@ class Login extends Component {
       ...this.formRef.current.getFieldsValue()
     })
       .then((res) => {
+        // console.log(JSON.stringify(res, null, 4))
         if (res.data.result) {
-          this.props.onLogin(res.data.user);
-          this.props.history.push('/main')
+          this.props.onLogin({
+            ...res.data.adminUser,
+            authList: res.data.authorities,
+          });
+          this.props.history.push('/statics/StaticsBranch')
         }
         else {
           alert("아이디 또는 비밀번호가 잘못되었습니다.")
