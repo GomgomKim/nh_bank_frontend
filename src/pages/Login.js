@@ -31,7 +31,10 @@ class Login extends Component {
             ...res.data.adminUser,
             authList: res.data.authorities,
           });
-          this.props.history.push('/statics/StaticsBranch')
+          if(res.data.adminUser.adminAuth.length === 0)
+            this.props.history.push('/main')
+          else
+            this.props.history.push(res.data.adminUser.adminAuth[0].subMenu[0].path)
         }
         else {
           alert("아이디 또는 비밀번호가 잘못되었습니다.")
