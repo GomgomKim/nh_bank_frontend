@@ -121,16 +121,16 @@ class DeliveryList extends Component {
   }
 
   onDownload = (data) => {
-    const ws = xlsx.utils.json_to_sheet(data,{raw:false, origin: -1, display: true, cellDates: true, dateNF: 'YYYY-MM-DD'});
+    const ws = xlsx.utils.json_to_sheet(data);
     // xlsx.utils.sheet_add_json(ws, json, { origin: -1, display: true, cellDates: true, dateNF: 'YYYY-MM-DD' })
     const wb = xlsx.utils.book_new();
     [
       '주문번호',
       '주문날짜',
-      '가격(원)',
-      '총배달요금(원)',
-      '기본배달요금(원)',
-      '할증배달요금(원)',
+      '가격',
+      '총배달요금',
+      '기본배달요금',
+      '할증배달요금',
       '주소',
       '상세주소',
       'addr3',
@@ -160,6 +160,7 @@ class DeliveryList extends Component {
     ws['!cols'][18] = { hidden: true };
     ws['!cols'][19] = { hidden: true };
     ws['!cols'][20] = { hidden: true };
+    ws['!cols'][1] = { width: 20 };
     ws['!cols'][3] = { width: 15 };
     ws['!cols'][4] = { width: 15 };
     ws['!cols'][5] = { width: 15 };

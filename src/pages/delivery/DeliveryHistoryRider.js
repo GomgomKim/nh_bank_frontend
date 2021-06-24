@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 import Modal from "antd/lib/modal/Modal";
 import "../../css/main.css";
 import moment from "moment";
-import { feeType, riderGroup } from "../../lib/util/codeUtil";
+import { feeType, pgUseRate, riderGroup } from "../../lib/util/codeUtil";
 import { comma } from "../../lib/util/numberUtil";
 import xlsx from 'xlsx';
 
@@ -189,6 +189,36 @@ class DeliveryHistoryRider extends Component {
   }
 
   onDownload = (data) => {
+    console.log([data[0]]);
+    // let col2=["월"];
+    // for(let i=0; i<=data.length-1; i++) {
+    //   col2.push(moment([data[i].incomeDate]).format("M")+"월")
+    // };
+    let col5=["수익"];
+    for(let i=0; i<=data.length-1; i++) {
+      col5.push(comma(data[i].incomeAmount)+"원")
+    };
+    // console.log(col2);
+    let col9=["라이더그룹"];
+    for(let i=0; i<=data.length-1; i++) {
+      col9.push(riderGroup[data[i].riderGroup])
+    };
+    let col10=["수수료방식"];
+    for(let i=0; i<=data.length-1; i++) {
+      col10.push(feeType[data[i].feeType])
+    };
+    let col11=["수수료"];
+    for(let i=0; i<=data.length-1; i++) {
+      col11.push(comma(data[i].feeAmount)+"원")
+    };
+    let col12=["배달요금"];
+    for(let i=0; i<=data.length-1; i++) {
+      col12.push(comma(data[i].deliveryPrice)+"원")
+    };
+    // let col10=["수수료방식"];
+    // for(let i=0; i<=data.length-1; i++) {
+    //   col10.push(feeType[data[i].feeType])
+    // };
     const ws = xlsx.utils.json_to_sheet(data);
     const wb = xlsx.utils.book_new();
     [
@@ -197,18 +227,49 @@ class DeliveryHistoryRider extends Component {
       '월',
       'incomeDate',
       'userIdx',
-      '수익(원)',
+      '수익',
       'memo',
       '라이더명',
       '라이더 연락처',
-      '라이더 그룹(1:A,2:B,3:C,4:D,5:E)',
-      '수수료방식(0:정량, 1:정률)',
-      '수수료(원)',
-      '배달요금(원)'
+      '라이더 그룹',
+      '수수료방식',
+      '수수료',
+      '배달요금'
     ].forEach((x, idx) => {
       const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
       ws[cellAdd].v = x;
     })
+
+    col5.forEach((x, idx) => {
+      const cellAdd = xlsx.utils.encode_cell({c:5, r:idx});
+      ws[cellAdd].v = x;
+      ws[cellAdd].t = "string";
+    })
+
+    col9.forEach((x, idx) => {
+      const cellAdd = xlsx.utils.encode_cell({c:9, r:idx});
+      ws[cellAdd].v = x;
+      ws[cellAdd].t = "string";
+    })
+
+    col10.forEach((x, idx) => {
+      const cellAdd = xlsx.utils.encode_cell({c:10, r:idx});
+      ws[cellAdd].v = x;
+      ws[cellAdd].t = "string";
+    })
+
+    col11.forEach((x, idx) => {
+      const cellAdd = xlsx.utils.encode_cell({c:11, r:idx});
+      ws[cellAdd].v = x;
+      ws[cellAdd].t = "string";
+    })
+
+    col12.forEach((x, idx) => {
+      const cellAdd = xlsx.utils.encode_cell({c:12, r:idx});
+      ws[cellAdd].v = x;
+      ws[cellAdd].t = "string";
+    })
+
     ws['!cols'] = [];
     ws['!cols'][0] = { hidden: true };
     ws['!cols'][1] = { hidden: true };
@@ -216,15 +277,8 @@ class DeliveryHistoryRider extends Component {
     ws['!cols'][4] = { hidden: true };
     ws['!cols'][6] = { hidden: true };
     ws['!cols'][8] = { width: 12 };
-    ws['!cols'][9] = { 
-      width: 25,
-      render: (data) => <div>{riderGroup[data]}</div>
-    }
-    ws['!cols'][10] = { 
-      width: 22,
-      render: (data) => <div>{feeType[data]}</div>
-    }
-    console.log(ws['!cols'][0]);
+    ws['!cols'][9] = { width: 20 }
+    ws['!cols'][10] = { width: 15 }
     xlsx.utils.book_append_sheet(wb, ws, "sheet1");
     xlsx.writeFile(wb, "라이더배달내역.xlsx");
   }

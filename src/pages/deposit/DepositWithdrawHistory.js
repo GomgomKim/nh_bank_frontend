@@ -109,6 +109,10 @@ class DepositWithdrawHistory extends Component {
     }
 
     onDownload = (data) => {
+        let col9=["출금금액"];
+        for(let i=0; i<=data.length-1; i++) {
+          col9.push(comma(data[i].reqAmount)+"원")
+        };
         const ws = xlsx.utils.json_to_sheet(data);
         const wb = xlsx.utils.book_new();
         [
@@ -121,7 +125,7 @@ class DepositWithdrawHistory extends Component {
           'depositor',
           '출금일시',
           'withdrawStatus',
-          '출금금액(원)',
+          '출금금액',
           'procDate',
           'adminId',
           'memo'
@@ -129,6 +133,13 @@ class DepositWithdrawHistory extends Component {
           const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
           ws[cellAdd].v = x;
         })
+
+        col9.forEach((x, idx) => {
+            const cellAdd = xlsx.utils.encode_cell({c:9, r:idx});
+            ws[cellAdd].v = x;
+            ws[cellAdd].t = "string";
+        })
+
         ws['!cols'] = [];
         ws['!cols'][0] = { hidden: true };
         ws['!cols'][2] = { hidden: true };
