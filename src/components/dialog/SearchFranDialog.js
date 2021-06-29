@@ -1,6 +1,6 @@
+import { Input, Table } from "antd";
 import React, { Component } from "react";
-import { Form, Input, Table, Button, Radio } from "antd";
-import { httpGet, httpUrl, httpDownload, httpPost, httpPut } from '../../api/httpClient';
+import { httpGet, httpUrl } from '../../api/httpClient';
 import '../../css/main.css';
 
 const Search = Input.Search;
@@ -103,13 +103,13 @@ class SearchFranDialog extends Component {
     });
   };
 
-  onSubmit = () => {
-    // console.log("click")
-    if (this.props.callback) {
-      this.props.callback(this.state.selectedRowKeys);
-    }
-    this.props.close();
-  };
+  // onSubmit = () => {
+  //   // console.log("click")
+  //   if (this.props.callback) {
+  //     this.props.callback(this.state.selectedRowKeys);
+  //   }
+  //   this.props.close();
+  // };
 
   onSelect = (data) => {
     // console.log(data)
@@ -172,7 +172,7 @@ class SearchFranDialog extends Component {
                     />
                 </div>
 
-                <Form ref={this.formRef} onFinish={this.onSubmit}>
+                {/* <Form ref={this.formRef} onFinish={this.onSubmit}> */}
                   <div className="deposit-inner">              
                           <Search
                             placeholder="가맹점명 검색"
@@ -191,7 +191,7 @@ class SearchFranDialog extends Component {
                           onChange={this.handleTableChange}
                         />
                     </div>
-                </Form>
+                {/* </Form> */}
               </div>
             </div>
           </React.Fragment>
