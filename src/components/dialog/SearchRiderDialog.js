@@ -20,6 +20,7 @@ class SearchRiderDialog extends Component {
 
       dataIdxs: [],
       selectedRowKeys: [],
+      riderName: "",
 
     };
     this.formRef = React.createRef();
@@ -28,7 +29,7 @@ class SearchRiderDialog extends Component {
     this.getList(true);
   }
 
-  // 가맹점 검색
+  // 라이더 검색
   onSearchRiders = (value) => {
     this.setState(
       {
@@ -41,7 +42,7 @@ class SearchRiderDialog extends Component {
   };
 
   handleTableChange = (pagination) => {
-    // console.log(pagination);
+    console.log(pagination);
     const pager = {
       ...this.state.pagination,
     };
@@ -64,7 +65,7 @@ class SearchRiderDialog extends Component {
       pagination.total = res.data.totalCount;
       this.setState({
         list: res.data.riders,
-        // pagination,
+        pagination: pagination,
       });
     });
   };

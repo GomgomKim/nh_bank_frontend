@@ -90,81 +90,6 @@ class DeliveryHistoryRider extends Component {
   });
   }
 
-  // getList = () => {
-  //   var list = [
-  //     {
-  //       monthData: '6월',
-  //       userStatus: '사용',
-  //       riderName: '김아무개',
-  //       riderPhone: '010-1234-4567',
-  //       userGroup: 'A',
-  //       deliveryPrice: '2000',
-  //       deliveryPriceFee: '500',
-  //       deliveryPriceFeeType: '정량',
-  //       riderRevenue: '30000000'
-  //     },
-  //     {
-  //       monthData: '6월',
-  //       userStatus: '사용',
-  //       riderName: '지아무개',
-  //       riderPhone: '010-1234-4567',
-  //       userGroup: 'B',
-  //       deliveryPrice: '2000',
-  //       deliveryPriceFee: '800',
-  //       deliveryPriceFeeType: '정률',
-  //       riderRevenue: '40000000'
-  //     },
-  //     {
-  //       monthData: '6월',
-  //       userStatus: '사용',
-  //       riderName: '하아무개',
-  //       riderPhone: '010-1234-4567',
-  //       userGroup: 'C',
-  //       deliveryPrice: '2000',
-  //       deliveryPriceFee: '500',
-  //       deliveryPriceFeeType: '정량',
-  //       riderRevenue: '28000000'
-  //     },
-  //     {
-  //       monthData: '5월',
-  //       userStatus: '사용',
-  //       riderName: '김아무개',
-  //       riderPhone: '010-1234-4567',
-  //       userGroup: 'A',
-  //       deliveryPrice: '2000',
-  //       deliveryPriceFee: '500',
-  //       deliveryPriceFeeType: '정량',
-  //       riderRevenue: '30000000'
-  //     },
-  //     {
-  //       monthData: '5월',
-  //       userStatus: '사용',
-  //       riderName: '지아무개',
-  //       riderPhone: '010-1234-4567',
-  //       userGroup: 'B',
-  //       deliveryPrice: '2000',
-  //       deliveryPriceFee: '800',
-  //       deliveryPriceFeeType: '정률',
-  //       riderRevenue: '40000000'
-  //     },
-  //     {
-  //       monthData: '5월',
-  //       userStatus: '사용',
-  //       riderName: '하아무개',
-  //       riderPhone: '010-1234-4567',
-  //       userGroup: 'C',
-  //       deliveryPrice: '2000',
-  //       deliveryPriceFee: '500',
-  //       deliveryPriceFeeType: '정량',
-  //       riderRevenue: '28000000'
-  //     },
-
-
-  //   ];
-  //   this.setState({
-  //     list: list,
-  //   });
-  // }
   handleTableChange = (pagination) => {
     const pager = {
       ...this.state.pagination,
@@ -195,6 +120,7 @@ class DeliveryHistoryRider extends Component {
     //   col2.push(moment([data[i].incomeDate]).format("M")+"월")
     // };
     let col5=["수익"];
+    
     for(let i=0; i<=data.length-1; i++) {
       col5.push(comma(data[i].incomeAmount)+"원")
     };

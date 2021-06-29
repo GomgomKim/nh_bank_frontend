@@ -20,6 +20,7 @@ class SearchFranDialog extends Component {
 
       dataIdxs: [],
       selectedRowKeys: [],
+      frName: "",
     };
     this.formRef = React.createRef();
   }
@@ -40,7 +41,7 @@ class SearchFranDialog extends Component {
   };
 
   handleTableChange = (pagination) => {
-    // console.log(pagination);
+    console.log(pagination);
     const pager = {
       ...this.state.pagination,
     };
@@ -57,13 +58,15 @@ class SearchFranDialog extends Component {
   getList = () => {
     let pageNum = this.state.pagination.current;
     let pageSize = this.state.pagination.pageSize;
-    httpGet(httpUrl.franchiseList, [pageNum, pageSize], {}).then((res) => {
+    let frName = this.state.frName;
+    httpGet(httpUrl.franchiseList, [frName, pageNum, pageSize], {}).then((res) => {
+      console.log(JSON.stringify(res, null, 4))
       const pagination = { ...this.state.pagination };
       pagination.current = res.data.currentPage;
       pagination.total = res.data.totalCount;
       this.setState({
         list: res.data.franchises,
-        // pagination,
+        pagination: pagination,
       });
     });
   };

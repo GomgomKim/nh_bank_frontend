@@ -9,16 +9,6 @@ import con from "./const";
 
 class App extends Component {
   componentDidMount() {
-    const userInfo = reactLocalStorage.getObject(con.appName + "#adminUser");
-    let pathname = this.props.location.pathname.split("/");
-
-    // if (!userInfo.idx && this.props.location.pathname !== "/") {
-    //   alert("로그인이 필요합니다.");
-    //   this.props.history.push("/");
-    // }
-    // if (userInfo.idx && this.props.location.pathname === "/") {
-    //   this.props.history.push("/main");
-    // }
   }
 
   render() {

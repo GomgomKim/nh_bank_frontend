@@ -169,7 +169,7 @@ const httpUrl = {
 
   // 가맹점
   franchiseList:
-    "/fr/list?branchName=%s&frName=%s&pageNum=%s&pageSize=%s",  
+    "/fr/list?frName=%s&pageNum=%s&pageSize=%s",  
   updateFranchise:
     "/fr/update",
   
