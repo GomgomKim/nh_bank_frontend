@@ -58,7 +58,8 @@ class DepositDialog extends Component {
         this.setState({ openSearchFranModal: false})
     };
 
-    handleSubmit = () =>{
+    handleSubmit = (e) =>{
+        e.preventDefault();
         let self = this;
         const form = this.formRef.current;
         if(this.state.searchType === 0){
@@ -134,7 +135,7 @@ class DepositDialog extends Component {
                         </div>
                         <img onClick={close} src={require('../../img/close.png').default} className="dialog-close" alt="img" />
                         <div className="deposit-inner">
-                        <Form ref={this.formRef} onFinish={this.handleSubmit}>
+                        <Form ref={this.formRef} onFinish={(e) => this.handleSubmit(e)}>
                             <div className="contentBlock">                                
                                 <Radio.Group
                                     onChange={this.onCheckType}

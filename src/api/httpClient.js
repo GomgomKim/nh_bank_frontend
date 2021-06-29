@@ -174,7 +174,7 @@ const httpUrl = {
     "/fr/update",
   
   // 라이더
-  riderList: "/rider/list?pageNum=%s&pageSize=%s",
+  riderList: "/rider/list?riderName=%s&pageNum=%s&pageSize=%s",
   
   //바이크
     bikeFixHistoryList:"/bike/maintenance/list?pageNum=%s&pageSize=%s",
