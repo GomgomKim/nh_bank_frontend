@@ -136,6 +136,10 @@ class FranchiseList extends Component {
     };
 
     onDownload = (data) => {
+        let col6=["PG 사용비율"];
+        for(let i=0; i<=data.length-1; i++) {
+          col6.push(data[i].tidNormalRate == 0 ? '미사용' : '사용')
+        };
         const ws = xlsx.utils.json_to_sheet(data);
         const wb = xlsx.utils.book_new();
         [
@@ -152,6 +156,11 @@ class FranchiseList extends Component {
           const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
           ws[cellAdd].v = x;
         })
+        col6.forEach((x, idx) => {
+            const cellAdd = xlsx.utils.encode_cell({c:6, r:idx});
+            ws[cellAdd].v = x;
+            ws[cellAdd].t = "string";
+          })
         ws['!cols'] = [];
         ws['!cols'][0] = { hidden: true };
         ws['!cols'][5] = { hidden: true };
