@@ -70,6 +70,7 @@ class FranchiseList extends Component {
         httpGet(
           httpUrl.franchiseList,
           [
+            this.state.branchName,
             this.state.frName,
             pagination.current,
             pagination.pageSize,
