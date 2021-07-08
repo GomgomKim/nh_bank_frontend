@@ -189,6 +189,7 @@ const httpUrl = {
 
   // 문의사항
   inquiryList: "/inquiry/list?pageNum=%s&pageSize=%s",
+  updateInquiry: "/inquiry/update",
 
   // 예치금
   depositList: "/ncash/deposit/list?pageNum=%s&pageSize=%s&userId=%s&userType=%s",

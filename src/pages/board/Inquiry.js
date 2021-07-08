@@ -9,6 +9,7 @@ import {
   endDateFormat
 } from "../../lib/util/dateUtil";
 import SelectBox from "../../components/input/SelectBox";
+import { customAlert, customError, updateError } from "../../api/Modals";
 
 
 const Search = Input.Search;
@@ -81,6 +82,32 @@ class Inquiry extends Component {
         </div>
       </div>
     )
+  }
+
+  onComplete = (row) => {
+    let self = this;
+    Modal.confirm({
+        title:"문의 완료",
+        content:"해당 문의를 완료하시겠습니까?",
+        okText:"확인",
+        cancelText:"취소",
+        onOk() {
+          httpPost(httpUrl.updateInquiry,[],{
+            idx : row.idx,
+            status : 1
+          })
+          .then((result)=>{
+            if(result.result === "SUCCESS" && result.data === "SUCCESS"){
+                customAlert("완료", "해당 문의를 완료합니다.")      
+              }
+                else updateError()
+                self.getList();
+        })
+        .catch((error) => {
+            customError("완료오류", "에러가 발생하였습니다. 다시 시도해주세요.") 
+          });
+        }
+    });
   }
   render() {
     const categoryString = {
@@ -155,10 +182,7 @@ class Inquiry extends Component {
           return (
             <Button onClick={(e) => {
               e.stopPropagation();
-              this.setState({
-                selectedRow: row,
-                completeVisible: true,
-              })
+              this.onComplete(row);
             }}>
               완료하기
             </Button>
