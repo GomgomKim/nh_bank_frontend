@@ -139,7 +139,7 @@ class Inquiry extends Component {
         dataIndex: "memo",
         className: "table-column-center",
         render: (data, row) =>
-          <div style={{ cursor: 'pointer' }} onClick={(e) => {
+          <div onClick={(e) => {
             e.stopPropagation();
             this.setState({ memoVisible: true, selectedRow: row })
           }}>
@@ -151,7 +151,7 @@ class Inquiry extends Component {
         dataIndex: "idx",
         className: "table-column-center",
         render: (data, row) => {
-          if (row.status != 'NEW') return (<></>);
+          if (row.status != 0) return (<></>);
           return (
             <Button onClick={(e) => {
               e.stopPropagation();
@@ -170,7 +170,7 @@ class Inquiry extends Component {
       <>
         <Table
           rowKey={(record) => record.idx}
-          rowClassName={(record) => (record.status === 'COMPLETE' ? "table-disabled" : "")}
+          rowClassName={(record) => (record.status === 1 ? "table-disabled" : "")}
           dataSource={this.state.list}
           columns={columns}
           pagination={this.state.pagination}
