@@ -1,6 +1,6 @@
 import React, { Component, useState, useCallback } from 'react'
 import { httpGet, httpUrl, httpDownload, httpPost, httpPut } from '../../api/httpClient';
-import { Table, Input, Button, DatePicker, Space, Modal, Tooltip } from 'antd'
+import { Table, Input, Button, DatePicker, Space, Modal, Tooltip, Radio } from 'antd'
 import { reactLocalStorage } from "reactjs-localstorage";
 import ModifyNoticeDialog from "../../components/dialog/ModifyNoticeDialog";
 
@@ -38,6 +38,7 @@ class Notice extends Component {
             startDate: "",
             title: "",
             showContent: 0,
+            searchType: 0,
 
         };
         this.formRef = React.createRef();
@@ -150,7 +151,8 @@ class Notice extends Component {
         let pageSize = this.state.pagination.pageSize;
         let startDate=this.state.startDate;
         let title= this.state.title;
-        httpGet(httpUrl.noticeList, [ endDate, pageNum, pageSize, startDate, title ],{})
+        let deleted = this.state.searchType;
+        httpGet(httpUrl.noticeList, [ endDate, pageNum, pageSize, startDate, title, deleted ],{})
         .then((res) => {
           console.log(res)
           const pagination = { ...this.state.pagination };
@@ -208,6 +210,18 @@ class Notice extends Component {
           showContent:idx
         })
       }
+
+      onChange = (e) => {
+        this.setState({
+            searchType: e.target.value,
+            pagination: {
+                current: 1,
+                pageSize: 10,
+            }
+        }, ()=>{
+            this.getList();
+        })
+    }
 
     
     render() {
@@ -329,6 +343,11 @@ class Notice extends Component {
         ];
         return (
             <>
+                <Radio.Group defaultValue={0} onChange={this.onChange} style={{ marginTop: 5 }}>
+                    <Radio value={0}>등록</Radio>
+                    <Radio value={1}>삭제</Radio>
+                </Radio.Group>
+
                 <Search
                     placeholder="제목 검색"
                     enterButton
