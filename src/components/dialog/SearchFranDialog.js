@@ -1,4 +1,4 @@
-import { Input, Table } from "antd";
+import { Input, Table, Form } from "antd";
 import React, { Component } from "react";
 import { httpGet, httpUrl } from '../../api/httpClient';
 import '../../css/main.css';
@@ -19,7 +19,6 @@ class SearchFranDialog extends Component {
       },
 
       dataIdxs: [],
-      selectedRowKeys: [],
       frName: "",
     };
     this.formRef = React.createRef();
@@ -71,53 +70,13 @@ class SearchFranDialog extends Component {
     });
   };
 
-  onSelectChange = (selectedRowKeys) => {
-    // console.log("selectedRowKeys changed: ", selectedRowKeys);
-    // console.log("selectedRowKeys.length :" + selectedRowKeys.length);
-
-    // console.log(this.state.list)
-    var cur_list = this.state.list;
-    var overrideData = {};
-    for (let i = 0; i < cur_list.length; i++) {
-      var idx = cur_list[i].idx;
-      if (selectedRowKeys.includes(idx)) overrideData[idx] = true;
-      else overrideData[idx] = false;
-    }
-    // console.log(overrideData)
-
-    var curIdxs = this.state.dataIdxs;
-    curIdxs = Object.assign(curIdxs, overrideData);
-
-    selectedRowKeys = [];
-    for (let i = 0; i < curIdxs.length; i++) {
-      if (curIdxs[i]) {
-        // console.log("push  :" + i);
-        selectedRowKeys = [...selectedRowKeys, i];
-        // console.log(selectedRowKeys);
-      }
-    }
-    // console.log(selectedRowKeys);
-    this.setState({
-      selectedRowKeys: selectedRowKeys,
-      dataIdxs: curIdxs,
-    });
-  };
-
-  // onSubmit = () => {
-  //   // console.log("click")
-  //   if (this.props.callback) {
-  //     this.props.callback(this.state.selectedRowKeys);
-  //   }
-  //   this.props.close();
-  // };
-
   onSelect = (data) => {
     // console.log(data)
     if (this.props.callback) {
         this.props.callback(data);
     }
     this.props.close()
-}
+  }
 
   render() {
     const columns = [
@@ -147,55 +106,43 @@ class SearchFranDialog extends Component {
       },
     ];
 
-    const selectedRowKeys = this.state.selectedRowKeys;
-    // console.log(selectedRowKeys);
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: this.onSelectChange,
-    };
 
     const { close } = this.props;
 
     return (
-
           <React.Fragment>
             <div className="Dialog-overlay" onClick={close} />
             <div className="deposit-Dialog">
               <div className="deposit-content">
-                  <div>
-                    <div className="deposit-title">가맹점 조회</div>
-                    <img
-                    onClick={close}
-                    src={require("../../img/close.png").default}
-                    className="deposit-close" 
-                    alt="닫기"
-                    />
+                <div>
+                  <div className="deposit-title">가맹점 조회</div>
+                  <img
+                  onClick={close}
+                  src={require("../../img/close.png").default}
+                  className="deposit-close" 
+                  alt="닫기"
+                  />
                 </div>
-
-                {/* <Form ref={this.formRef} onFinish={this.onSubmit}> */}
                   <div className="deposit-inner">              
-                          <Search
-                            placeholder="가맹점명 검색"
-                            className="searchRider-Input"
-                            enterButton
-                            allowClear
-                            onSearch={this.onSearchFranchisee}
-                          />                        
-
-                        <Table
-                          className="searchRider-table"
-                          rowKey={(record) => record.idx}
-                          dataSource={this.state.list}
-                          columns={columns}
-                          pagination={this.state.pagination}
-                          onChange={this.handleTableChange}
-                        />
-                    </div>
-                {/* </Form> */}
+                    <Search
+                      placeholder="가맹점명 검색"
+                      className="searchRider-Input"
+                      enterButton
+                      allowClear
+                      onSearch={this.onSearchFranchisee}
+                    />                        
+                    <Table
+                      className="searchRider-table"
+                      rowKey={(record) => record.idx}
+                      dataSource={this.state.list}
+                      columns={columns}
+                      pagination={this.state.pagination}
+                      onChange={this.handleTableChange}
+                    />
+                  </div>
               </div>
             </div>
           </React.Fragment>
-
     );
   }
 }

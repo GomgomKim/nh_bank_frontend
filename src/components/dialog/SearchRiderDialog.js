@@ -19,7 +19,6 @@ class SearchRiderDialog extends Component {
       },
 
       dataIdxs: [],
-      selectedRowKeys: [],
       riderName: "",
 
     };
@@ -33,7 +32,7 @@ class SearchRiderDialog extends Component {
   onSearchRiders = (value) => {
     this.setState(
       {
-        frName: value,
+        riderName: value,
       },
       () => {
         this.getList();
@@ -59,7 +58,8 @@ class SearchRiderDialog extends Component {
   getList = () => {
     let pageNum = this.state.pagination.current;
     let pageSize = this.state.pagination.pageSize;
-    httpGet(httpUrl.riderList, [pageNum, pageSize], {}).then((res) => {
+    let riderName = this.state.riderName;
+    httpGet(httpUrl.riderList, [riderName, pageNum, pageSize], {}).then((res) => {
       const pagination = { ...this.state.pagination };
       pagination.current = res.data.currentPage;
       pagination.total = res.data.totalCount;
@@ -67,37 +67,6 @@ class SearchRiderDialog extends Component {
         list: res.data.riders,
         pagination: pagination,
       });
-    });
-  };
-  onSelectChange = (selectedRowKeys) => {
-    // console.log("selectedRowKeys changed: ", selectedRowKeys);
-    // console.log("selectedRowKeys.length :" + selectedRowKeys.length);
-
-    // console.log(this.state.list)
-    var cur_list = this.state.list;
-    var overrideData = {};
-    for (let i = 0; i < cur_list.length; i++) {
-      var idx = cur_list[i].idx;
-      if (selectedRowKeys.includes(idx)) overrideData[idx] = true;
-      else overrideData[idx] = false;
-    }
-    // console.log(overrideData)
-
-    var curIdxs = this.state.dataIdxs;
-    curIdxs = Object.assign(curIdxs, overrideData);
-
-    selectedRowKeys = [];
-    for (let i = 0; i < curIdxs.length; i++) {
-      if (curIdxs[i]) {
-        // console.log("push  :" + i);
-        selectedRowKeys = [...selectedRowKeys, i];
-        // console.log(selectedRowKeys);
-      }
-    }
-    // console.log(selectedRowKeys);
-    this.setState({
-      selectedRowKeys: selectedRowKeys,
-      dataIdxs: curIdxs,
     });
   };
 
@@ -143,13 +112,6 @@ class SearchRiderDialog extends Component {
       },
     ];
 
-    const selectedRowKeys = this.state.selectedRowKeys;
-    // console.log(selectedRowKeys);
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: this.onSelectChange,
-    };
-
     const { close } = this.props;
 
     return (
@@ -168,26 +130,23 @@ class SearchRiderDialog extends Component {
                     />
                 </div>
 
-                <Form ref={this.formRef} onFinish={this.onSubmit}>
-                  <div className="deposit-inner">              
-                          <Search
-                            placeholder="라이더명 검색"
-                            className="searchRider-Input"
-                            enterButton
-                            allowClear
-                            onSearch={this.onSearchRiders}
-                          />                        
-
-                        <Table
-                          className="searchRider-table"
-                          rowKey={(record) => record.idx}
-                          dataSource={this.state.list}
-                          columns={columns}
-                          pagination={this.state.pagination}
-                          onChange={this.handleTableChange}
-                        />
-                    </div>
-                </Form>
+                <div className="deposit-inner">              
+                    <Search
+                      placeholder="라이더명 검색"
+                      className="searchRider-Input"
+                      enterButton
+                      allowClear
+                      onSearch={this.onSearchRiders}
+                    />                        
+                    <Table
+                      className="searchRider-table"
+                      rowKey={(record) => record.idx}
+                      dataSource={this.state.list}
+                      columns={columns}
+                      pagination={this.state.pagination}
+                      onChange={this.handleTableChange}
+                    />
+                </div>
               </div>
             </div>
           </React.Fragment>
