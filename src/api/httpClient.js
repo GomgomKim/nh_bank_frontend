@@ -183,7 +183,7 @@ const httpUrl = {
     updateFixList:"/bike/maintenance/update",
 
   //공지사항
-    noticeList:"/notice/list?endDate=%s&pageNum=%s&pageSize=%s&startDate=%s&title=%s",
+    noticeList:"/notice/list?endDate=%s&pageNum=%s&pageSize=%s&startDate=%s&title=%s&deleted=%s",
     updateNotice: "/notice/update",
     registNotice: "/notice/create",
 

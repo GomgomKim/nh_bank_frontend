@@ -153,8 +153,8 @@ class Inquiry extends Component {
       EXP: "전문가 기타문의",
     };
     const statusString = {
-      NEW: "신규",
-      COMPLETE: "처리완료",
+      0: "신규",
+      1: "처리완료",
     };
     const columns = [
       {
