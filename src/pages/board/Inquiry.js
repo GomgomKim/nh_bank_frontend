@@ -220,11 +220,7 @@ class Inquiry extends Component {
                 e.stopPropagation();
                 this.setState({
                   modifyMemoIdx: row.idx,
-                  inputMemo: data
-                    ? data.length > 10
-                      ? data.substr(0, 10) + "..."
-                      : data
-                    : "-",
+                  inputMemo: data,
                 });
                 // this.setState({ memoVisible: true, selectedRow: row })
               }}
