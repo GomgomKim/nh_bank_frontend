@@ -182,11 +182,20 @@ class DeliveryHistoryEmployee extends Component {
     xlsx.writeFile(wb, "정직원배달내역.xlsx");
   }
 
+  pressSearch = () => {
+    this.setState({
+      pagination:{
+        current: 1,
+        pageSize: 10,
+      }
+    }, () => this.getList());
+  }
+
   render() {
     const columns = [
       {
         title: "월",
-        dataIndex: "monthData",
+        dataIndex: "incenDate",
         className: "table-column-center",
         width: "5%",
         render: (data) => <div>{moment(data).format("M") + "월"}</div>,
@@ -299,7 +308,7 @@ class DeliveryHistoryEmployee extends Component {
           enterButton
           allowClear
           onChange={(e) => this.onChangeInput(e, "staffName")}
-          onSearch={this.getList}
+          onSearch={this.pressSearch}
           style={{
             width: 220,
             marginLeft: 20,
@@ -311,7 +320,7 @@ class DeliveryHistoryEmployee extends Component {
           enterButton
           allowClear
           onChange={(e) => this.onChangeInput(e, "staffPhone")}
-          onSearch={this.getList}
+          onSearch={this.pressSearch}
           style={{
             width: 220,
             marginLeft: 20,
