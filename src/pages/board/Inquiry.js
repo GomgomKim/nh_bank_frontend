@@ -209,13 +209,7 @@ class Inquiry extends Component {
             <>
               <Input
                 style={{ display: "inline-block", width: 200 }}
-                defaultValue={
-                  data
-                    ? data.length > 10
-                      ? data.substr(0, 10) + "..."
-                      : data
-                    : "-"
-                }
+                defaultValue={data}
                 onChange={(e) => this.setState({ inputMemo: e.target.value })}
               />
               <Button onClick={() => this.handleModifyMemo()}>수정</Button>
