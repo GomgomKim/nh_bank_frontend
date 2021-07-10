@@ -168,10 +168,9 @@ const httpUrl = {
     "/delivery/staff/list?categories=2&categories=3&categories=5&pageNum=%s&pageSize=%s&searchMonth=%s&staffName=%s&staffPhone=%s",
 
   // 가맹점
-  franchiseList:
-    "/fr/list?branchName=%s&frName=%s&pageNum=%s&pageSize=%s",  
-  updateFranchise:
-    "/fr/update",
+  franchiseList: "/fr/list?branchName=%s&frName=%s&pageNum=%s&pageSize=%s",  
+  updateFranchise: "/fr/update",
+  registFranchisePG: "/fr/regist/pg/%s",
   
   // 라이더
   riderList: "/rider/list?riderName=%s&pageNum=%s&pageSize=%s",

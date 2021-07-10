@@ -134,10 +134,25 @@ class ModifyFranDialog extends Component {
                                     <div className="mainTitle">VAN</div>
                                     <div className="formItem">
                                         <FormItem
-                                            name="vanNumber"
+                                            name="tidNormal"
                                             className="selectItem"
                                             style={{ marginLeft: 20 }}
-                                            initialValue={data ? data.vanNumber : ""}
+                                            initialValue={data ? data.tidNormal : ""}
+                                        >
+                                            <Input
+                                                className="override-input"
+                                            />
+                                        </FormItem>
+                                    </div>
+                                </div>
+                                <div className="contentBlock">
+                                    <div className="mainTitle">PG</div>
+                                    <div className="formItem">
+                                        <FormItem
+                                            name="tidPrepay"
+                                            className="selectItem"
+                                            style={{ marginLeft: 20 }}
+                                            initialValue={data ? data.tidPrepay : ""}
                                         >
                                             <Input
                                                 className="override-input"

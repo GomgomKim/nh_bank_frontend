@@ -1,10 +1,11 @@
 import React, { Component, useState, useCallback } from 'react'
 import { httpGet, httpUrl, httpDownload, httpPost, httpPut } from '../../api/httpClient';
-import { Table, Input, Button, DatePicker, Space } from 'antd'
+import { Table, Input, Button, DatePicker, Space, Modal } from 'antd'
 import { comma } from "../../lib/util/numberUtil";
 import ModifyFranDialog from "../../components/dialog/ModifyFranDialog";
 import FranFeeDialog from "../../components/dialog/FranFeeDialog";
 import ChargeDialog from "../../components/dialog/ChargeDialog";
+import { customAlert, customError, updateError } from "../../api/Modals";
 import '../../css/main.css';
 import xlsx from 'xlsx';
 
@@ -64,6 +65,29 @@ class FranchiseList extends Component {
     closeChargeDialogModal = () => {
         this.setState({ chargeDialogOpen: false });
     };
+
+    registPG = (userIdx) => {
+        let self = this;
+        Modal.confirm({
+            title:"PG 지갑 등록",
+            content:"PG사에 가맹점 지갑을 등록합니다. 등록 시 가상계좌도 발급됩니다. 실제 계좌가 발급되니 무분별한 등록은 자제해주세요. 정말 등록하시겠습니까?",
+            okText:"확인",
+            cancelText:"취소",
+            onOk() {
+                httpPost(httpUrl.registFranchisePG,[userIdx],{})
+                .then((result)=>{
+                    if(result.result === "SUCCESS" && result.data){
+                        customAlert("완료", "PG에 가맹점이 등록되었습니다..")      
+                    }
+                    else customError("등록오류", "에러가 발생하였습니다. 다시 시도해주세요.") 
+                    self.getList();
+                })
+                .catch((error) => {
+                    customError("등록오류", "에러가 발생하였습니다. 다시 시도해주세요.") 
+                  });
+            }
+        });
+    }
 
     getList = () => {
         const pagination = this.state.pagination;
@@ -200,7 +224,12 @@ class FranchiseList extends Component {
             },
             {
                 title: "VAN",
-                dataIndex: "vanNumber",
+                dataIndex: "tidNormal",
+                className: "table-column-center",
+            },
+            {
+                title: "PG",
+                dataIndex: "tidPrepay",
                 className: "table-column-center",
             },
             {
@@ -240,6 +269,18 @@ class FranchiseList extends Component {
                         수정
                     </Button>
                 )
+            },
+            {
+                title: "PG지갑",
+                dataIndex: "walletId",
+                className: "table-column-center",
+                render: (data, row) => {
+                    return data ? (<div>{data}</div>) : (
+                    <Button onClick={()=>this.registPG(row.userIdx)}>
+                        PG등록
+                    </Button>)
+                }
+
             },
 
         ];

@@ -20,8 +20,8 @@
  };
 
  const pgUseRate = {
-  0:"미사용",
-  100:"사용",
+  0:"사용",
+  100:"미사용",
 };
 
  const riderLevel = [
