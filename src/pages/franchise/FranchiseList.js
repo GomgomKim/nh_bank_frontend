@@ -233,10 +233,10 @@ class FranchiseList extends Component {
                 className: "table-column-center",
             },
             {
-                title: "PG 사용비율",
+                title: "PG 사용",
                 dataIndex: "tidNormalRate",
                 className: "table-column-center",
-                render: (data) => <div>{data == 0 ? '미사용' : '사용'}</div>,
+                render: (data) => <div>{data == 100 ? '미사용' : '사용'}</div>,
             },
             {
                 title: "가맹비내역",
