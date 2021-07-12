@@ -182,10 +182,18 @@ class DepositPaymentHistory extends Component {
                 </Button>
 
                 <Button className="download-btn"
-                    style={{ float: 'right', marginLeft: 20, marginBottom: 20 }} onClick={{}}>
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
                     <img src={require("../../img/excel.png").default} alt="" />
                         엑셀 업로드
-          </Button>
+                </Button>
+
+                <a href="/admin_deposit.xlsx" download>
+                    <Button className="download-btn"
+                        style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
+                        <img src={require("../../img/excel.png").default} alt="" />
+                            양식 다운로드
+                    </Button>
+                </a>
 
 
                 <Table

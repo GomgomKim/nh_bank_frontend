@@ -312,11 +312,16 @@ class BikeList extends Component {
 
 
           <Button className="download-btn"
-            style={{ float: 'right', marginLeft: 20, marginBottom: 20 }} onClick={{}}>
+            style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
             <img src={require("../../img/excel.png").default} alt="" />
                         엑셀 업로드
           </Button>
 
+          <Button className="download-btn"
+            style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
+            <img src={require("../../img/excel.png").default} alt="" />
+                        양식 다운로드
+          </Button>
 
 
         {this.state.isFixHistoryOpen && (
