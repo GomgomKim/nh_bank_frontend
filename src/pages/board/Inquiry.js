@@ -127,7 +127,7 @@ class Inquiry extends Component {
       onOk() {
         httpPost(httpUrl.updateInquiry, [], {
           idx: row.idx,
-          status: 1,
+          status: "COMPLETE",
         })
           .then((result) => {
             if (result.result === "SUCCESS" && result.data === "SUCCESS") {
@@ -153,8 +153,8 @@ class Inquiry extends Component {
       EXP: "전문가 기타문의",
     };
     const statusString = {
-      0: "신규",
-      1: "처리완료",
+      "NEW": "신규",
+      "COMPLETE": "처리완료",
     };
     const columns = [
       {
@@ -239,7 +239,7 @@ class Inquiry extends Component {
         dataIndex: "idx",
         className: "table-column-center",
         render: (data, row) => {
-          if (row.status != 0) return <></>;
+          if (row.status != "NEW") return <></>;
           return (
             <Button
               onClick={(e) => {
@@ -258,7 +258,7 @@ class Inquiry extends Component {
         <Table
           rowKey={(record) => record.idx}
           rowClassName={(record) =>
-            record.status === 1 ? "table-disabled" : ""
+            record.status === "COMPLETE" ? "table-disabled" : ""
           }
           dataSource={this.state.list}
           columns={columns}
