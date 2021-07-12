@@ -76,34 +76,34 @@ class DeliveryHistoryEmployee extends Component {
   };
 
   onDownload = (data) => {
-    let col6=["기본건수"];
-    for(let i=0; i<=data.length-1; i++) {
-      col6.push(comma(data[i].defaultCnt)+"건")
-    };
-    let col7=["배달건수"];
-    for(let i=0; i<=data.length-1; i++) {
-      col7.push(comma(data[i].deliveryCnt)+"건")
-    };
-    let col10=["관리인센티브"];
-    for(let i=0; i<=data.length-1; i++) {
-      col10.push(comma(data[i].manageIncenAmount)+"원")
-    };
-    let col11=["가맹점 인센티브"];
-    for(let i=0; i<=data.length-1; i++) {
-      col11.push(comma(data[i].frIncenAmount)+"원")
-    };
-    let col12=["추가 인센티브"];
-    for(let i=0; i<=data.length-1; i++) {
-      col12.push(comma(data[i].additionalIncenAmount)+"원")
-    };
-    let col15=["기본배달료"];
-    for(let i=0; i<=data.length-1; i++) {
-      col15.push(comma(data[i].additionalIncenAmount)+"원")
-    };
-    let col16=["직급"];
-    for(let i=0; i<=data.length-1; i++) {
-      col16.push(riderLevel[data[i].staffLevel])
-    };
+    // let col6=["기본건수"];
+    // for(let i=0; i<=data.length-1; i++) {
+    //   col6.push(comma(data[i].defaultCnt)+"건")
+    // };
+    // let col7=["배달건수"];
+    // for(let i=0; i<=data.length-1; i++) {
+    //   col7.push(comma(data[i].deliveryCnt)+"건")
+    // };
+    // let col10=["관리인센티브"];
+    // for(let i=0; i<=data.length-1; i++) {
+    //   col10.push(comma(data[i].manageIncenAmount))
+    // };
+    // let col11=["가맹점 인센티브"];
+    // for(let i=0; i<=data.length-1; i++) {
+    //   col11.push(comma(data[i].frIncenAmount))
+    // };
+    // let col12=["추가 인센티브"];
+    // for(let i=0; i<=data.length-1; i++) {
+    //   col12.push(comma(data[i].additionalIncenAmount))
+    // };
+    // let col15=["기본배달료"];
+    // for(let i=0; i<=data.length-1; i++) {
+    //   col15.push(comma(data[i].additionalIncenAmount))
+    // };
+    // let col16=["직급"];
+    // for(let i=0; i<=data.length-1; i++) {
+    //   col16.push(riderLevel[data[i].staffLevel])
+    // };
     const ws = xlsx.utils.json_to_sheet(data);
     const wb = xlsx.utils.book_new();
     [
@@ -113,8 +113,8 @@ class DeliveryHistoryEmployee extends Component {
       'incenDate',
       'category',
       'incenPayed',
-      '기본건수',
-      '배달건수',
+      '기본건수(건)',
+      '배달건수(건)',
       'defaultDeliveryPrice',
       'payedAmount',
       '관리인센티브(원)',
@@ -123,46 +123,46 @@ class DeliveryHistoryEmployee extends Component {
       '직원명',
       '직원 연락처',
       '기본배달료(원)',
-      '직급',
+      '직급\n(2:부팀장,3:팀장,4:부본부장,5:본부장,6:부지점장,7:지점장,8:부센터장,9:센터장)',
     ].forEach((x, idx) => {
       const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
       ws[cellAdd].v = x;
     })
-    col6.forEach((x, idx) => {
-      const cellAdd = xlsx.utils.encode_cell({c:6, r:idx});
-      ws[cellAdd].v = x;
-      ws[cellAdd].t = "string";
-    })
-    col7.forEach((x, idx) => {
-      const cellAdd = xlsx.utils.encode_cell({c:7, r:idx});
-      ws[cellAdd].v = x;
-      ws[cellAdd].t = "string";
-    })
-    col10.forEach((x, idx) => {
-      const cellAdd = xlsx.utils.encode_cell({c:10, r:idx});
-      ws[cellAdd].v = x;
-      ws[cellAdd].t = "string";
-    })
-    col11.forEach((x, idx) => {
-      const cellAdd = xlsx.utils.encode_cell({c:11, r:idx});
-      ws[cellAdd].v = x;
-      ws[cellAdd].t = "string";
-    })
-    col12.forEach((x, idx) => {
-      const cellAdd = xlsx.utils.encode_cell({c:12, r:idx});
-      ws[cellAdd].v = x;
-      ws[cellAdd].t = "string";
-    })
-    col15.forEach((x, idx) => {
-      const cellAdd = xlsx.utils.encode_cell({c:15, r:idx});
-      ws[cellAdd].v = x;
-      ws[cellAdd].t = "string";
-    })
-    col16.forEach((x, idx) => {
-      const cellAdd = xlsx.utils.encode_cell({c:16, r:idx});
-      ws[cellAdd].v = x;
-      ws[cellAdd].t = "string";
-    })
+    // col6.forEach((x, idx) => {
+    //   const cellAdd = xlsx.utils.encode_cell({c:6, r:idx});
+    //   ws[cellAdd].v = x;
+    //   ws[cellAdd].t = "string";
+    // })
+    // col7.forEach((x, idx) => {
+    //   const cellAdd = xlsx.utils.encode_cell({c:7, r:idx});
+    //   ws[cellAdd].v = x;
+    //   ws[cellAdd].t = "string";
+    // })
+    // col10.forEach((x, idx) => {
+    //   const cellAdd = xlsx.utils.encode_cell({c:10, r:idx});
+    //   ws[cellAdd].v = x;
+    //   ws[cellAdd].t = "string";
+    // })
+    // col11.forEach((x, idx) => {
+    //   const cellAdd = xlsx.utils.encode_cell({c:11, r:idx});
+    //   ws[cellAdd].v = x;
+    //   ws[cellAdd].t = "string";
+    // })
+    // col12.forEach((x, idx) => {
+    //   const cellAdd = xlsx.utils.encode_cell({c:12, r:idx});
+    //   ws[cellAdd].v = x;
+    //   ws[cellAdd].t = "string";
+    // })
+    // col15.forEach((x, idx) => {
+    //   const cellAdd = xlsx.utils.encode_cell({c:15, r:idx});
+    //   ws[cellAdd].v = x;
+    //   ws[cellAdd].t = "string";
+    // })
+    // col16.forEach((x, idx) => {
+    //   const cellAdd = xlsx.utils.encode_cell({c:16, r:idx});
+    //   ws[cellAdd].v = x;
+    //   ws[cellAdd].t = "string";
+    // })
     ws['!cols'] = [];
     ws['!cols'][0] = { hidden: true };
     ws['!cols'][1] = { hidden: true };
@@ -326,6 +326,10 @@ class DeliveryHistoryEmployee extends Component {
             marginLeft: 20,
           }}
         />
+
+        <div className="txt-left">
+          배달내역 전월 집계
+        </div>
 
         <Button
           className="download-btn"

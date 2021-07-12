@@ -109,10 +109,10 @@ class DepositWithdrawHistory extends Component {
     }
 
     onDownload = (data) => {
-        let col9=["출금금액"];
-        for(let i=0; i<=data.length-1; i++) {
-          col9.push(comma(data[i].reqAmount)+"원")
-        };
+        // let col9=["출금금액"];
+        // for(let i=0; i<=data.length-1; i++) {
+        //   col9.push(comma(data[i].reqAmount))
+        // };
         const ws = xlsx.utils.json_to_sheet(data);
         const wb = xlsx.utils.book_new();
         [
@@ -122,10 +122,10 @@ class DepositWithdrawHistory extends Component {
           'userIdx',
           'bank',
           '출금계좌',
-          'depositor',
+          '이름',
           '출금일시',
           'withdrawStatus',
-          '출금금액',
+          '출금금액(원)',
           'procDate',
           'adminId',
           'memo'
@@ -134,18 +134,17 @@ class DepositWithdrawHistory extends Component {
           ws[cellAdd].v = x;
         })
 
-        col9.forEach((x, idx) => {
-            const cellAdd = xlsx.utils.encode_cell({c:9, r:idx});
-            ws[cellAdd].v = x;
-            ws[cellAdd].t = "string";
-        })
+        // col9.forEach((x, idx) => {
+        //     const cellAdd = xlsx.utils.encode_cell({c:9, r:idx});
+        //     ws[cellAdd].v = x;
+        //     ws[cellAdd].t = "string";
+        // })
 
         ws['!cols'] = [];
         ws['!cols'][0] = { hidden: true };
         ws['!cols'][2] = { hidden: true };
         ws['!cols'][3] = { hidden: true };
         ws['!cols'][4] = { hidden: true };
-        ws['!cols'][6] = { hidden: true };
         ws['!cols'][8] = { hidden: true };
         ws['!cols'][10] = { hidden: true };
         ws['!cols'][11] = { hidden: true };
@@ -163,6 +162,12 @@ class DepositWithdrawHistory extends Component {
             {
                 title: "아이디",
                 dataIndex: "userId",
+                className: "table-column-center",
+
+            },
+            {
+                title: "이름",
+                dataIndex: "depositor",
                 className: "table-column-center",
 
             },

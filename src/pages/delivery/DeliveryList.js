@@ -121,32 +121,32 @@ class DeliveryList extends Component {
   }
 
   onDownload = (data) => {
-    let col2=["가격"];
-    for(let i=0; i<=data.length-1; i++) {
-      col2.push(comma(data[i].orderPrice)+"원")
-    };
-    let col3=["총배달요금"];
-    for(let i=0; i<=data.length-1; i++) {
-      col3.push(comma(data[i].deliveryPrice)+"원")
-    };
-    let col4=["기본배달요금"];
-    for(let i=0; i<=data.length-1; i++) {
-      col4.push(comma(data[i].basicDeliveryPrice)+"원")
-    };
-    let col5=["기본배달요금"];
-    for(let i=0; i<=data.length-1; i++) {
-      col5.push(comma(data[i].extraDeliveryPrice)+"원")
-    };
+    // let col2=["가격"];
+    // for(let i=0; i<=data.length-1; i++) {
+    //   col2.push(comma(data[i].orderPrice))
+    // };
+    // let col3=["총배달요금"];
+    // for(let i=0; i<=data.length-1; i++) {
+    //   col3.push(comma(data[i].deliveryPrice))
+    // };
+    // let col4=["기본배달요금"];
+    // for(let i=0; i<=data.length-1; i++) {
+    //   col4.push(comma(data[i].basicDeliveryPrice))
+    // };
+    // let col5=["기본배달요금"];
+    // for(let i=0; i<=data.length-1; i++) {
+    //   col5.push(comma(data[i].extraDeliveryPrice))
+    // };
     const ws = xlsx.utils.json_to_sheet(data);
     // xlsx.utils.sheet_add_json(ws, json, { origin: -1, display: true, cellDates: true, dateNF: 'YYYY-MM-DD' })
     const wb = xlsx.utils.book_new();
     [
       '주문번호',
       '주문날짜',
-      '가격',
-      '총배달요금',
-      '기본배달요금',
-      '할증배달요금',
+      '가격(원)',
+      '총배달요금(원)',
+      '기본배달요금(원)',
+      '할증배달요금(원)',
       '주소',
       '상세주소',
       'addr3',
@@ -167,26 +167,26 @@ class DeliveryList extends Component {
       ws[cellAdd].v = x;
     })
 
-    col2.forEach((x, idx) => {
-      const cellAdd = xlsx.utils.encode_cell({c:2, r:idx});
-      ws[cellAdd].v = x;
-      ws[cellAdd].t = "string";
-    })
-    col3.forEach((x, idx) => {
-      const cellAdd = xlsx.utils.encode_cell({c:3, r:idx});
-      ws[cellAdd].v = x;
-      ws[cellAdd].t = "string";
-    })
-    col4.forEach((x, idx) => {
-      const cellAdd = xlsx.utils.encode_cell({c:4, r:idx});
-      ws[cellAdd].v = x;
-      ws[cellAdd].t = "string";
-    })
-    col5.forEach((x, idx) => {
-      const cellAdd = xlsx.utils.encode_cell({c:5, r:idx});
-      ws[cellAdd].v = x;
-      ws[cellAdd].t = "string";
-    })
+    // col2.forEach((x, idx) => {
+    //   const cellAdd = xlsx.utils.encode_cell({c:2, r:idx});
+    //   ws[cellAdd].v = x;
+    //   ws[cellAdd].t = "string";
+    // })
+    // col3.forEach((x, idx) => {
+    //   const cellAdd = xlsx.utils.encode_cell({c:3, r:idx});
+    //   ws[cellAdd].v = x;
+    //   ws[cellAdd].t = "string";
+    // })
+    // col4.forEach((x, idx) => {
+    //   const cellAdd = xlsx.utils.encode_cell({c:4, r:idx});
+    //   ws[cellAdd].v = x;
+    //   ws[cellAdd].t = "string";
+    // })
+    // col5.forEach((x, idx) => {
+    //   const cellAdd = xlsx.utils.encode_cell({c:5, r:idx});
+    //   ws[cellAdd].v = x;
+    //   ws[cellAdd].t = "string";
+    // })
 
     ws['!cols'] = [];
     ws['!cols'][8] = { hidden: true };

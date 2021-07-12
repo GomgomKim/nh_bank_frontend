@@ -160,10 +160,10 @@ class FranchiseList extends Component {
     };
 
     onDownload = (data) => {
-        let col6=["PG 사용비율"];
-        for(let i=0; i<=data.length-1; i++) {
-          col6.push(data[i].tidNormalRate == 0 ? '미사용' : '사용')
-        };
+        // let col6=["PG 사용"];
+        // for(let i=0; i<=data.length-1; i++) {
+        //   col6.push(data[i].tidNormalRate == 100 ? '미사용' : '사용')
+        // };
         const ws = xlsx.utils.json_to_sheet(data);
         const wb = xlsx.utils.book_new();
         [
@@ -173,26 +173,45 @@ class FranchiseList extends Component {
           '주소',
           '상세주소',
           'addr3',
-          'PG 사용비율\n(0:미사용,100:사용)',
+          'PG 사용\n(100:미사용, 0:사용)',
           '가맹점번호',
-          'VAN'
+          'PG지갑',
+          'VAN',
+          'PG',
+          'businessNumber',
+          'ownerName',
+          'userId',
+          'userEmail',
+          'userPhone',
+          'vaccountDepositor',
+          'vaccountBank',
+          'vaccountNumber'
         ].forEach((x, idx) => {
           const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
           ws[cellAdd].v = x;
         })
-        col6.forEach((x, idx) => {
-            const cellAdd = xlsx.utils.encode_cell({c:6, r:idx});
-            ws[cellAdd].v = x;
-            ws[cellAdd].t = "string";
-          })
+        // col6.forEach((x, idx) => {
+        //     const cellAdd = xlsx.utils.encode_cell({c:6, r:idx});
+        //     ws[cellAdd].v = x;
+        //     ws[cellAdd].t = "string";
+        //   })
         ws['!cols'] = [];
         ws['!cols'][0] = { hidden: true };
         ws['!cols'][5] = { hidden: true };
+        ws['!cols'][11] = { hidden: true };
+        ws['!cols'][12] = { hidden: true };
+        ws['!cols'][13] = { hidden: true };
+        ws['!cols'][14] = { hidden: true };
+        ws['!cols'][15] = { hidden: true };
+        ws['!cols'][16] = { hidden: true };
+        ws['!cols'][17] = { hidden: true };
+        ws['!cols'][18] = { hidden: true };
         ws['!cols'][2] = { width: 15 };
         ws['!cols'][3] = { width: 30 };
         ws['!cols'][4] = { width: 15 };
         ws['!cols'][6] = { width: 20 };
         ws['!cols'][7] = { width: 20 };
+        ws['!cols'][8] = { width: 20 };
         xlsx.utils.book_append_sheet(wb, ws, "sheet1");
         xlsx.writeFile(wb, "가맹점목록.xlsx");
       }

@@ -106,6 +106,16 @@ body {
   word-break: keep-all;
 }
 
+.txt-left {
+  display: inline-block;
+  margin-left: 20px;
+  background-color: #fdcc00;
+  text-align: center;
+  height: 32px;
+  width: 180px;
+  line-height: 32px;
+}
+
 /* notice */
 .detailModal-wrapper {
   /* border: 1px solid #696968; */
