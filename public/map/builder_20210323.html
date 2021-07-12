@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>간단한 지도 표시하기</title>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=0nwzmpzs9w&submodules=geocoder"></script>
+	<script  src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<style>
+	body {
+		margin: 0px;
+		padding: 0px;
+	}
+	.btn-container {
+		position: absolute;
+		top: 20px;
+		padding: 0px 20px;
+		width: 90%
+	}
+	.btn-active {
+		padding: 10px 20px;
+		background-color: #fddc00;
+		color: #000;
+		border: 0px;
+		display: inline-block;
+		border-radius: 10px;
+	}
+	.btn-normal {
+		padding: 10px 20px;
+		background-color: #fff;
+		border: 1px #000 solid;
+		color: #000;
+		display: inline-block;
+		border-radius: 10px;
+		cursor: pointer;
+	}
+	.btn-normal2 {
+		padding: 10px 20px;
+		background-color: #fff;
+		border: 1px #000 solid;
+		color: #000;
+		display: inline-block;
+		border-radius: 10px;
+		cursor: pointer;
+		float: right;
+		margin-right: 10px;
+	}
+	.txt-normal2 {
+		padding: 10px 20px;
+		background-color: #fff;
+		color: #000;
+		display: inline-block;
+		float: right;
+		margin-right: 10px;
+	}
+	.point-active {
+		width: 20px; 
+		height: 20px; 
+		border-radius: 10px;
+		margin: -10px 0px 0px -10px;
+		background-color: blue
+	}
+	.point-normal {
+		width: 20px; 
+		height: 20px; 
+		border-radius: 10px;
+		margin: -10px 0px 0px -10px;
+		background-color: red
+	}
+	</style>
+	<script>
+	var activeMode = "point";
+	function setMode(mode) {
+		if (activeMode == mode) return;
+		
+		$('#btn-'+activeMode+'-edit').addClass('btn-normal');
+		$('#btn-'+activeMode+'-edit').removeClass('btn-active');
+		
+		activeMode = mode;
+		
+		$('#btn-'+activeMode+'-edit').addClass('btn-active');
+		$('#btn-'+activeMode+'-edit').removeClass('btn-normal');
+	}
+	function resetData() {
+		if (!confirm('기존 편집하던 데이터가 지워집니다. 실행하시겠습니까?')) return false;
+		
+		//delete data
+		setMaxId(0);
+		nodes.forEach(item => {
+			item.marker.setMap(null);
+		});
+		edges.forEach(item => {
+			item.polyline.setMap(null);
+		});
+		nodes = [];
+		edges = [];
+		
+		return true;
+	}
+	function openData() {
+		
+		if (!resetData()) return;
+		//load
+		var read = nnboxAPI.openData();
+		var data = JSON.parse(read);
+		data.nodes.forEach(item => {
+			pointMode(new naver.maps.LatLng(item.lat, item.lng), item.id);
+			if (item.id > maxId) setMaxId(item.id);
+		});
+		data.edges.forEach(item => {
+			lineMode(nodes.find(x=>x.id==item.from), nodes.find(x=>x.id==item.to), item.type);
+		});
+	}
+	function save() {
+		var nodesString = JSON.stringify(nodes, ['id', 'lat', 'lng']);
+		var edgesString = JSON.stringify(edges, ['from', 'to', 'type']);
+		nnboxAPI.saveData('{"nodes":'+nodesString+', "edges":'+edgesString+'}')
+	}
+	function hideData() {
+		if (!confirm('최근 300개 이외 점과 선은 숨겨집니다. 숨긴 후에는 다시 불러오기 전까지 데이터가 보이지 않습니다. 실행하시겠습니까?')) return;
+		
+		//100개 id 찾기
+		var count = 0;
+		var hideId = -1;
+		for (var i=nodes.length-1;i>=0;i--) {
+			count++;
+			if (count == 300) hideId = nodes[i].id;
+			if (count >= 300) {
+				nodes[i].marker.setMap(null);
+			}
+		}
+		if (hideId >= 0) {
+			edges.forEach(item => {
+				if (item.from <= hideId || item.to <= hideId) {
+					item.polyline.setMap(null);
+				}
+			});
+		}
+	}
+	function setMaxId(val) {
+		maxId = val;
+		$('#txt-id').html('현재ID: '+maxId);
+	}
+	</script>
+</head>
+<body>
+<div id="map" style="width:100%;height:2000px;"></div>
+<div class="btn-container">
+	<div id="btn-point-edit" class="btn-active" onclick="setMode('point')">점편집</div>
+	<div id="btn-line-both-edit" class="btn-normal" onclick="setMode('line-both')">선편집(양방향)</div>
+	<div id="btn-line-single-edit" class="btn-normal" onclick="setMode('line-single')">선편집(단방향)</div>
+	
+	<div id="btn-save" class="btn-normal2" onclick="save()">저장하기</div>
+	<div id="btn-open" class="btn-normal2" onclick="openData()">불러오기</div>
+	<div id="btn-reset" class="btn-normal2" onclick="resetData()">초기화</div>
+	<div id="btn-hide" class="btn-normal2" onclick="hideData()">최근300개만 보기</div>
+	<div id="txt-id" class="txt-normal2">현재ID: 0</div>
+	
+</div>
+
+<script>
+var mapOptions = {
+    center: new naver.maps.LatLng(37.6456569,126.6474064),
+    zoom: 15
+};
+
+var map = new naver.maps.Map('map', mapOptions);
+
+var maxId = 0;
+var nodes = [];
+var edges = [];
+class Node {
+	constructor(id, lat, lng, marker) {
+		this.id = id;
+		this.lat = lat;
+		this.lng = lng;
+		this.marker = marker;
+	}
+}
+class Edge {
+	constructor(from, to, type, polyline) {
+		this.from = from;
+		this.to = to;
+		this.type = type;//0-양방향, 1-단방향
+		this.polyline = polyline
+	}
+}
+
+var selectedNode = null;
+function pointMode(latlng, id) {
+
+	if (latlng._lat == 0 && latlng._lng == 0) {
+		var a= 0;
+		debugger;
+	}
+
+	var flag = false;
+	nodes.forEach(item => {
+		if (item.lat == latlng._lat && item.lng == latlng._lng) flag = true;
+	});
+	if (flag) return;
+	
+	var marker = new naver.maps.Marker({
+		map: map,
+		position: latlng,
+		icon: {
+			content: '<div class="point-normal"></div>'
+		}
+	});
+	setMaxId(maxId+1);
+	const node = new Node(id ? id : maxId, latlng._lat, latlng._lng, marker);
+	nodes.push(node);
+	
+	marker.addListener('click', function(e) {
+		if (activeMode == 'line-both' || activeMode == 'line-single') {
+			if (selectedNode == null) {
+				selectedNode = node;
+				marker.setIcon({content:'<div class="point-active"></div>'});
+			}
+			else {
+				selectedNode.marker.setIcon({content:'<div class="point-normal"></div>'});
+				lineMode(selectedNode, node, activeMode == 'line-both' ? 0 : 1);
+				selectedNode = null;
+			}
+		}
+		else if (activeMode == 'point') {
+			marker.setMap(null);
+			var idx = nodes.findIndex(x => x.id == node.id);
+			if (idx >= 0) nodes.splice(idx, 1);
+			
+			while(true) {
+				var idx1 = edges.findIndex(x => x.from == node.id);
+				if (idx1 >= 0) {
+					edges[idx1].polyline.setMap(null);
+					edges.splice(idx1, 1);
+				}
+				var idx2 = edges.findIndex(x => x.to == node.id);
+				if (idx2 >= 0) {
+					edges[idx2].polyline.setMap(null);
+					edges.splice(idx2, 1);
+				}
+				
+				if (idx1 < 0 && idx2 < 0) break;
+			}
+			
+		}
+	});
+}
+
+function lineMode(from, to, type) {
+	if (!from || !to) return;
+
+	var flag = false;
+	edges.forEach(item => {
+		if (item.from == from.id && item.to == to.id) {
+			flag = true;
+		}
+		if (item.from == to.id && item.to == from.id) {
+			flag = true;
+		}
+	});
+	if (flag) return;
+	var polyline = new naver.maps.Polyline({
+		map: map,
+		path: [
+			new naver.maps.LatLng(from.lat, from.lng),
+			new naver.maps.LatLng(to.lat, to.lng)
+		],
+		endIcon: type == 0 ? '' : naver.maps.PointingIcon.OPEN_ARROW,
+		endIconSize: 30,
+		strokeColor: type == 0 ? 'red' : 'blue',
+	});
+	const edge = new Edge(from.id, to.id, type, polyline);
+	edges.push(edge);
+}
+
+function initGeocoder() {
+    if (!map.isStyleMapReady) {
+        return;
+    }
+    map.addListener('click', function(e) {
+		
+		if (activeMode == 'point') pointMode(e.coord);
+		return;
+    });
+}
+
+naver.maps.onJSContentLoaded = initGeocoder;
+naver.maps.Event.once(map, 'init_stylemap', initGeocoder);
+</script>
+</body>
+</html>
