@@ -99,6 +99,7 @@ class SearchRiderDialog extends Component {
         className: "table-column-center",
         render: (data, row) =>
             <div              
+              style={{ cursor:'pointer' }} 
               onClick={() => {
                 if (this.props.onSelect) {
                   this.props.onSelect(row);

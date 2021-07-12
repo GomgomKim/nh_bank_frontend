@@ -20,6 +20,7 @@ class SearchFranDialog extends Component {
 
       dataIdxs: [],
       frName: "",
+      branchName: "",
     };
     this.formRef = React.createRef();
   }
@@ -32,6 +33,10 @@ class SearchFranDialog extends Component {
     this.setState(
       {
         frName: value,
+        pagination:{
+          current: 1,
+          pageSize: 10,
+        }
       },
       () => {
         this.getList();
@@ -58,7 +63,8 @@ class SearchFranDialog extends Component {
     let pageNum = this.state.pagination.current;
     let pageSize = this.state.pagination.pageSize;
     let frName = this.state.frName;
-    httpGet(httpUrl.franchiseList, [frName, pageNum, pageSize], {}).then((res) => {
+    let branchName = this.state.branchName;
+    httpGet(httpUrl.franchiseList, [branchName, frName, pageNum, pageSize], {}).then((res) => {
       console.log(JSON.stringify(res, null, 4))
       const pagination = { ...this.state.pagination };
       pagination.current = res.data.currentPage;
@@ -92,7 +98,8 @@ class SearchFranDialog extends Component {
         className: "table-column-center",
         width: '70%',
         render: (data, row) =>
-            <div              
+            <div
+              style={{ cursor:'pointer' }}              
               onClick={() => {
                 if (this.props.onSelect) {
                   this.props.onSelect(row);
