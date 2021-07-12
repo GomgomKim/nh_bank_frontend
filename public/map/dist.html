@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>네비거리 계산기</title>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=0nwzmpzs9w&submodules=geocoder"></script>
+	<script  src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<style>
+	body {
+		margin: 0px;
+		padding: 0px;
+	}
+	.btn-container {
+		position: absolute;
+		top: 20px;
+		padding: 0px 20px;
+		width: 90%
+	}
+	.btn-container2 {
+		position: absolute;
+		top: 60px;
+		padding: 20px;
+		width: 300px;
+	}
+	.btn-container3 {
+		position: absolute;
+		top: 300px;
+		padding: 20px;
+		width: 300px;
+	}
+	.btn-active {
+		padding: 10px 20px;
+		background-color: #fddc00;
+		color: #000;
+		border: 0px;
+		display: inline-block;
+		border-radius: 10px;
+	}
+	.btn-normal {
+		padding: 10px 20px;
+		background-color: #fff;
+		border: 1px #000 solid;
+		color: #000;
+		display: inline-block;
+		border-radius: 10px;
+		cursor: pointer;
+	}
+	.btn-normal2 {
+		padding: 10px 20px;
+		background-color: #fff;
+		border: 1px #000 solid;
+		color: #000;
+		display: inline-block;
+		border-radius: 10px;
+		cursor: pointer;
+		float: right;
+		margin-right: 10px;
+	}
+	.txt-normal2 {
+		padding: 10px 20px;
+		background-color: #fff;
+		color: #000;
+		display: inline-block;
+		float: right;
+		margin-right: 10px;
+	}
+	.point-active {
+		width: 20px; 
+		height: 20px; 
+		border-radius: 10px;
+		margin: -10px 0px 0px -10px;
+		background-color: blue
+	}
+	.point-normal {
+		width: 20px; 
+		height: 20px; 
+		border-radius: 10px;
+		margin: -10px 0px 0px -10px;
+		background-color: red
+	}
+	</style>
+</head>
+<body>
+<div id="map" style="width:100%;height:2000px;"></div>
+<div class="btn-container">
+	<div id="btn-from-edit" class="btn-active" onclick="setMode('from')">출발지</div>
+	<div id="btn-to-edit" class="btn-normal" onclick="setMode('to')">도착지</div>
+	<div id="btn-to-edit" class="btn-normal" onclick="areaCharge()">지역할증적용</div>
+	<div id="txt-id" class="txt-normal2">이동거리:</div>
+	<div id="txt-id2" class="txt-normal2">직선거리: </div>
+	<div id="txt-id3" class="txt-normal2">요금: </div>
+</div>
+<div class="btn-container2">
+<textarea id="fee">
+[
+[1200,50],
+[1800,50],
+[4000,100],
+[7000,300],
+[10000000,0]
+]
+</textarea>
+</div>
+<div class="btn-container3">
+<textarea id="polygon">
+[
+	{"add": 1000, "area": [[37.6657027,126.667641],[37.6606748,126.6658815],[37.6536419,126.67116],[37.6605389,126.6813739],[37.6648534,126.6751083]]}
+]
+
+</textarea>
+</div>
+
+
+<script>
+
+var polygons = [];
+var polygonMarkers = [];
+function areaCharge() {
+
+	for (var i=0;i<polygons.length;i++) {
+		if (polygons[i] != null) polygons[i].setMap(null);
+	}
+	for (var i=0;i<polygonMarkers.length;i++) {
+		if (polygonMarkers[i] != null) polygonMarkers[i].setMap(null);
+	}
+
+	var areaChargeSettings = JSON.parse($("#polygon").val().replace(/\n/g,'').replace(/\t/g,''));
+	for (var i=0;i<areaChargeSettings.length;i++) {
+		
+		var path = [];
+		var avgX=0, avgY=0;
+		for (var j=0; j<areaChargeSettings[i].area.length; j++) {
+			path.push(new naver.maps.LatLng(areaChargeSettings[i].area[j][0], areaChargeSettings[i].area[j][1]));
+			avgX += areaChargeSettings[i].area[j][0];
+			avgY += areaChargeSettings[i].area[j][1];
+		}
+		avgX /= areaChargeSettings[i].area.length;
+		avgY /= areaChargeSettings[i].area.length;
+		//path.push(new naver.maps.LatLng(areaChargeSettings[i].area[0][0], areaChargeSettings[i].area[0][1]));
+		var polyline = new naver.maps.Polygon({
+			map: map,
+			paths: [path],
+			fillColor: 'red',
+			fillOpacity: 0.3,
+			strokeColor: 'red',
+		});
+		polygons.push(polyline);
+		
+		//if (toMarker != null) toMarker.setMap(null);
+		aa = new naver.maps.Marker({
+			map: map,
+			position: new naver.maps.LatLng(avgX, avgY),
+			icon: {
+				content: '<div style="width: 100px;">'+areaChargeSettings[i].add+'</div>'
+			},
+		});
+		polygonMarkers.push(aa);
+	}
+}
+
+var activeMode = "from";
+function setMode(mode) {
+	if (activeMode == mode) return;
+	
+	$('#btn-'+activeMode+'-edit').addClass('btn-normal');
+	$('#btn-'+activeMode+'-edit').removeClass('btn-active');
+	
+	activeMode = mode;
+	
+	$('#btn-'+activeMode+'-edit').addClass('btn-active');
+	$('#btn-'+activeMode+'-edit').removeClass('btn-normal');
+}
+
+var mapOptions = {
+    center: new naver.maps.LatLng(37.6456569,126.6474064),
+    zoom: 15
+};
+
+var map = new naver.maps.Map('map', mapOptions);
+
+var fromLatLng = null;
+var fromMarker = null;
+var toLatLng = null;
+var toMarker = null;
+var polyline = null;
+function initGeocoder() {
+    if (!map.isStyleMapReady) {
+        return;
+    }
+    map.addListener('click', function(e) {
+		
+		if (activeMode == "from") {
+			fromLatLng = e.coord;
+			if (fromMarker != null) fromMarker.setMap(null);
+			fromMarker = new naver.maps.Marker({
+				map: map,
+				position: e.coord,
+				icon: {
+					content: '<div class="point-normal"></div>'
+				}
+			});
+		}
+		else {
+			toLatLng = e.coord;
+			if (toMarker != null) toMarker.setMap(null);
+			toMarker = new naver.maps.Marker({
+				map: map,
+				position: e.coord,
+				icon: {
+					content: '<div class="point-active"></div>'
+				}
+			});
+		}
+		
+		if (fromLatLng != null && toLatLng != null) {
+			console.log(fromLatLng)
+			console.log(toLatLng)
+			$.ajax({
+			  url: 'https://rider.nyamnyambox.com:30004/map/dist?fromLat='+fromLatLng._lat+'&fromLng='+fromLatLng._lng+'&toLat='+toLatLng._lat+'&toLng='+toLatLng._lng,
+			  dataType: 'json',
+			  success: callback
+			});
+
+		}
+		
+    });
+}
+
+function callback(result) {
+
+	console.log(result)
+
+	var feeSetting = JSON.parse($("#fee").val().replace(/\n/g,''));
+	
+	$('#txt-id').html('이동거리: ' + (result.data.meter/1000) + ' km');
+	$('#txt-id2').html('직선거리: ' + (result.data.straightMeter/1000) + ' km');
+	
+	var fee = 3600;
+	for(var i=0;i<feeSetting.length-1;i++) {
+		if (result.data.meter < feeSetting[i][0]) continue;
+		if (result.data.meter < feeSetting[i+1][0]) {
+			fee += parseInt((result.data.meter-feeSetting[i][0])*feeSetting[i][1]/100)
+		}
+		else {
+			fee += parseInt((feeSetting[i+1][0]-feeSetting[i][0])*feeSetting[i][1]/100)
+		}
+	}
+	if (fee > 20000) fee=20000;
+	$('#txt-id3').html('요금: ' + fee.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + ' 원');
+	
+	var path = [];
+	for (var i=0; i<result.data.path.length; i++) {
+		path.push(new naver.maps.LatLng(result.data.path[i].lat, result.data.path[i].lng));
+	}
+	if (polyline != null) polyline.setMap(null);
+	polyline = new naver.maps.Polyline({
+		map: map,
+		path: path,
+		startIcon: naver.maps.PointingIcon.OPEN_ARROW,
+		startIconSize: 20,
+		strokeColor: 'blue',
+	});
+	
+}
+
+naver.maps.onJSContentLoaded = initGeocoder;
+naver.maps.Event.once(map, 'init_stylemap', initGeocoder);
+</script>
+</body>
+</html>
