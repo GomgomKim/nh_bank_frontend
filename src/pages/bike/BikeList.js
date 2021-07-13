@@ -174,19 +174,15 @@ class BikeList extends Component {
 
     const columns = [
       {
-        title: "라이더명",
-        dataIndex: "rideRider",
-        className: "table-column-center",
-      },
-      {
-        title: "라이더 전화번호",
-        dataIndex: "riderPhone",
-        className: "table-column-center",
-      },
-      {
         title: "바이크 기종",
         dataIndex: "bikeType",
         className: "table-column-center",
+      },
+      {
+        title: "번호판",
+        dataIndex: "bikeNum",
+        className: "table-column-center",
+        render: () => <div>23가 2053</div>
       },
       {
         title: "연식",
@@ -202,6 +198,12 @@ class BikeList extends Component {
         title: "메모",
         dataIndex: "bikeMemo",
         className: "table-column-center",
+      },
+      {
+        title: "보험사",
+        dataIndex: "bikeNum",
+        className: "table-column-center",
+        render: () => <div>한화생명</div>
       },
       {
         title: "상태",
@@ -224,6 +226,16 @@ class BikeList extends Component {
         )
       },
       {
+        title: "라이더명",
+        dataIndex: "rideRider",
+        className: "table-column-center",
+      },
+      {
+        title: "라이더 전화번호",
+        dataIndex: "riderPhone",
+        className: "table-column-center",
+      },
+      {
         title: "대여 날짜",
         dataIndex: "rentDate",
         className: "table-column-center",
@@ -232,6 +244,19 @@ class BikeList extends Component {
         title: "반납 날짜",
         dataIndex: "returnDate",
         className: "table-column-center",
+      },
+      {
+        title: "대여 이력",
+        dataIndex: "fixHistory",
+        className: "table-column-center",
+        width: '8%',
+        render: (data) => (
+          <div>
+            <Button onClick={this.openFixHistoryDialog}>
+              이력보기
+                </Button>
+          </div>
+        )
       },
       {
         title: "정비 이력",
@@ -250,7 +275,7 @@ class BikeList extends Component {
         title: "수정",
         dataIndex: "updateBike",
         className: "table-column-center",
-        width: '8%',
+        width: '3%',
         render: (data, row) => (
           <div>
 
@@ -264,7 +289,7 @@ class BikeList extends Component {
         title: "삭제",
         dataIndex: "deleteBike",
         className: "table-column-center",
-        width: '8%',
+        width: '3%',
         render: (data, row) => (
           <div>
             <Button onClick={() => { this.delete(row.idx); }}>

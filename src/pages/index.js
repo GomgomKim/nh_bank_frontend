@@ -20,7 +20,7 @@ export { default as FranchiseFeeHistory } from "./franchise/FranchiseFeeHistory"
 export { default as PaymentList } from "./payment/PaymentList";
 
 //예치금관리
-// export { default as DepositPayment } from "./deposit/DepositPayment";
+export { default as DepositAllHistory } from "./deposit/DepositAllHistory";
 export { default as DepositPaymentHistory } from "./deposit/DepositPaymentHistory";
 export { default as DepositWithdrawHistory } from "./deposit/DepositWithdrawHistory";
 
@@ -37,5 +37,6 @@ export { default as Notice } from "./board/Notice";
 
 //시스템관리
 export { default as OperatorManage } from "./system/OperatorManage";
+export { default as ControlAgentManage } from "./system/ControlAgentManage";
 
 

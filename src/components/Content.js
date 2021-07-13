@@ -5,11 +5,11 @@ import { StaticsBranch, StaticsRider, StaticsFranchise } from "../pages";
 import { DeliveryList, DeliveryHistoryEmployee, DeliveryHistoryRider } from "../pages";
 import { FranchiseList, FranchiseChargeHistory, FranchiseFeeHistory } from "../pages";
 import { PaymentList } from "../pages";
-import { DepositPaymentHistory, DepositWithdrawHistory } from "../pages";
+import { DepositAllHistory, DepositPaymentHistory, DepositWithdrawHistory } from "../pages";
 import { LoanRider, LoanFranchise } from "../pages";
 import { BikeList } from "../pages";
 import { Inquiry, Notice } from "../pages";
-import { OperatorManage } from "../pages";
+import { OperatorManage,ControlAgentManage } from "../pages";
 
 // import { Redirect } from "react-router-dom";
 // import OperatorManage from "../pages/system/OperatorManage";
@@ -37,7 +37,7 @@ export default class Content extends Component {
 
             <Route exact path="/payment/PaymentList" component={PaymentList} />
 
-            {/* <Route exact path="/deposit/depositPayment" component={DepositPayment} /> */}
+            <Route exact path="/deposit/DepositAllHistory" component={DepositAllHistory} />
             <Route exact path="/deposit/DepositPaymentHistory" component={DepositPaymentHistory} />
             <Route exact path="/deposit/DepositWithdrawHistory" component={DepositWithdrawHistory} />
 
@@ -53,7 +53,7 @@ export default class Content extends Component {
 
 
             <Route exact path="/system/OperatorManage" component={OperatorManage} />
-
+            <Route exact path="/system/ControlAgentManage" component={ControlAgentManage} />
           </Switch>
         </div>
       </Layout.Content>
