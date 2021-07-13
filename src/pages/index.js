@@ -18,7 +18,7 @@ export { default as FranchiseList } from "./franchise/FranchiseList";
 export { default as PaymentList } from "./payment/PaymentList";
 
 //예치금관리
-// export { default as DepositPayment } from "./deposit/DepositPayment";
+export { default as DepositAllHistory } from "./deposit/DepositAllHistory";
 export { default as DepositPaymentHistory } from "./deposit/DepositPaymentHistory";
 export { default as DepositWithdrawHistory } from "./deposit/DepositWithdrawHistory";
 

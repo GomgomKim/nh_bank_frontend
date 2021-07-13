@@ -5,7 +5,7 @@ import { StaticsBranch, StaticsRider, StaticsFranchise } from "../pages";
 import { DeliveryList, DeliveryHistoryEmployee, DeliveryHistoryRider } from "../pages";
 import { FranchiseList } from "../pages";
 import { PaymentList } from "../pages";
-import { DepositPaymentHistory, DepositWithdrawHistory } from "../pages";
+import { DepositAllHistory, DepositPaymentHistory, DepositWithdrawHistory } from "../pages";
 import { LoanRider, LoanFranchise } from "../pages";
 import { BikeList } from "../pages";
 import { Inquiry, Notice } from "../pages";
@@ -35,7 +35,7 @@ export default class Content extends Component {
 
             <Route exact path="/payment/PaymentList" component={PaymentList} />
 
-            {/* <Route exact path="/deposit/depositPayment" component={DepositPayment} /> */}
+            <Route exact path="/deposit/DepositAllHistory" component={DepositAllHistory} />
             <Route exact path="/deposit/DepositPaymentHistory" component={DepositPaymentHistory} />
             <Route exact path="/deposit/DepositWithdrawHistory" component={DepositWithdrawHistory} />
 
