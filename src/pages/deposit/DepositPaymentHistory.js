@@ -94,27 +94,27 @@ class DepositPaymentHistory extends Component {
       };
 
       onDownload = (data) => {
-        let col2=["지급금액"];
-        for(let i=0; i<=data.length-1; i++) {
-          col2.push(comma(data[i].sendAmount)+"원")
-        };
+        // let col2=["지급금액"];
+        // for(let i=0; i<=data.length-1; i++) {
+        //   col2.push(comma(data[i].sendAmount))
+        // };
         const ws = xlsx.utils.json_to_sheet(data);
         const wb = xlsx.utils.book_new();
         [
           '아이디',
           '지급일시',
-          '지급금액',
+          '지급금액(원)',
           'category',
         ].forEach((x, idx) => {
           const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
           ws[cellAdd].v = x;
         })
 
-        col2.forEach((x, idx) => {
-            const cellAdd = xlsx.utils.encode_cell({c:2, r:idx});
-            ws[cellAdd].v = x;
-            ws[cellAdd].t = "string";
-        })
+        // col2.forEach((x, idx) => {
+        //     const cellAdd = xlsx.utils.encode_cell({c:2, r:idx});
+        //     ws[cellAdd].v = x;
+        //     ws[cellAdd].t = "string";
+        // })
 
         ws['!cols'] = [];
         ws['!cols'][3] = { hidden: true };
@@ -182,10 +182,18 @@ class DepositPaymentHistory extends Component {
                 </Button>
 
                 <Button className="download-btn"
-                    style={{ float: 'right', marginLeft: 20, marginBottom: 20 }} onClick={{}}>
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
                     <img src={require("../../img/excel.png").default} alt="" />
                         엑셀 업로드
-          </Button>
+                </Button>
+
+                <a href="/admin_deposit.xlsx" download>
+                    <Button className="download-btn"
+                        style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
+                        <img src={require("../../img/excel.png").default} alt="" />
+                            양식 다운로드
+                    </Button>
+                </a>
 
 
                 <Table

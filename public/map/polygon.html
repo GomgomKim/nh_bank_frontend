@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>도착지 할증</title>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=0nwzmpzs9w&submodules=geocoder"></script>
+	<script  src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<style>
+	body {
+		margin: 0px;
+		padding: 0px;
+	}
+	.btn-container {
+		position: absolute;
+		top: 20px;
+		padding: 0px 20px;
+		width: 90%
+	}
+	.btn-container2 {
+		position: absolute;
+		top: 60px;
+		padding: 20px;
+		width: 300px;
+	}
+	.btn-active {
+		padding: 10px 20px;
+		background-color: #fddc00;
+		color: #000;
+		border: 0px;
+		display: inline-block;
+		border-radius: 10px;
+	}
+	.btn-normal {
+		padding: 10px 20px;
+		background-color: #fff;
+		border: 1px #000 solid;
+		color: #000;
+		display: inline-block;
+		border-radius: 10px;
+		cursor: pointer;
+	}
+	.btn-normal2 {
+		padding: 10px 20px;
+		background-color: #fff;
+		border: 1px #000 solid;
+		color: #000;
+		display: inline-block;
+		border-radius: 10px;
+		cursor: pointer;
+		float: right;
+		margin-right: 10px;
+	}
+	.txt-normal2 {
+		padding: 10px 20px;
+		background-color: #fff;
+		color: #000;
+		display: inline-block;
+		float: right;
+		margin-right: 10px;
+	}
+	.point-active {
+		width: 20px; 
+		height: 20px; 
+		border-radius: 10px;
+		margin: -10px 0px 0px -10px;
+		background-color: blue
+	}
+	.point-normal {
+		width: 20px; 
+		height: 20px; 
+		border-radius: 10px;
+		margin: -10px 0px 0px -10px;
+		background-color: red
+	}
+	</style>
+</head>
+<body>
+<div id="map" style="width:100%;height:2000px;"></div>
+<div class="btn-container">
+	<div id="btn-from-edit" class="btn-normal" onclick="clearPolygon()">리셋</div>
+</div>
+<div class="btn-container2">
+<textarea id="polygon">
+</textarea>
+</div>
+
+
+<script>
+var mapOptions = {
+    center: new naver.maps.LatLng(37.6456569,126.6474064),
+    zoom: 15
+};
+
+var map = new naver.maps.Map('map', mapOptions);
+
+var polygon = [];
+var polyline = null;
+function initGeocoder() {
+    if (!map.isStyleMapReady) {
+        return;
+    }
+    map.addListener('click', function(e) {
+		polygon.push([e.coord._lat, e.coord._lng]);
+		$('#polygon').val(JSON.stringify(polygon));
+		console.log(polygon);
+		
+		var path = [];
+		for (var i=0; i<polygon.length; i++) {
+			path.push(new naver.maps.LatLng(polygon[i][0], polygon[i][1]));
+		}
+		if (polygon.length > 0) {
+			path.push(new naver.maps.LatLng(polygon[0][0], polygon[0][1]));
+			
+			if (polyline != null) polyline.setMap(null);
+			polyline = new naver.maps.Polyline({
+				map: map,
+				path: path,
+				startIconSize: 20,
+				strokeColor: 'red',
+			});
+		}
+    });
+}
+
+function clearPolygon() {
+	polygon = [];
+	$('#polygon').val(JSON.stringify(polygon));
+	if (polyline != null) polyline.setMap(null);
+}
+
+naver.maps.onJSContentLoaded = initGeocoder;
+//naver.maps.Event.once(map, 'init_stylemap', initGeocoder);
+</script>
+</body>
+</html>
