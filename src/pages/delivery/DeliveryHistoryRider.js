@@ -327,8 +327,9 @@ class DeliveryHistoryRider extends Component {
               }}
             />
 
+            <div className="txt-dots"/>
             <div className="txt-left">
-              배달내역 전월 집계
+              라이더 배달내역은 전월 집계됩니다.
             </div>
 
           <Button className="download-btn"

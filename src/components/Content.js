@@ -9,7 +9,7 @@ import { DepositAllHistory, DepositPaymentHistory, DepositWithdrawHistory } from
 import { LoanRider, LoanFranchise } from "../pages";
 import { BikeList } from "../pages";
 import { Inquiry, Notice } from "../pages";
-import { OperatorManage } from "../pages";
+import { OperatorManage,ControlAgentManage } from "../pages";
 
 // import { Redirect } from "react-router-dom";
 // import OperatorManage from "../pages/system/OperatorManage";
@@ -51,7 +51,7 @@ export default class Content extends Component {
 
 
             <Route exact path="/system/OperatorManage" component={OperatorManage} />
-
+            <Route exact path="/system/ControlAgentManage" component={ControlAgentManage} />
           </Switch>
         </div>
       </Layout.Content>

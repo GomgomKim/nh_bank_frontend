@@ -327,9 +327,10 @@ class DeliveryHistoryEmployee extends Component {
           }}
         />
 
-        <div className="txt-left">
-          배달내역 전월 집계
-        </div>
+            <div className="txt-dots"/>
+            <div className="txt-left">
+              정직원 배달내역은 전월 집계됩니다.
+            </div>
 
         <Button
           className="download-btn"

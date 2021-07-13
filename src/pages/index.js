@@ -35,5 +35,6 @@ export { default as Notice } from "./board/Notice";
 
 //시스템관리
 export { default as OperatorManage } from "./system/OperatorManage";
+export { default as ControlAgentManage } from "./system/ControlAgentManage";
 
 
