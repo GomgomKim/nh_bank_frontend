@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import { Layout } from "antd";
 import { StaticsBranch, StaticsRider, StaticsFranchise } from "../pages";
 import { DeliveryList, DeliveryHistoryEmployee, DeliveryHistoryRider } from "../pages";
-import { FranchiseList } from "../pages";
+import { FranchiseList, FranchiseChargeHistory, FranchiseFeeHistory } from "../pages";
 import { PaymentList } from "../pages";
 import { DepositPaymentHistory, DepositWithdrawHistory } from "../pages";
 import { LoanRider, LoanFranchise } from "../pages";
@@ -32,6 +32,8 @@ export default class Content extends Component {
             <Route exact path="/delivery/DeliveryHistoryRider" component={DeliveryHistoryRider} />
 
             <Route exact path="/franchise/FranchiseList" component={FranchiseList} />
+            <Route exact path="/franchise/FranchiseChargeHistory" component={FranchiseChargeHistory} />
+            <Route exact path="/franchise/FranchiseFeeHistory" component={FranchiseFeeHistory} />
 
             <Route exact path="/payment/PaymentList" component={PaymentList} />
 

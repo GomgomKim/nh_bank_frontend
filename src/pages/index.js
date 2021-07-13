@@ -13,6 +13,8 @@ export { default as DeliveryHistoryRider } from "./delivery/DeliveryHistoryRider
 
 //가맹점관리
 export { default as FranchiseList } from "./franchise/FranchiseList";
+export { default as FranchiseChargeHistory } from "./franchise/FranchiseChargeHistory";
+export { default as FranchiseFeeHistory } from "./franchise/FranchiseFeeHistory";
 
 //선지급관리
 export { default as PaymentList } from "./payment/PaymentList";
