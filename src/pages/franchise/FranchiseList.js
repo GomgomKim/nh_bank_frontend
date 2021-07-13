@@ -1,13 +1,12 @@
-import React, { Component, useState, useCallback } from 'react'
-import { httpGet, httpUrl, httpDownload, httpPost, httpPut } from '../../api/httpClient';
-import { Table, Input, Button, DatePicker, Space, Modal } from 'antd'
-import { comma } from "../../lib/util/numberUtil";
-import ModifyFranDialog from "../../components/dialog/ModifyFranDialog";
-import FranFeeDialog from "../../components/dialog/FranFeeDialog";
-import ChargeDialog from "../../components/dialog/ChargeDialog";
-import { customAlert, customError, updateError } from "../../api/Modals";
-import '../../css/main.css';
+import { Button, DatePicker, Input, Modal, Table } from 'antd';
+import React, { Component } from 'react';
 import xlsx from 'xlsx';
+import { httpGet, httpPost, httpUrl } from '../../api/httpClient';
+import { customAlert, customError } from "../../api/Modals";
+import ChargeDialog from "../../components/dialog/ChargeDialog";
+import FranFeeDialog from "../../components/dialog/FranFeeDialog";
+import ModifyFranDialog from "../../components/dialog/ModifyFranDialog";
+import '../../css/main.css';
 
 const Search = Input.Search;
 const RangePicker = DatePicker.RangePicker;
