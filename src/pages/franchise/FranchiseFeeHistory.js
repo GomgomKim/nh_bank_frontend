@@ -3,6 +3,7 @@ import {
     Form, Input, Table, Button, Select, Radio, Checkbox
 } from "antd";
 import { comma } from "../../lib/util/numberUtil";
+import { httpGet, httpPost, httpUrl } from '../../api/httpClient';
 import '../../css/main.css';
 
 const Search = Input.Search;
@@ -19,6 +20,8 @@ class FranchiseFeeHistory extends Component {
                 current: 1,
                 pageSize: 10,
             },
+            frName: "",
+            branchName: "",
         };
         this.formRef = React.createRef();
     }
@@ -27,47 +30,21 @@ class FranchiseFeeHistory extends Component {
         this.getList()
     }
 
-
     getList = () => {
-        var list = [
-            {
-                franIdx: '냠냠박스1지점',
-                franFee: 150000,
-                date: '2021-06-03'
-
-            },
-            {
-                franIdx: '냠냠박스1지점',
-                franFee: 150000,
-                date: '2021-05-03'
-
-            },
-            {
-                franIdx: '냠냠박스1지점',
-                franFee: 150000,
-                date: '2021-04-03'
-
-            },
-            {
-                franIdx: '냠냠박스1지점',
-                franFee: 150000,
-                date: '2021-03-03'
-
-            },
-            {
-                franIdx: '냠냠박스1지점',
-                franFee: 150000,
-                date: '2021-02-03'
-
-            },
-
-
-        ];
-
-        this.setState({
-            list: list,
-        });
+        let pageNum = this.state.pagination.current;
+        let pageSize = this.state.pagination.pageSize;
+        httpGet(httpUrl.franchiseChargeHistory, [pageNum, pageSize], {})
+            .then((res) => {
+                const pagination = { ...this.state.pagination };
+                pagination.current = res.data.currentPage;
+                pagination.total = res.data.totalCount;
+                this.setState({
+                    list: res.data.franchises,
+                    pagination,
+                });
+            });
     }
+
 
     render() {
 
@@ -76,38 +53,47 @@ class FranchiseFeeHistory extends Component {
                 title: "가맹점명",
                 dataIndex: "franIdx",
                 className: "table-column-center",
-
-
             },
             {
                 title: "가맹점번호",
-                dataIndex: "franNum",
+                dataIndex: "frPhone",
                 className: "table-column-center",
-
-
             },
             {
                 title: "가맹점주소",
-                dataIndex: "franAddr",
+                dataIndex: "addr2",
                 className: "table-column-center",
-
-
             },
-
+            {
+                title: "가맹주",
+                dataIndex: "ownerName",
+                className: "table-column-center",
+            },
             {
                 title: "가맹비",
                 dataIndex: "franFee",
                 className: "table-column-center",
                 render: (data) => <div>{comma(data)}원</div>
-
-
             },
             {
-                title: "날짜",
-                dataIndex: "date",
+                title: "은행",
+                dataIndex: "vaccountBank",
                 className: "table-column-center",
-
-
+            },
+            {
+                title: "예금주",
+                dataIndex: "vaccountDepositor",
+                className: "table-column-center",
+            },
+            {
+                title: "계좌번호",
+                dataIndex: "vaccountNumber",
+                className: "table-column-center",
+            },
+            {
+                title: "지갑주소",
+                dataIndex: "walletId",
+                className: "table-column-center",
             },
 
         ];
@@ -121,7 +107,6 @@ class FranchiseFeeHistory extends Component {
                     onSearch={this.onSearchFranchse}
                     style={{
                         width: 220,
-                        marginLeft: 20
                     }}
                 />
                 <Button className="download-btn"

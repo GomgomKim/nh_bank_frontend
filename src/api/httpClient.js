@@ -168,23 +168,25 @@ const httpUrl = {
     "/delivery/staff/list?categories=2&categories=3&categories=5&pageNum=%s&pageSize=%s&searchMonth=%s&staffName=%s&staffPhone=%s",
 
   // 가맹점
-  franchiseList: "/fr/list?branchName=%s&frName=%s&pageNum=%s&pageSize=%s",  
+  franchiseList: "/fr/list?branchName=%s&frName=%s&pageNum=%s&pageSize=%s",
   updateFranchise: "/fr/update",
   registFranchisePG: "/fr/regist/pg/%s",
-  
+  franchiseFeeHistory: "fr/cash/list?pageNum=%s&pageSize=%s",
+  franchiseChargeHistory: "/fr/charge/list?pageNum=%s&pageSize=%s",
+
   // 라이더
   riderList: "/rider/list?riderName=%s&pageNum=%s&pageSize=%s",
-  
+
   //바이크
-    bikeFixHistoryList:"/bike/maintenance/list?pageNum=%s&pageSize=%s",
-    deleteFixList:"/bike/maintenance/delete",
-    registFixList:"/bike/maintenance/create",
-    updateFixList:"/bike/maintenance/update",
+  bikeFixHistoryList: "/bike/maintenance/list?pageNum=%s&pageSize=%s",
+  deleteFixList: "/bike/maintenance/delete",
+  registFixList: "/bike/maintenance/create",
+  updateFixList: "/bike/maintenance/update",
 
   //공지사항
-    noticeList:"/notice/list?endDate=%s&pageNum=%s&pageSize=%s&startDate=%s&title=%s&deleted=%s",
-    updateNotice: "/notice/update",
-    registNotice: "/notice/create",
+  noticeList: "/notice/list?endDate=%s&pageNum=%s&pageSize=%s&startDate=%s&title=%s&deleted=%s",
+  updateNotice: "/notice/update",
+  registNotice: "/notice/create",
 
   // 문의사항
   inquiryList: "/inquiry/list?pageNum=%s&pageSize=%s",
@@ -194,6 +196,7 @@ const httpUrl = {
   depositList: "/ncash/deposit/list?pageNum=%s&pageSize=%s&userId=%s&userType=%s",
   depositSend: "/ncash/create",
   depositWithdrawList: "/ncash/withdraw/list?pageNum=%s&pageSize=%s&userId=%s&userType=%s",
+
 };
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];
