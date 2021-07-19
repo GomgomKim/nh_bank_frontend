@@ -1,4 +1,4 @@
-import { Input, Table, Form } from "antd";
+import { Input, Table } from "antd";
 import React, { Component } from "react";
 import { httpGet, httpUrl } from '../../api/httpClient';
 import '../../css/main.css';
@@ -35,7 +35,7 @@ class SearchFranDialog extends Component {
         frName: value,
         pagination:{
           current: 1,
-          pageSize: 10,
+          pageSize: 5,
         }
       },
       () => {
