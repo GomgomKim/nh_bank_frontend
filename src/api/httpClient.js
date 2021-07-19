@@ -196,7 +196,7 @@ const httpUrl = {
   depositList: "/ncash/deposit/list?pageNum=%s&pageSize=%s&userId=%s&userType=%s",
   depositSend: "/ncash/create",
   depositWithdrawList: "/ncash/withdraw/list?pageNum=%s&pageSize=%s&userId=%s&userType=%s",
-
+  depositAllList: "/ncash/all/list?category=%s&pageNum=%s&pageSize=%s"
 };
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];

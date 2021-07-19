@@ -49,7 +49,22 @@ const searchType =[
  const bikeType = {
    1:"PCX",
    2:"NMAX"
- };
+  };
+  
+const categoryStatus = {
+  NONE: "전체",
+  BATCH_WORK_NCASH: "일차감",
+  BUY_PRODUCT: "몰 상품 구매",
+  BUY_PRODUCT_CANCEL: "몰 상품 구매 취소",
+  DELIVERY_PRICE_RECEIVE: "배송비 받기",
+  DELIVERY_PRICE_SEND: "배송비 보내기",
+  DUES_PAY: "가맹비 지급",
+  NCASH_CHARGE_PROC: "충전 처리",
+  NCASH_SEND: "예치금 전송",
+  NCASH_SEND_BY_ADMIN: "관리자 예치금 추가/차감",
+  WITHDRAW_PROC: "출금 처리",
+  WITHDRAW_REQ: "출금 요청",
+};
 
  export {
     bikeStatus,
@@ -60,5 +75,6 @@ const searchType =[
     pgUseRate,
     deletedStatus,
     bikeType,
+    categoryStatus,
   };
   
