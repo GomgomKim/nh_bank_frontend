@@ -238,7 +238,7 @@ class FranchiseList extends Component {
                 title: "가맹점주소",
                 // dataIndex: "franAddr",
                 className: "table-column-center",
-                render: (data, row) => <div>{row.addr1 + row.addr2}</div>,
+                render: (data, row) => <div>{row.addr1 + " " +row.addr2}</div>,
             },
             {
                 title: "VAN",
