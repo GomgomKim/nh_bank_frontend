@@ -30,6 +30,11 @@ class DeliveryList extends Component {
         current: 1,
         pageSize: 10,
       },
+      paginationExcel:{
+        total: 0,
+        current: 1,
+        pageSize: 1500,
+      },
       frName: "",
       riderName: "",
       frPhone: "",
@@ -41,6 +46,7 @@ class DeliveryList extends Component {
 
   componentDidMount() {
     this.getList();
+    this.getExcelList();
   }
 
   getList = () => {
@@ -97,6 +103,60 @@ class DeliveryList extends Component {
     });
   };
 
+  getExcelList = () => {
+    const pagination = this.state.paginationExcel;
+    httpGet(
+      httpUrl.deliveryList,
+      [
+        this.state.frName,
+        this.state.frPhone,
+        pagination.current,
+        pagination.pageSize,
+        this.state.riderName,
+      ],
+      {}
+    ).then((res) => {
+      if (res.result === "SUCCESS") {
+        this.setState({
+          listExcel: res.data.orders,
+          pagination: {
+            ...this.state.pagination,
+            current: res.data.currentPage,
+            total: res.data.totalCount,
+          },
+        });
+      }
+    });
+  };
+
+  getExcelSearchList = () => {
+    const pagination = this.state.paginationExcel;
+    httpGet(
+      httpUrl.deliverySearchList,
+      [
+        this.state.endDate,
+        this.state.frName,
+        this.state.frPhone,
+        pagination.current,
+        pagination.pageSize,
+        this.state.riderName,
+        this.state.startDate,
+      ],
+      {}
+    ).then((res) => {
+      if (res.result === "SUCCESS") {
+        this.setState({
+          listExcel: res.data.orders,
+          pagination: {
+            ...this.state.pagination,
+            current: res.data.currentPage,
+            total: res.data.totalCount,
+          },
+        });
+      }
+    });
+  };
+
   handleTableChange = (pagination) => {
     const pager = {
       ...this.state.pagination,
@@ -107,7 +167,7 @@ class DeliveryList extends Component {
       {
         pagination: pager,
       },
-      () => this.getList()
+      () => {this.state.startDate === "" ? this.getList() : this.getSearchList()}
     );
   };
 
@@ -117,7 +177,10 @@ class DeliveryList extends Component {
         current: 1,
         pageSize: 10,
       }
-    }, () => {this.state.startDate === "" ? this.getList(): this.getSearchList()});
+    }, () => {
+      {this.state.startDate === "" ? this.getList() : this.getSearchList()}
+      {this.state.startDate === "" ? this.getExcelList() : this.getExcelSearchList()}
+  });
   }
 
   onDownload = (data) => {
@@ -326,7 +389,7 @@ class DeliveryList extends Component {
           <Button
             className="download-btn"
             style={{ float: "right", marginLeft: 10, marginBottom: 20 }}
-            onClick={() => this.onDownload(this.state.list)}
+            onClick={() => this.onDownload(this.state.listExcel)}
           >
             <img src={require("../../img/excel.png").default} alt="" />
             엑셀 다운로드
@@ -344,8 +407,10 @@ class DeliveryList extends Component {
                   current: 1,
                   pageSize: 10,
                 }
-              }, () => this.getSearchList()
-                );
+              }, () => {
+                this.getSearchList();
+                this.getExcelSearchList();
+              });
               }
             else {
               // console.log('test')
@@ -356,8 +421,10 @@ class DeliveryList extends Component {
                   current: 1,
                   pageSize: 10,
                 }
-              }, () => this.getList()
-              );
+              }, () => {
+                this.getList();
+                this.getExcelList();
+              });
             }
             }}
         />

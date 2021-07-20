@@ -33,6 +33,11 @@ class DeliveryHistoryRider extends Component {
         current: 1,
         pageSize: 10,
       },
+      paginationExcel: {
+        total: 0,
+        current: 1,
+        pageSize: 500,
+      },
       riderName: "",
       riderPhone: "",
       searchMonth:"",
@@ -44,7 +49,8 @@ class DeliveryHistoryRider extends Component {
   }
 
   componentDidMount() {
-    this.getList()
+    this.getList();
+    this.getExcelList();
   }
 
 
@@ -90,6 +96,24 @@ class DeliveryHistoryRider extends Component {
   });
   }
 
+  getExcelList = () => {
+    let pageNum = this.state.paginationExcel.current;
+    let pageSize = this.state.paginationExcel.pageSize;
+    let riderName=this.state.riderName;
+    let riderPhone=this.state.riderPhone;
+    let searchMonth= this.state.searchMonth;
+    httpGet(httpUrl.riderDeliveryList, [ pageNum, pageSize, riderName, riderPhone, searchMonth ],{})
+    .then((res) => {
+      const pagination = { ...this.state.pagination };
+      pagination.current = res.data.currentPage;
+      pagination.total = res.data.totalCount;
+      this.setState({
+      listExcel: res.data.incomes,
+      pagination,
+    });
+  });
+  }
+
   handleTableChange = (pagination) => {
     const pager = {
       ...this.state.pagination,
@@ -110,7 +134,10 @@ class DeliveryHistoryRider extends Component {
         current: 1,
         pageSize: 10,
       }
-    }, () => this.getList());
+    }, () => {
+      this.getList();
+      this.getExcelList();
+    });
   }
 
   onDownload = (data) => {
@@ -286,8 +313,10 @@ class DeliveryHistoryRider extends Component {
                       current: 1,
                       pageSize: 10,
                     }
-                  }, () => this.getList()
-                    );
+                  }, () => {
+                    this.getList();
+                    this.getExcelList();
+                  });
                   }
                 else {
                   this.setState(
@@ -296,8 +325,10 @@ class DeliveryHistoryRider extends Component {
                       current: 1,
                       pageSize: 10,
                     }
-                  }, () => this.getList()
-                  );
+                  }, () => {
+                    this.getList();
+                    this.getExcelList();
+                  });
                 }
                 }}
               picker="month"
@@ -333,7 +364,7 @@ class DeliveryHistoryRider extends Component {
             </div>
 
           <Button className="download-btn"
-            style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={() => this.onDownload(this.state.list)}>
+            style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={() => this.onDownload(this.state.listExcel)}>
             <img src={require("../../img/excel.png").default} alt="" />
                     엑셀 다운로드
                 </Button>
