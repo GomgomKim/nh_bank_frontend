@@ -1,13 +1,11 @@
-import React, { Component, useState, useCallback } from 'react'
-import { httpGet, httpUrl, httpDownload, httpPost, httpPut } from '../../api/httpClient';
-import { Table, Input, Button, DatePicker, Radio, Select } from 'antd'
+import React, { Component } from 'react'
+import { httpGet, httpUrl } from '../../api/httpClient';
+import { Table,DatePicker, Select } from 'antd'
 import { comma } from "../../lib/util/numberUtil";
 import { formatDate } from '../../lib/util/dateUtil';
 import SelectBox from '../../components/input/SelectBox';
 import { categoryStatus } from '../../lib/util/codeUtil';
 import '../../css/main.css';
-import xlsx from 'xlsx';
-import { getWidth } from 'rc-menu/lib/util';
 const RangePicker = DatePicker.RangePicker;
 const Option = Select.Option;
 
