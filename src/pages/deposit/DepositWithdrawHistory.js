@@ -22,6 +22,11 @@ class DepositWithdrawHistory extends Component {
                 current: 1,
                 pageSize: 10,
             },
+            paginationExcel: {
+                total: 0,
+                current: 1,
+                pageSize: 300,
+            },
             userId: "",
             list: [],
             // userType: 1,
@@ -31,6 +36,7 @@ class DepositWithdrawHistory extends Component {
 
     componentDidMount() {
         this.getList();
+        this.getExcelList();
     }
 
     setDate = (date) => {
@@ -49,6 +55,23 @@ class DepositWithdrawHistory extends Component {
           pagination.total = res.data.totalCount;
         this.setState({
             list: res.data.withdraws,
+            pagination,
+        });
+        });
+    }
+
+    getExcelList = () => {
+        let pageNum = this.state.paginationExcel.current;
+        let pageSize = this.state.paginationExcel.pageSize;
+        let userId = this.state.userId;
+        let userType = this.state.searchType;
+        httpGet(httpUrl.depositWithdrawList, [ pageNum, pageSize, userId, userType ],{})
+        .then((res) => {
+          const pagination = { ...this.state.pagination };
+          pagination.current = res.data.currentPage;
+          pagination.total = res.data.totalCount;
+        this.setState({
+            listExcel: res.data.withdraws,
             pagination,
         });
         });
@@ -93,7 +116,10 @@ class DepositWithdrawHistory extends Component {
             current: 1,
             pageSize: 10,
           }
-        }, () => this.getList());
+        }, () => {
+            this.getList();
+            this.getExcelList();
+        });
       }
 
     onChange = (e) => {
@@ -105,6 +131,7 @@ class DepositWithdrawHistory extends Component {
             }
         }, ()=>{
             this.getList();
+            this.getExcelList();
         })
     }
 
@@ -120,9 +147,9 @@ class DepositWithdrawHistory extends Component {
           '아이디',
           'createDate',
           'userIdx',
-          'bank',
+          '은행명',
           '출금계좌',
-          '이름',
+          '예금주명',
           '출금일시',
           'withdrawStatus',
           '출금금액(원)',
@@ -144,7 +171,6 @@ class DepositWithdrawHistory extends Component {
         ws['!cols'][0] = { hidden: true };
         ws['!cols'][2] = { hidden: true };
         ws['!cols'][3] = { hidden: true };
-        ws['!cols'][4] = { hidden: true };
         ws['!cols'][8] = { hidden: true };
         ws['!cols'][10] = { hidden: true };
         ws['!cols'][11] = { hidden: true };
@@ -167,6 +193,18 @@ class DepositWithdrawHistory extends Component {
             },
             {
                 title: "이름",
+                dataIndex: "depositor",
+                className: "table-column-center",
+
+            },
+            {
+                title: "은행명",
+                dataIndex: "bank",
+                className: "table-column-center",
+
+            },
+            {
+                title: "예금주명",
                 dataIndex: "depositor",
                 className: "table-column-center",
 
@@ -213,7 +251,7 @@ class DepositWithdrawHistory extends Component {
                 />
 
                 <Button className="download-btn"
-                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={() => this.onDownload(this.state.list)}>
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={() => this.onDownload(this.state.listExcel)}>
                     <img src={require("../../img/excel.png").default} alt="" />
                     엑셀 다운로드
                 </Button>
