@@ -55,7 +55,7 @@ class DepositPaymentHistory extends Component {
         pagination.current = res.data.currentPage;
         pagination.total = res.data.totalCount;
         this.setState({
-            list: res.data.logs,
+            list: res.data.payments,
             pagination,
             });
         });
@@ -71,7 +71,7 @@ class DepositPaymentHistory extends Component {
         pagination.current = res.data.currentPage;
         pagination.total = res.data.totalCount;
         this.setState({
-            listExcel: res.data.logs,
+            listExcel: res.data.payments,
             pagination,
             });
         });
