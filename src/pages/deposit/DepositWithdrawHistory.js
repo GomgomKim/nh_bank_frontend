@@ -193,7 +193,7 @@ class DepositWithdrawHistory extends Component {
             },
             {
                 title: "이름",
-                dataIndex: "depositor",
+                dataIndex: "userName",
                 className: "table-column-center",
 
             },
