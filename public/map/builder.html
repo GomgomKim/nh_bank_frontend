@@ -167,6 +167,7 @@
 	<div id="btn-line-both-edit" class="btn-normal" onclick="setMode('line-both')">선편집(양방향)</div>
 	<div id="btn-line-single-edit" class="btn-normal" onclick="setMode('line-single')">선편집(단방향)</div>
 	<div id="btn-show-edit" class="btn-normal" onclick="setMode('show')">SHOW</div>
+	<div id="btn-hide-edit" class="btn-normal" onclick="setMode('hide')">HIDE</div>
 	
 	<div id="btn-save" class="btn-normal2" onclick="save()">저장하기</div>
 	<div id="btn-open" class="btn-normal2" onclick="openData()">불러오기</div>
@@ -178,6 +179,19 @@
 </div>
 
 <script>
+
+document.onkeydown = function(e) {
+	if (e.which == 112 && e.ctrlKey) {
+		setMode('point');
+	}
+	if (e.which == 113 && e.ctrlKey) {
+		setMode('line-both')
+	}
+	if (e.which == 114 && e.ctrlKey) {
+		setMode('line-single')
+	}
+}
+
 var mapOptions = {
     center: new naver.maps.LatLng(37.6456569,126.6474064),
     zoom: 15
@@ -376,6 +390,35 @@ function initGeocoder() {
 										endIconSize: 30,
 										strokeColor: item2.type == 0 ? 'red' : 'blue',
 									});
+								}
+							}
+						});
+						
+						
+					}
+				}
+			});
+		}
+		else if (activeMode == 'hide') {
+			
+			nodes.forEach(item => {
+				if (item.marker != null) {
+					
+					var dist = getDistanceFromLatLonInKm(item.lat, item.lng, e.coord._lat, e.coord._lng);
+					if (dist <= 1) {
+						
+						//점삭제
+						if (item.marker != null) {
+							item.marker.setMap(null);
+							item.marker = null;
+						}
+						
+						//선삭제
+						edges.forEach(item2 => {
+							if (item2.from == item.id || item2.to == item.id) {
+								if (item2.polyline != null) {
+									item2.polyline.setMap(null);
+									item2.polyline = null;
 								}
 							}
 						});
