@@ -21,6 +21,11 @@ class DeliveryHistoryEmployee extends Component {
         current: 1,
         pageSize: 10,
       },
+      paginationExcel: {
+        total: 0,
+        current: 1,
+        pageSize: 100,
+      },
       searchMonth: "",
       staffName: "",
       staffPhone: "",
@@ -30,6 +35,7 @@ class DeliveryHistoryEmployee extends Component {
 
   componentDidMount() {
     this.getList();
+    this.getExcelList();
   }
 
   getList = () => {
@@ -47,6 +53,29 @@ class DeliveryHistoryEmployee extends Component {
     ).then((res) => {
       this.setState({
         list: res.data.incentives,
+        pagination: {
+          ...this.state.pagination,
+          current: res.data.currentPage,
+          total: res.data.totalCount,
+        },
+      });
+    });
+  };
+  getExcelList = () => {
+    const pagination = this.state.paginationExcel;
+    httpGet(
+      httpUrl.staffDeliveryList,
+      [
+        pagination.current,
+        pagination.pageSize,
+        this.state.searchMonth,
+        this.state.staffName,
+        this.state.staffPhone,
+      ],
+      {}
+    ).then((res) => {
+      this.setState({
+        listExcel: res.data.incentives,
         pagination: {
           ...this.state.pagination,
           current: res.data.currentPage,
@@ -188,7 +217,10 @@ class DeliveryHistoryEmployee extends Component {
         current: 1,
         pageSize: 10,
       }
-    }, () => this.getList());
+    }, () => {
+      this.getList();
+      this.getExcelList();
+    });
   }
 
   render() {
@@ -285,8 +317,10 @@ class DeliveryHistoryEmployee extends Component {
                       pageSize: 10,
                     },
                   },
-                  () => this.getList()
-                );
+                  () => {
+                    this.getList();
+                    this.getExcelList();
+                  });
               } else {
                 this.setState(
                   {
@@ -296,8 +330,10 @@ class DeliveryHistoryEmployee extends Component {
                       pageSize: 10,
                     },
                   },
-                  () => this.getList()
-                );
+                  () => {
+                    this.getList();
+                    this.getExcelList();
+                  });
               }
             }}
           />
@@ -335,7 +371,7 @@ class DeliveryHistoryEmployee extends Component {
         <Button
           className="download-btn"
           style={{ float: "right", marginLeft: 10, marginBottom: 20 }}
-          onClick={() => this.onDownload(this.state.list)}
+          onClick={() => this.onDownload(this.state.listExcel)}
         >
           <img src={require("../../img/excel.png").default} alt="" />
           엑셀 다운로드

@@ -25,6 +25,11 @@ class FranchiseList extends Component {
                 current: 1,
                 pageSize: 10,
             },
+            paginationExcel: {
+                total: 0,
+                current: 1,
+                pageSize: 1500,
+            },
             frName: "",
             branchName: "",
             franchiseData: [], //가맹점 수정 데이터
@@ -33,6 +38,7 @@ class FranchiseList extends Component {
 
     componentDidMount() {
         this.getList();
+        this.getExcelList();
     }
 
     setDate = (date) => {
@@ -139,6 +145,7 @@ class FranchiseList extends Component {
           },
           () => {
             this.getList();
+            this.getExcelList();
           }
         );
     };
@@ -154,9 +161,36 @@ class FranchiseList extends Component {
           },
           () => {
             this.getList();
+            this.getExcelList();
           }
         );
     };
+
+    getExcelList = () => {
+                const pagination = this.state.paginationExcel;
+        httpGet(
+          httpUrl.franchiseList,
+          [
+            this.state.branchName,
+            this.state.frName,
+            pagination.current,
+            pagination.pageSize,
+          ],
+          {}
+        ).then((res) => {
+        // alert(JSON.stringify(res))
+          if (res.result === "SUCCESS") {
+            this.setState({
+              listExcel: res.data.franchises,
+              pagination: {
+                ...this.state.pagination,
+                current: res.data.currentPage,
+                total: res.data.totalCount,
+              },
+            });
+          }
+        });
+      };
 
     onDownload = (data) => {
         // let col6=["PG 사용"];
@@ -172,7 +206,7 @@ class FranchiseList extends Component {
           '주소',
           '상세주소',
           'addr3',
-          'PG 사용\n(100:미사용, 0:사용)',
+          'PG 사용\n(100:미사용, 나머지:사용)',
           '가맹점번호',
           'PG지갑',
           'VAN',
@@ -182,9 +216,10 @@ class FranchiseList extends Component {
           'userId',
           'userEmail',
           'userPhone',
-          'vaccountDepositor',
+          'ncashDelta',
           'vaccountBank',
-          'vaccountNumber'
+          'vaccountNumber',
+          'vaccountDepositor',
         ].forEach((x, idx) => {
           const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
           ws[cellAdd].v = x;
@@ -205,10 +240,11 @@ class FranchiseList extends Component {
         ws['!cols'][16] = { hidden: true };
         ws['!cols'][17] = { hidden: true };
         ws['!cols'][18] = { hidden: true };
+        ws['!cols'][19] = { hidden: true };
         ws['!cols'][2] = { width: 15 };
         ws['!cols'][3] = { width: 30 };
         ws['!cols'][4] = { width: 15 };
-        ws['!cols'][6] = { width: 20 };
+        ws['!cols'][6] = { width: 25 };
         ws['!cols'][7] = { width: 20 };
         ws['!cols'][8] = { width: 20 };
         xlsx.utils.book_append_sheet(wb, ws, "sheet1");
@@ -238,7 +274,7 @@ class FranchiseList extends Component {
                 title: "가맹점주소",
                 // dataIndex: "franAddr",
                 className: "table-column-center",
-                render: (data, row) => <div>{row.addr1 + row.addr2}</div>,
+                render: (data, row) => <div>{row.addr1 + " " +row.addr2}</div>,
             },
             {
                 title: "VAN",
@@ -325,7 +361,7 @@ class FranchiseList extends Component {
                     }}
                 />
                 <Button className="download-btn"
-                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={() => this.onDownload(this.state.list)}>
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={() => this.onDownload(this.state.listExcel)}>
                     <img src={require("../../img/excel.png").default} alt="" />
                     엑셀 다운로드
                 </Button>

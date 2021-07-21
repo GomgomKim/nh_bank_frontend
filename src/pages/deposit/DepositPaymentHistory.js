@@ -22,6 +22,11 @@ class DepositPaymentHistory extends Component {
                 current: 1,
                 pageSize: 10,
             },
+            paginationExcel: {
+                total: 0,
+                current: 1,
+                pageSize: 300,
+            },
             list: [],
             searchType: 1,
             searchText: '',
@@ -30,6 +35,7 @@ class DepositPaymentHistory extends Component {
 
     componentDidMount() {
         this.getList();
+        this.getExcelList();
     }
 
     openDepositDialogModal = () => {
@@ -49,7 +55,23 @@ class DepositPaymentHistory extends Component {
         pagination.current = res.data.currentPage;
         pagination.total = res.data.totalCount;
         this.setState({
-            list: res.data.logs,
+            list: res.data.payments,
+            pagination,
+            });
+        });
+    };
+
+    getExcelList = () => {
+        let pageNum = this.state.paginationExcel.current;
+        let pageSize = this.state.paginationExcel.pageSize;
+        let userId = this.state.searchText;
+        let userType = this.state.searchType;
+        httpGet(httpUrl.depositList, [pageNum, pageSize, userId, userType], {}).then((res) => {
+        const pagination = { ...this.state.pagination };
+        pagination.current = res.data.currentPage;
+        pagination.total = res.data.totalCount;
+        this.setState({
+            listExcel: res.data.payments,
             pagination,
             });
         });
@@ -64,6 +86,7 @@ class DepositPaymentHistory extends Component {
             }
         }, ()=>{
             this.getList();
+            this.getExcelList();
         })
     }
 
@@ -76,6 +99,7 @@ class DepositPaymentHistory extends Component {
             }
         }, ()=>{
             this.getList();
+            this.getExcelList();
         })
     }
 
@@ -120,7 +144,7 @@ class DepositPaymentHistory extends Component {
         ws['!cols'][3] = { hidden: true };
         ws['!cols'][1] = { width: 20 };
         xlsx.utils.book_append_sheet(wb, ws, "sheet1");
-        xlsx.writeFile(wb, "예치금내역.xlsx");
+        xlsx.writeFile(wb, "예치금지급.xlsx");
       }
 
     render() {
@@ -176,7 +200,7 @@ class DepositPaymentHistory extends Component {
 
 
                 <Button className="download-btn"
-                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={() => {this.onDownload(this.state.list)}}>
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={() => {this.onDownload(this.state.listExcel)}}>
                     <img src={require("../../img/excel.png").default} alt="" />
                     엑셀 다운로드
                 </Button>
