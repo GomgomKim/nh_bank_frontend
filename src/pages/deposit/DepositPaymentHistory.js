@@ -144,7 +144,7 @@ class DepositPaymentHistory extends Component {
         ws['!cols'][3] = { hidden: true };
         ws['!cols'][1] = { width: 20 };
         xlsx.utils.book_append_sheet(wb, ws, "sheet1");
-        xlsx.writeFile(wb, "예치금내역.xlsx");
+        xlsx.writeFile(wb, "예치금지급.xlsx");
       }
 
     render() {

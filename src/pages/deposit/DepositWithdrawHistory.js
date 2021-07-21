@@ -178,7 +178,7 @@ class DepositWithdrawHistory extends Component {
         ws['!cols'][5] = { width: 12 };
         ws['!cols'][7] = { width: 20 };
         xlsx.utils.book_append_sheet(wb, ws, "sheet1");
-        xlsx.writeFile(wb, "출금내역.xlsx");
+        xlsx.writeFile(wb, "예치금출금.xlsx");
       }
 
 

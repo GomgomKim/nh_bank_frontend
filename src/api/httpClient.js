@@ -171,7 +171,7 @@ const httpUrl = {
   franchiseList: "/fr/list?branchName=%s&frName=%s&pageNum=%s&pageSize=%s",
   updateFranchise: "/fr/update",
   registFranchisePG: "/fr/regist/pg/%s",
-  franchiseFeeHistory: "fr/cash/list?pageNum=%s&pageSize=%s",
+  franchiseFeeHistory: "/fr/cash/list?pageNum=%s&pageSize=%s",
   franchiseChargeHistory: "/fr/charge/list?pageNum=%s&pageSize=%s",
 
   // 라이더

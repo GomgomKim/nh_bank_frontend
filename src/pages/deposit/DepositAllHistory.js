@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { httpGet, httpUrl } from '../../api/httpClient';
-import { Table,DatePicker, Select } from 'antd'
+import { Table,DatePicker, Select,Button } from 'antd'
 import { comma } from "../../lib/util/numberUtil";
 import { formatDate } from '../../lib/util/dateUtil';
 import SelectBox from '../../components/input/SelectBox';
 import { categoryStatus } from '../../lib/util/codeUtil';
 import '../../css/main.css';
+import xlsx from 'xlsx';
+
 const RangePicker = DatePicker.RangePicker;
 const Option = Select.Option;
 
@@ -20,6 +22,11 @@ class DepositAllHistory extends Component {
                 current: 1,
                 pageSize: 10,
             },
+            paginationExcel: {
+                total: 0,
+                current: 1,
+                pageSize: 500,
+            },
             // userId: "",
             list: [],
             searchType: 1,
@@ -29,6 +36,7 @@ class DepositAllHistory extends Component {
 
     componentDidMount() {
         this.getList();
+        this.getExcelList();
     }
 
     getList = () => {
@@ -42,6 +50,22 @@ class DepositAllHistory extends Component {
           pagination.total = res.data.totalCount;
         this.setState({
             list: res.data.ncash,
+            pagination,
+        });
+        });
+    }
+
+    getExcelList = () => {
+        let category = this.state.category;
+        let pageNum = this.state.paginationExcel.current;
+        let pageSize = this.state.paginationExcel.pageSize;
+        httpGet(httpUrl.depositAllList, [ category, pageNum, pageSize ],{})
+        .then((res) => {
+          const pagination = { ...this.state.pagination };
+          pagination.current = res.data.currentPage;
+          pagination.total = res.data.totalCount;
+        this.setState({
+            listExcel: res.data.ncash,
             pagination,
         });
         });
@@ -70,8 +94,45 @@ class DepositAllHistory extends Component {
             }
         }, ()=>{
             this.getList();
+            this.getExcelList();
         })
     }
+
+    onDownload = (data) => {
+        // let col2=["지급금액"];
+        // for(let i=0; i<=data.length-1; i++) {
+        //   col2.push(comma(data[i].sendAmount))
+        // };
+        const ws = xlsx.utils.json_to_sheet(data);
+        const wb = xlsx.utils.book_new();
+        [
+          'idx',
+          '아이디',
+          '일시',
+          'category',
+          '카테고리',
+          '금액',
+          '관리자아이디'
+        ].forEach((x, idx) => {
+          const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
+          ws[cellAdd].v = x;
+        })
+
+        // col2.forEach((x, idx) => {
+        //     const cellAdd = xlsx.utils.encode_cell({c:2, r:idx});
+        //     ws[cellAdd].v = x;
+        //     ws[cellAdd].t = "string";
+        // })
+
+        ws['!cols'] = [];
+        ws['!cols'][0] = { hidden: true };
+        ws['!cols'][3] = { hidden: true };
+        ws['!cols'][2] = { width: 20 };
+        ws['!cols'][4] = { width: 22 };
+        ws['!cols'][6] = { width: 12 };
+        xlsx.utils.book_append_sheet(wb, ws, "sheet1");
+        xlsx.writeFile(wb, "예치금내역.xlsx");
+      }
 
     render() {
 
@@ -114,10 +175,9 @@ class DepositAllHistory extends Component {
         ];
         return (
             <>
-                <div style={{marginBottom: 10}}>
                  <SelectBox
                     placeholder={'전체'}
-                    style={{width:200}}
+                    style={{width:200, marginBottom: 20}}
                     value={categoryStatus[this.state.category]}
                     code={Object.keys(categoryStatus)}
                     codeString={categoryStatus}
@@ -127,13 +187,13 @@ class DepositAllHistory extends Component {
                         }
                     }}
                     />
-                </div>
 
-                {/* <Button className="download-btn"
-                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={() => this.onDownload(this.state.list)}>
+                <Button className="download-btn"
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={() => this.onDownload(this.state.listExcel)}>
                     <img src={require("../../img/excel.png").default} alt="" />
                     엑셀 다운로드
-                </Button> */}
+                </Button>
+
                 <Table
                     rowKey={(record) => record.idx}
                     dataSource={this.state.list}
