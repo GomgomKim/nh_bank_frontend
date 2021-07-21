@@ -202,7 +202,7 @@ class DepositWithdrawHistory extends Component {
                 dataIndex: "bank",
                 className: "table-column-center",
                 render: (data) => <div>
-                    {data.split(',')[0]}
+                    {data === null ? '' : data.split(',')[0]}
                 </div>
 
             },
