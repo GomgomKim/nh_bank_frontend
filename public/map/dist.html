@@ -219,7 +219,7 @@ function initGeocoder() {
 			console.log(fromLatLng)
 			console.log(toLatLng)
 			$.ajax({
-			  url: 'https://rider.nyamnyambox.com:30004/map/dist?fromLat='+fromLatLng._lat+'&fromLng='+fromLatLng._lng+'&toLat='+toLatLng._lat+'&toLng='+toLatLng._lng,
+			  url: 'https://manage.nyamnyambox.com:30004/map/dist?fromLat='+fromLatLng._lat+'&fromLng='+fromLatLng._lng+'&toLat='+toLatLng._lat+'&toLng='+toLatLng._lng,
 			  dataType: 'json',
 			  success: callback
 			});
