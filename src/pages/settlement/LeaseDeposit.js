@@ -28,6 +28,27 @@ class LeaseDeposit extends Component {
         this.getList();
     }
 
+    getList = () => {
+        var list = [
+            {
+                date: "2021-07-01",
+                leaseDeposit: 3100000,
+            },
+            {
+                date: "2021-07-02",
+                leaseDeposit: 3230000,
+            },
+            {
+                date: "2021-07-03",
+                leaseDeposit: 3150000,
+            }
+        ];
+        this.setState({
+            list: list,
+        })
+
+    }
+
     setDate = (date) => {
         console.log(date)
     }
@@ -35,11 +56,44 @@ class LeaseDeposit extends Component {
 
 
     render() {
+        const columns = [
+            {
+                title: "일자",
+                dataIndex: "date",
+                className: "table-column-center",
+            },
+            {
+                title: "리스료 입금",
+                dataIndex: "leaseDeposit",
+                className: "table-column-center",
+                render: (data) => <div>{comma(data)}원</div>
+            },
+        ];
+
 
 
         return (
             <>
+                <Button className="download-btn"
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} 
+                    // onClick={() => this.onDownload(this.state.list)}
+                >
+                    <img src={require("../../img/excel.png").default} alt="" />
+                    엑셀 다운로드
+                </Button>
 
+                <RangePicker
+                    style={{ width: 300, float: "right", marginRight: 10 }}
+                    placeholder={["시작일", "종료일"]}
+                />
+
+                <Table
+                    rowKey={(record) => record.idx}
+                    dataSource={this.state.list}
+                    columns={columns}
+                    pagination={this.state.pagination}
+                    onChange={this.handleTableChange}
+                />
 
 
             </>
