@@ -28,6 +28,27 @@ class AddCost extends Component {
         this.getList();
     }
 
+    getList = () => {
+        var list = [
+            {
+                date: "2021-07-01",
+                addCost: 5153000,
+            },
+            {
+                date: "2021-07-02",
+                addCost: 3173000,
+            },
+            {
+                date: "2021-07-03",
+                addCost: 5153000,
+            }
+        ];
+        this.setState({
+            list: list,
+        })
+
+    }
+
     setDate = (date) => {
         console.log(date)
     }
@@ -36,10 +57,44 @@ class AddCost extends Component {
 
     render() {
 
+        const columns = [
+            {
+                title: "일자",
+                dataIndex: "date",
+                className: "table-column-center",
+            },
+            {
+                title: "부가세 예수",
+                dataIndex: "addCost",
+                className: "table-column-center",
+                render: (data) => <div>{comma(data)}원</div>
+            },
+
+
+        ];
+
 
         return (
             <>
+                <Button className="download-btn"
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} 
+                    // onClick={() => this.onDownload(this.state.list)}
+                >
+                    <img src={require("../../img/excel.png").default} alt="" />
+                    엑셀 다운로드
+                </Button>
+                <RangePicker
+                    style={{ width: 300, float: "right", marginRight: 10 }}
+                    placeholder={["시작일", "종료일"]}
+                />
 
+                <Table
+                    rowKey={(record) => record.idx}
+                    dataSource={this.state.list}
+                    columns={columns}
+                    pagination={this.state.pagination}
+                    onChange={this.handleTableChange}
+                />
 
 
             </>
