@@ -30,10 +30,12 @@ class DepositPaymentHistory extends Component {
             list: [],
             searchType: 1,
             searchText: '',
+            hoBalance: 0
         };
     }
 
     componentDidMount() {
+        this.getBalance();
         this.getList();
         this.getExcelList();
     }
@@ -56,7 +58,14 @@ class DepositPaymentHistory extends Component {
         pagination.total = res.data.totalCount;
         this.setState({
             list: res.data.payments,
-            pagination,
+            });
+        });
+    };
+
+    getBalance = () => {
+        httpGet(httpUrl.hoBalance, [], {}).then((res) => {
+        this.setState({
+            hoBalance: res.data,
             });
         });
     };
@@ -191,7 +200,10 @@ class DepositPaymentHistory extends Component {
 
 
                 {this.state.depositDialogOpen && (
-                    <DepositDialog close={this.closeDepositDialogModal} getList={this.getList}/>
+                    <DepositDialog 
+                        close={this.closeDepositDialogModal} 
+                        getList={this.getList} 
+                        balance={this.getBalance}/>
                 )}
                 <Button style={{ marginBottom: 20, marginLeft: 20 }} onClick={this.openDepositDialogModal}>
                     예치금 지급
@@ -202,7 +214,7 @@ class DepositPaymentHistory extends Component {
                         본사 잔액 : 
                     </div>
                     <div className="box-content">
-                        {comma(20000000)} 
+                        {comma(this.state.hoBalance)} 
                         <div className="box-sub"> 원</div>
                     </div>
                 </div>
