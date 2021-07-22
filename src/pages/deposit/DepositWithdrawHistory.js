@@ -77,6 +77,20 @@ class DepositWithdrawHistory extends Component {
         });
     }
 
+    handleTableChange = (pagination) => {
+        const pager = {
+          ...this.state.pagination,
+        };
+        pager.current = pagination.current;
+        pager.pageSize = pagination.pageSize;
+        this.setState(
+          {
+            pagination: pager,
+          },
+          () => this.getList()
+        );
+      };
+
     // getList = () => {
     //     var list = [
     //         {
@@ -220,7 +234,7 @@ class DepositWithdrawHistory extends Component {
             },
             {
                 title: "출금금액",
-                dataIndex: "reqAmount",
+                dataIndex: "ncashDelta",
                 className: "table-column-center",
                 render: (data) => <div>{comma(data)}원</div>
             },

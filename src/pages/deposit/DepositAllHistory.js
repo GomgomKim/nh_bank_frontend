@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { httpGet, httpUrl } from '../../api/httpClient';
-import { Table,DatePicker, Select,Button } from 'antd'
+import { Table,DatePicker, Select,Button,Input } from 'antd'
 import { comma } from "../../lib/util/numberUtil";
 import { formatDate } from '../../lib/util/dateUtil';
 import SelectBox from '../../components/input/SelectBox';
@@ -10,6 +10,7 @@ import xlsx from 'xlsx';
 
 const RangePicker = DatePicker.RangePicker;
 const Option = Select.Option;
+const Search = Input.Search;
 
 class DepositAllHistory extends Component {
 
@@ -27,10 +28,11 @@ class DepositAllHistory extends Component {
                 current: 1,
                 pageSize: 500,
             },
-            // userId: "",
             list: [],
+            searchId: '',
+            searchName: '',
             searchType: 1,
-            category: ""
+            category: "",
         };
     }
 
@@ -43,29 +45,15 @@ class DepositAllHistory extends Component {
         let category = this.state.category;
         let pageNum = this.state.pagination.current;
         let pageSize = this.state.pagination.pageSize;
-        httpGet(httpUrl.depositAllList, [ category, pageNum, pageSize ],{})
+        let userId = this.state.searchId;
+        // let userName = this.state.searchName;
+        httpGet(httpUrl.depositAllList, [ category, pageNum, pageSize, userId ],{})
         .then((res) => {
           const pagination = { ...this.state.pagination };
           pagination.current = res.data.currentPage;
           pagination.total = res.data.totalCount;
         this.setState({
             list: res.data.ncash,
-            pagination,
-        });
-        });
-    }
-
-    getExcelList = () => {
-        let category = this.state.category;
-        let pageNum = this.state.paginationExcel.current;
-        let pageSize = this.state.paginationExcel.pageSize;
-        httpGet(httpUrl.depositAllList, [ category, pageNum, pageSize ],{})
-        .then((res) => {
-          const pagination = { ...this.state.pagination };
-          pagination.current = res.data.currentPage;
-          pagination.total = res.data.totalCount;
-        this.setState({
-            listExcel: res.data.ncash,
             pagination,
         });
         });
@@ -84,6 +72,38 @@ class DepositAllHistory extends Component {
           () => this.getList()
         );
       };
+
+    onSearch = (value) => {
+        this.setState({
+            searchId: value,
+            pagination: {
+                current: 1,
+                pageSize: 10,
+            }
+        }, ()=>{
+            this.getList();
+            this.getExcelList();
+        })
+    }
+
+    getExcelList = () => {
+        let category = this.state.category;
+        let pageNum = this.state.paginationExcel.current;
+        let pageSize = this.state.paginationExcel.pageSize;
+        let userId = this.state.searchId;
+        // let userName = this.state.searchName;
+        httpGet(httpUrl.depositAllList, [ category, pageNum, pageSize, userId ],{})
+        .then((res) => {
+          const pagination = { ...this.state.pagination };
+          pagination.current = res.data.currentPage;
+          pagination.total = res.data.totalCount;
+        this.setState({
+            listExcel: res.data.ncash,
+            pagination,
+        });
+        });
+    }
+    
       
     onChangeStatus = (value) => {
         this.setState({
@@ -138,8 +158,24 @@ class DepositAllHistory extends Component {
 
         const columns = [
             {
+                title: "구분",
+                dataIndex: "userType",
+                className: "table-column-center",
+                render: (data) => 
+                <>
+                    { data === 1 ? 
+                        <div style={{color:'blue'}}>라이더</div> 
+                        : <div style={{color:'red'}}>가맹점</div>}
+                </>
+            },
+            {
                 title: "아이디",
                 dataIndex: "userId",
+                className: "table-column-center",
+            },
+            {
+                title: "이름",
+                dataIndex: "userName",
                 className: "table-column-center",
             },
             {
@@ -147,12 +183,6 @@ class DepositAllHistory extends Component {
                 dataIndex: "categoryKr",
                 className: "table-column-center",
             },
-            // {
-            //     title: "카테고리",
-            //     dataIndex: "category",
-            //     className: "table-column-center",
-            //     render: (data) => <div>{categoryStatus[data]}</div>
-            // },
             {
                 title: "일시",
                 dataIndex: "createDate",
@@ -162,6 +192,12 @@ class DepositAllHistory extends Component {
             {
                 title: "금액",
                 dataIndex: "ncashDelta",
+                className: "table-column-center",
+                render: (data) => <div>{comma(data)}원</div>
+            },
+            {
+                title: "잔액",
+                dataIndex: "ncash",
                 className: "table-column-center",
                 render: (data) => <div>{comma(data)}원</div>
             },
@@ -187,6 +223,17 @@ class DepositAllHistory extends Component {
                         }
                     }}
                     />
+                <Search
+                    placeholder="아이디,이름 검색"
+                    enterButton
+                    allowClear
+                    onSearch={this.onSearch}
+                    style={{
+                        width: 220,
+                        marginLeft: 10,
+                        marginBottom: 20
+                    }}
+                />
 
                 <Button className="download-btn"
                     style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={() => this.onDownload(this.state.listExcel)}>

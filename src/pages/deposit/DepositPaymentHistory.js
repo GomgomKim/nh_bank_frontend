@@ -158,7 +158,7 @@ class DepositPaymentHistory extends Component {
             },
             {
                 title: "지급금액",
-                dataIndex: "sendAmount",
+                dataIndex: "ncashDelta",
                 className: "table-column-center",
                 render: (data) => <div>{comma(data)}원</div>
             },
