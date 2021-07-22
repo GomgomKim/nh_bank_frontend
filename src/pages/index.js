@@ -39,4 +39,12 @@ export { default as Notice } from "./board/Notice";
 export { default as OperatorManage } from "./system/OperatorManage";
 export { default as ControlAgentManage } from "./system/ControlAgentManage";
 
-
+//정산관리
+export { default as Aggregation } from "./settlement/Aggregation";
+export { default as AddCost } from "./settlement/AddCost";
+export { default as LeaseDeposit } from "./settlement/LeaseDeposit";
+export { default as InsuranceDeposit } from "./settlement/InsuranceDeposit";
+export { default as DeliveryCost } from "./settlement/DeliveryCost";
+export { default as FeeDeposit } from "./settlement/FeeDeposit";
+export { default as FrDuesDeposit } from "./settlement/FrDuesDeposit";
+export { default as SellProdDeposit } from "./settlement/SellProdDeposit";
