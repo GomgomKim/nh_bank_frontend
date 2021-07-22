@@ -59,14 +59,14 @@ export default class Content extends Component {
             <Route exact path="/system/OperatorManage" component={OperatorManage} />
             <Route exact path="/system/ControlAgentManage" component={ControlAgentManage} />
 
-            <Route exact path="/system/Aggregation" component={Aggregation} />
-            <Route exact path="/system/AddCost" component={AddCost} />
-            <Route exact path="/system/LeaseDeposit" component={LeaseDeposit} />
-            <Route exact path="/system/InsuranceDeposit" component={InsuranceDeposit} />
-            <Route exact path="/system/DeliveryCost" component={DeliveryCost} />
-            <Route exact path="/system/FeeDeposit" component={FeeDeposit} />
-            <Route exact path="/system/FrDuesDeposit" component={FrDuesDeposit} />
-            <Route exact path="/system/SellProdDeposit" component={SellProdDeposit} />
+            <Route exact path="/settlement/Aggregation" component={Aggregation} />
+            <Route exact path="/settlement/AddCost" component={AddCost} />
+            <Route exact path="/settlement/LeaseDeposit" component={LeaseDeposit} />
+            <Route exact path="/settlement/InsuranceDeposit" component={InsuranceDeposit} />
+            <Route exact path="/settlement/DeliveryCost" component={DeliveryCost} />
+            <Route exact path="/settlement/FeeDeposit" component={FeeDeposit} />
+            <Route exact path="/settlement/FrDuesDeposit" component={FrDuesDeposit} />
+            <Route exact path="/settlement/SellProdDeposit" component={SellProdDeposit} />
 
 
           </Switch>

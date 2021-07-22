@@ -32,14 +32,63 @@ class FeeDeposit extends Component {
         console.log(date)
     }
 
+    getList = () => {
+        var list = [
+            {
+                riderFee: 3000,
+                date: "2021-06-03",
+            },
+
+        ];
+
+        this.setState({
+            list: list,
+        });
+    };
 
 
     render() {
 
+        const columns = [
+
+            {
+                title: "기사수수료",
+                dataIndex: "riderFee",
+                className: "table-column-center",
+                render: (data) => <div>{comma(data)}원</div>,
+            },
+
+            {
+                title: "날짜",
+                dataIndex: "date",
+                className: "table-column-center",
+            },
+        ];
+
 
         return (
             <>
+                <Button className="download-btn"
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
+                    <img src={require("../../img/excel.png").default} alt="" />
+                    엑셀 다운로드
+                </Button>
 
+                <RangePicker
+                    onChange={this.onChangeDate}
+                    showTime={{ format: "MM:dd" }}
+                    style={{ float: "right" }}
+                    placeholder={["시작일", "종료일"]}
+                />
+
+                <Table
+                    dataSource={this.state.list}
+                    columns={columns}
+                    pagination={this.state.pagination}
+                    onChange={this.handleTableChange}
+                    expandedRowRender={this.expandedRowRender}
+                    expandRowByClick={true}
+                />
 
 
             </>
