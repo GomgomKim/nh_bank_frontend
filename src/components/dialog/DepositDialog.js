@@ -61,6 +61,7 @@ class DepositDialog extends Component {
     handleSubmit = () =>{
         let self = this;
         const form = this.formRef.current;
+        // alert(this.state.selectedRider.userIdx)
         if(this.state.searchType === 0){
         Modal.confirm({
             title: "예치금 지금",
@@ -78,6 +79,7 @@ class DepositDialog extends Component {
                         customAlert('예치금 지급 완료', '해당 라이더에게 예치금을 지급하였습니다.')
                         self.props.close()
                         self.props.getList()
+                        self.props.balance()
                     } 
                         else {
                         customError('예치금 지급 에러', '서버 에러로 인해 예치금 지급에 실패하였습니다')
@@ -105,6 +107,7 @@ class DepositDialog extends Component {
                     customAlert('예치금 지급 완료', '해당 가맹점에 예치금을 지급하였습니다.')
                     self.props.close()
                     self.props.getList()
+                    self.props.balance()
                 } 
                 else {
                     customError('예치금 지급 에러', '서버 에러로 인해 예치금 지급에 실패하였습니다')
