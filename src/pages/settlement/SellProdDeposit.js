@@ -34,11 +34,34 @@ class SellProdDeposit extends Component {
 
     getList = () => {
         var list = [
-            {
-                sellProd: 3000,
-                date: "2021-06-03",
+
+            { 
+              prodName: "헬멧(CH-33)",
+              category: "헬멧",
+              quantity: 2,
+              sellProdDeposit: 94000,
             },
 
+            { 
+              prodName: "피자가방",
+              category: "가방",
+              quantity: 4,
+              sellProdDeposit: 80000,
+            },
+
+            { 
+              prodName: "바람막이(DK590)",
+              category: "옷",
+              quantity: 2,
+              sellProdDeposit: 46000,
+            },
+
+            { 
+              prodName: "반팔티",
+              category: "옷",
+              quantity: 1,
+              sellProdDeposit: 12000,
+            },
         ];
 
         this.setState({
@@ -50,18 +73,31 @@ class SellProdDeposit extends Component {
     render() {
 
         const columns = [
-
-            {
-                title: "물품판매",
-                dataIndex: "sellProd",
-                className: "table-column-center",
-                render: (data) => <div>{comma(data)}원</div>,
+          
+            {   
+              title: "카테고리",
+              dataIndex: "category",
+              className: "table-column-center",
             },
 
             {
-                title: "날짜",
-                dataIndex: "date",
-                className: "table-column-center",
+              title: "상품명",
+              dataIndex: "prodName",
+              className: "table-column-center",
+            },
+
+            {
+              title: "수량",
+              dataIndex: "quantity",
+              className: "table-column-center",
+              render: (data) => <div>{comma(data)}</div>
+            },
+
+            {
+              title: "물품판매금액",
+              dataIndex: "sellProdDeposit",
+              className: "table-column-center",
+              render: (data) => <div>{comma(data)}원</div>,
             },
         ];
 
