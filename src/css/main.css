@@ -371,6 +371,29 @@ div:nth-child(2) {
   width: 230px;
 }
 
+.deposit-box {
+  display: inline-block;
+  margin-left: 20px;
+}
+.box-title {
+  padding: 0 10px;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  margin-bottom: 3px;
+}
+.box-content {
+  display: inline-block;
+  font-size: 20px;
+  vertical-align: middle;
+  margin-bottom: 5px;
+}
+.box-sub {
+  display: inline-block;
+  font-size: 15px;
+  margin-left: 3px;
+}
+
 /* 라이더 & 가맹점 조회 dialog */
 
 .deposit-inner > .searchRider-Input {

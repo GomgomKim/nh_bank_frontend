@@ -196,8 +196,24 @@ class DepositPaymentHistory extends Component {
                 <Button style={{ marginBottom: 20, marginLeft: 20 }} onClick={this.openDepositDialogModal}>
                     예치금 지급
                 </Button>
-
-
+                
+                <div className="deposit-box">
+                    <div className="box-title">
+                        본사 잔액 : 
+                    </div>
+                    <div className="box-content">
+                        {comma(20000000)} 
+                        <div className="box-sub"> 원</div>
+                    </div>
+                </div>
+                <div className="deposit-box">
+                    <div className="box-title">
+                        입금 가상계좌 : 
+                    </div>
+                    <div className="box-content">
+                        116-484-481321 
+                    </div>
+                </div>
 
                 <Button className="download-btn"
                     style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={() => {this.onDownload(this.state.listExcel)}}>
