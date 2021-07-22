@@ -188,6 +188,7 @@ class DepositWithdrawDialog extends Component {
                               : this.state.selectedRider.ncash
                             : ""
                         }
+                        disabled
                       />
                     </FormItem>
                   </div>
