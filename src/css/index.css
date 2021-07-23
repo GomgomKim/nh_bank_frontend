@@ -228,6 +228,12 @@ body {
   margin-bottom: 50px;
 }
 
+.depositPayment-wrapper {
+  display: flex;
+  float: right;
+  margin-bottom: 5px;
+}
+
 /*왼쪽메뉴 스타일*/
 .ant-layout-sider-children {
   background: #000 !important;
