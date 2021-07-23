@@ -29,14 +29,16 @@ class DepositPaymentHistory extends Component {
             },
             list: [],
             searchType: 1,
-            searchText: '',
+            searchText: "",
             hoBalance: 0,
+            hoAccountNum: "",
             inputOpen: false,
         };
     }
 
     componentDidMount() {
-        this.getBalance();
+        this.getInfo();
+        // this.getAccountNum();
         this.getList();
         this.getExcelList();
     }
@@ -63,13 +65,24 @@ class DepositPaymentHistory extends Component {
         });
     };
 
-    getBalance = () => {
-        httpGet(httpUrl.hoBalance, [], {}).then((res) => {
+    // 본사 계좌, 잔액 정보
+    getInfo = () => {
+        httpGet(httpUrl.hoInfo, [], {}).then((res) => {
         this.setState({
-            hoBalance: res.data,
+            hoAccountNum: res.data.vaccountNumber,
+            hoBalance: res.data.ncash
             });
         });
     };
+
+    // 본사 잔액 정보
+    // getBalance = () => {
+    //     httpGet(httpUrl.hoBalance, [], {}).then((res) => {
+    //     this.setState({
+    //         hoBalance: res.data,
+    //         });
+    //     });
+    // };
 
     getExcelList = () => {
         let pageNum = this.state.paginationExcel.current;
@@ -298,7 +311,7 @@ class DepositPaymentHistory extends Component {
                     <DepositDialog 
                         close={this.closeDepositDialogModal} 
                         getList={this.getList} 
-                        balance={this.getBalance}/>
+                        balance={this.getInfo}/>
                 )}
                 <Button style={{ marginBottom: 20, marginLeft: 20 }} onClick={this.openDepositDialogModal}>
                     예치금 지급
@@ -318,7 +331,7 @@ class DepositPaymentHistory extends Component {
                         입금 가상계좌 : 
                     </div>
                     <div className="box-content">
-                        116-484-481321 
+                        {this.state.hoAccountNum}
                     </div>
                 </div>
 
