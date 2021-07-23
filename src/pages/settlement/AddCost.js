@@ -31,16 +31,22 @@ class AddCost extends Component {
     getList = () => {
         var list = [
             {
+                name: "냠냠푸드",
                 date: "2021-07-01",
                 addCost: 5153000,
+                owner: "냠냐냠",
             },
             {
+                name: "냠냠푸드",
                 date: "2021-07-02",
                 addCost: 3173000,
+                owner: "냠냐냠",
             },
             {
+                name: "냠냠푸드",
                 date: "2021-07-03",
                 addCost: 5153000,
+                owner: "냠냐냠",
             }
         ];
         this.setState({
@@ -49,25 +55,47 @@ class AddCost extends Component {
 
     }
 
+    handleTableChange = (pagination) => {
+        const pager = {
+          ...this.state.pagination,
+        };
+        pager.current = pagination.current;
+        pager.pageSize = pagination.pageSize;
+        this.setState(
+          {
+            pagination: pager,
+          },
+          () => this.getList()
+        );
+      };
+
     setDate = (date) => {
         console.log(date)
     }
 
-
-
     render() {
 
         const columns = [
+            {
+                title: "이름",
+                dataIndex: "name",
+                className: "table-column-center",
+            },
+            {
+                title: "부가세",
+                dataIndex: "addCost",
+                className: "table-column-center",
+                render: (data) => <div>{comma(data)}원</div>
+            },
             {
                 title: "일자",
                 dataIndex: "date",
                 className: "table-column-center",
             },
             {
-                title: "부가세 예수",
-                dataIndex: "addCost",
+                title: "처리자",
+                dataIndex: "owner",
                 className: "table-column-center",
-                render: (data) => <div>{comma(data)}원</div>
             },
 
 
