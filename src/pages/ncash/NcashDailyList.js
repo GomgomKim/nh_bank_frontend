@@ -18,7 +18,7 @@ class NcashDailyList extends Component {
                 pageSize: 10,
             },
             list: [],
-            kind: 0,
+            kind: 1,
         }
     }
 
@@ -132,7 +132,7 @@ class NcashDailyList extends Component {
         return (
         <>
             <SelectBox
-                placeholder={'전체'}
+                // placeholder={'전체'}
                 style={{width:200, marginBottom: 20}}
                 value={kindStatus[this.state.kind]}
                 code={Object.keys(kindStatus)}

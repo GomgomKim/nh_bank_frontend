@@ -67,7 +67,6 @@ const categoryStatus = {
 };
 
 const kindStatus = {
-  0: "전체",
   1: "리스비",
   2: "대출 상환",
   3: "산재 보험비"
