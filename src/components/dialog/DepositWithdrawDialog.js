@@ -35,7 +35,11 @@ class DepositWithdrawDialog extends Component {
   }
 
   onCheckType = (e) => {
-    this.setState({ searchType: e.target.value });
+    this.setState({
+      searchType: e.target.value,
+      selectedFran: null,
+      selectedRider: null,
+    });
   };
 
   openSearchRiderModal = () => {
@@ -163,37 +167,24 @@ class DepositWithdrawDialog extends Component {
                   {/* </div> */}
                 </div>
 
-                <div className="contentBlock">
-                  {/* <div className="contentBlock-inner"> */}
+                <div>
                   <div className="mainTitle">예치금 잔액</div>
-                  <div className="formItem">
-                    <FormItem
-                      name="ncash"
-                      className="selectItem"
-                      style={{ marginLeft: 25, width: 230 }}
-                      rules={[
-                        {
-                          required: true,
-                          message: "금액을 입력해주세요",
-                        },
-                      ]}
-                    >
-                      <Input
-                        placeholder="금액을 입력해주세요."
-                        className="override-input"
-                        value={
-                          this.state.selectedFran || this.state.selectedRider
-                            ? this.state.selectedFran
-                              ? this.state.selectedFran.ncash
-                              : this.state.selectedRider.ncash
-                            : ""
-                        }
-                        disabled
-                      />
-                    </FormItem>
+                  <div className="serach-input">
+                    <Input
+                      value={
+                        this.state.selectedFran || this.state.selectedRider
+                          ? this.state.selectedFran
+                            ? this.state.selectedFran.ncash
+                            : this.state.selectedRider.ncash
+                          : ""
+                      }
+                      className="override-input"
+                      placeholder="검색해주세요."
+                      disabled
+                    />
                   </div>
-                  {/* </div> */}
                 </div>
+
                 <div className="contentBlock">
                   {/* <div className="contentBlock-inner"> */}
                   <div className="mainTitle">출금요청액</div>

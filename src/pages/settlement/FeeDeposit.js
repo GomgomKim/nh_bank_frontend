@@ -35,7 +35,8 @@ class FeeDeposit extends Component {
     getList = () => {
         var list = [
             {
-                riderFee: 3000,
+                riderFee: 5711500,
+                promotion: "수수료 500원할인",
                 date: "2021-06-03",
             },
 
@@ -50,12 +51,21 @@ class FeeDeposit extends Component {
     render() {
 
         const columns = [
-
+            // {
+            //     title: "일자",
+            //     dataIndex: "num",
+            //     className: "table-column-center",
+            // },
             {
                 title: "기사수수료",
                 dataIndex: "riderFee",
                 className: "table-column-center",
                 render: (data) => <div>{comma(data)}원</div>,
+            },
+            {
+                title: "프로모션",
+                dataIndex: "promotion",
+                className: "table-column-center",
             },
 
             {

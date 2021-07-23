@@ -33,7 +33,7 @@ class DeliveryCost extends Component {
     getList = () => {
         var list = [
             {
-                deliveryFee: 3000,
+                deliveryFee: 51392100,
                 date: "2021-06-03",
             },
 
@@ -56,12 +56,12 @@ class DeliveryCost extends Component {
                 className: "table-column-center",
                 render: (data) => <div>{comma(data)}원</div>,
             },
-
             {
                 title: "날짜",
                 dataIndex: "date",
                 className: "table-column-center",
             },
+
         ];
 
 

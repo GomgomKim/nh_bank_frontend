@@ -35,8 +35,34 @@ class FrDuesDeposit extends Component {
     getList = () => {
         var list = [
             {
-                frDeus: 3000,
-                date: "2021-06-03",
+                frDues: 98395709,
+                promotion: "첫가입 10%할인 ",
+                date: "2021-07-22",
+            },
+            {
+                frDues: 1672014,
+                promotion: "첫가입 10%할인 ",
+                date: "2021-07-22",
+            },
+            {
+                frDues: 552152,
+                promotion: "",
+                date: "2021-07-15",
+            },
+            {
+                frDues: 117370,
+                promotion: "",
+                date: "2021-07-14",
+            },
+            {
+                frDues: 191980,
+                promotion: "",
+                date: "2021-07-13",
+            },
+            {
+                frDues: 127700,
+                promotion: "",
+                date: "2021-07-14",
             },
 
         ];
@@ -51,14 +77,22 @@ class FrDuesDeposit extends Component {
     render() {
 
         const columns = [
-
+            // {
+            //     title: "일자",
+            //     dataIndex: "num",
+            //     className: "table-column-center",
+            // },
             {
                 title: "가맹점회비",
                 dataIndex: "frDues",
                 className: "table-column-center",
                 render: (data) => <div>{comma(data)}원</div>,
             },
-
+            {
+                title: "프로모션",
+                dataIndex: "promotion",
+                className: "table-column-center",
+            },
             {
                 title: "날짜",
                 dataIndex: "date",
