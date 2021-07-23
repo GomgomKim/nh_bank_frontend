@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import xlsx from "xlsx";
 import { httpGet, httpUrl } from "../../api/httpClient";
 import "../../css/main.css";
-import { formatDates } from "../../lib/util/dateUtil";
 import { comma } from "../../lib/util/numberUtil";
 
 const FormItem = Form.Item;
@@ -184,81 +183,115 @@ class DeliveryList extends Component {
     );
   };
 
-  onDownload = (data) => {
-    // let col2=["가격"];
-    // for(let i=0; i<=data.length-1; i++) {
-    //   col2.push(comma(data[i].orderPrice))
-    // };
-    // let col3=["총배달요금"];
-    // for(let i=0; i<=data.length-1; i++) {
-    //   col3.push(comma(data[i].deliveryPrice))
-    // };
-    // let col4=["기본배달요금"];
-    // for(let i=0; i<=data.length-1; i++) {
-    //   col4.push(comma(data[i].basicDeliveryPrice))
-    // };
-    // let col5=["기본배달요금"];
-    // for(let i=0; i<=data.length-1; i++) {
-    //   col5.push(comma(data[i].extraDeliveryPrice))
-    // };
-
-    const ws = xlsx.utils.json_to_sheet(data);
-    // xlsx.utils.sheet_add_json(ws, json, { origin: -1, display: true, cellDates: true, dateNF: 'YYYY-MM-DD' })
-    const wb = xlsx.utils.book_new();
-    [
-      "주문번호",
-      "주문날짜",
-      "가격(원)",
-      "총배달요금(원)",
-      "기본배달요금(원)",
-      "할증배달요금(원)",
-      "주소",
-      "상세주소",
-      "지번주소",
-      "가맹점",
-      "가맹점 번호",
-      "주문번호",
-      "라이더명",
-      "라이더 연락처",
-      "배달수수료",
-      "픽업일시",
-      "완료일시",
-
-      // hidden
-      "riderLevel",
-      "riderStatus",
-      "riderGroup",
-      "feeType",
-    ].forEach((x, idx) => {
-      const cellAdd = xlsx.utils.encode_cell({ c: idx, r: 0 });
-      ws[cellAdd].v = x;
+  parseExcelJson = () => {
+    let result = [
+      {
+        idx: "주문번호",
+        frName: "가맹점명",
+        riderName: "라이더명",
+        orderDate: "접수일시",
+        completeDate: "완료일시",
+        destAddr: "도착지",
+        orderPrice: "금액",
+        deliveryPrice: "배달료",
+        deliveryTax: "배달부가세",
+        deliveryPriceFee: "배달수수료",
+        businessNumber: "사업자번호",
+        ownerName: "대표자명",
+        addr: "주소",
+        email: "이메일",
+        registrationNumber: "주민번호",
+        frPhone: "연락처",
+      },
+    ];
+    this.state.listExcel.forEach((item) => {
+      result.push({
+        idx: item.idx,
+        frName: item.frName,
+        riderName: item.riderName,
+        orderDate: item.orderDate,
+        completeDate: item.completeDate,
+        destAddr: item.destAddr1 + " " + item.destAddr2,
+        orderPrice: item.orderPrice,
+        deliveryPrice: item.deliveryPrice,
+        deliveryTax: parseInt(item.deliveryPrice * 0.1),
+        deliveryPriceFee: item.deliveryPriceFee,
+        businessNumber: item.businessNumber,
+        ownerName: item.ownerName,
+        addr: item.addr1 + " " + item.addr2,
+        email: item.email,
+        registrationNumber: item.registrationNumber,
+        frPhone: item.frPhone,
+      });
     });
 
-    ws["!cols"] = [];
-    ws["!cols"][1] = { width: 20 };
-    ws["!cols"][3] = { width: 15 };
-    ws["!cols"][4] = { width: 15 };
-    ws["!cols"][5] = { width: 15 };
-    ws["!cols"][6] = { width: 30 };
-    ws["!cols"][7] = { width: 20 };
-    ws["!cols"][8] = { width: 20 };
-    ws["!cols"][9] = { width: 20 };
-    ws["!cols"][10] = { width: 20 };
-    ws["!cols"][11] = { width: 20 };
-    ws["!cols"][14] = { width: 20 };
-    ws["!cols"][15] = { width: 20 };
-    ws["!cols"][16] = { width: 20 };
-    ws["!cols"][17] = { width: 20 };
+    return result;
+  };
 
-    // 라이더 연락처
-    ws["!cols"][13] = { hidden: true };
-    // riderLevel
-    ws["!cols"][18] = { hidden: true };
-    // riderStatus
-    ws["!cols"][19] = { hidden: true };
-    // feeType
-    ws["!cols"][20] = { hidden: true };
+  onDownload = (data) => {
+    // console.log(data);
+    // const ws = xlsx.utils.json_to_sheet(data);
+    // const wb = xlsx.utils.book_new();
+    // [
+    //   "주문번호",
+    //   "주문날짜",
+    //   "가격(원)",
+    //   "총배달요금(원)",
+    //   "기본배달요금(원)",
+    //   "할증배달요금(원)",
+    //   "주소",
+    //   "상세주소",
+    //   "지번주소",
+    //   "가맹점",
+    //   "가맹점 번호",
+    //   "주문번호",
+    //   "라이더명",
+    //   "라이더 연락처",
+    //   "배달수수료",
+    //   "픽업일시",
+    //   "완료일시",
 
+    //   // hidden
+    //   "riderLevel",
+    //   "riderStatus",
+    //   "riderGroup",
+    //   "feeType",
+    // ].forEach((x, idx) => {
+    //   const cellAdd = xlsx.utils.encode_cell({ c: idx, r: 0 });
+    //   ws[cellAdd].v = x;
+    // });
+
+    // ws["!cols"] = [];
+    // ws["!cols"][1] = { width: 20 };
+    // ws["!cols"][3] = { width: 15 };
+    // ws["!cols"][4] = { width: 15 };
+    // ws["!cols"][5] = { width: 15 };
+    // ws["!cols"][6] = { width: 30 };
+    // ws["!cols"][7] = { width: 20 };
+    // ws["!cols"][8] = { width: 20 };
+    // ws["!cols"][9] = { width: 20 };
+    // ws["!cols"][10] = { width: 20 };
+    // ws["!cols"][11] = { width: 20 };
+    // ws["!cols"][14] = { width: 20 };
+    // ws["!cols"][15] = { width: 20 };
+    // ws["!cols"][16] = { width: 20 };
+    // ws["!cols"][17] = { width: 20 };
+
+    // // 라이더 연락처
+    // ws["!cols"][13] = { hidden: true };
+    // // riderLevel
+    // ws["!cols"][18] = { hidden: true };
+    // // riderStatus
+    // ws["!cols"][19] = { hidden: true };
+    // // feeType
+    // ws["!cols"][20] = { hidden: true };
+
+    // xlsx.utils.book_append_sheet(wb, ws, "sheet1");
+    // xlsx.writeFile(wb, "배달목록.xlsx");
+
+    const excelJson = this.parseExcelJson(data);
+    const ws = xlsx.utils.json_to_sheet(excelJson, { skipHeader: true });
+    const wb = xlsx.utils.book_new();
     xlsx.utils.book_append_sheet(wb, ws, "sheet1");
     xlsx.writeFile(wb, "배달목록.xlsx");
   };
@@ -382,7 +415,7 @@ class DeliveryList extends Component {
         {
           title: "주소",
           className: "table-column-center",
-          render: (data, row) => <div>{row.addr1 + ' ' + row.addr2}</div>,
+          render: (data, row) => <div>{row.addr1 + " " + row.addr2}</div>,
         },
         {
           title: "이메일",
