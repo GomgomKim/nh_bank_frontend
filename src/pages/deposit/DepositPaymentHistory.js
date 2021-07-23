@@ -31,7 +31,8 @@ class DepositPaymentHistory extends Component {
             searchType: 1,
             searchText: "",
             hoBalance: 0,
-            hoAccountNum: ""
+            hoAccountNum: "",
+            inputOpen: false,
         };
     }
 
@@ -169,6 +170,100 @@ class DepositPaymentHistory extends Component {
         xlsx.writeFile(wb, "예치금지급.xlsx");
       }
 
+      // getUserIdx = async (formData) => {
+      //   try {
+      //     console.log("getUserIdx start");
+      //     const res = await httpGet(
+      //       httpUrl.riderList,
+      //       [ formData.userId, 1, 10000],
+      //       {}
+      //     );
+      //     console.log(res);
+      //     if (res.data.riders.length > 0) {
+      //       formData["receiveUserIdx"] = res.data.riders[0].idx;
+      //       console.log("getUserIdx end");
+      //       return;
+      //     } else {
+      //       return;
+      //     }
+      //   } catch (e) {
+      //     throw e;
+      //   }
+      // };
+
+      createDeposit = async (formData, i, failedIdx, failedId) => {
+        console.log(`${i} start`);
+        try {
+          const res = await httpPost(httpUrl.depositSend, [], formData);
+          if (res.result === "SUCCESS", res.data==="SUCCESS") {
+          } else {
+            failedIdx.push(i + 1);
+            failedId.push(formData.id);
+            console.log(failedIdx);
+          }
+        } catch (e) {
+          failedIdx.push(i + 1);
+          failedId.push(formData.userId);
+          console.log(failedIdx);
+          // throw e;
+        }
+        console.log(`${i} done`);
+      };
+
+      handleExcelRegist = async () => {
+        if (this.state.data) {
+          let failedIdx = [];
+          let failedId = [];
+          for (let i = 0; i < this.state.data.length; i++) {
+            const data = this.state.data[i];
+    
+            const formData = {
+              // // EXCEL 로 받는 데이터
+              userId: data["아이디"],
+              ncashAmount: data["지급금액(원)"],
+            };
+    
+    
+            console.log(formData);
+    
+            await this.createDeposit(formData, i, failedIdx, failedId);
+          }
+          if (failedIdx.length > 0) {
+            Modal.info({
+              title: `${failedIdx.length}개의 요청 실패`,
+              content: `${failedIdx} 번째 지급이 실패했습니다. \n
+            ${failedId}의 지급이 실패했습니다. `,
+            });
+          } else {
+            Modal.info({
+              title: "지급 성공",
+              content: "모든 예치금이 지급되었습니다.",
+            });
+          }
+        } else {
+          Modal.info({
+            title: "지급 오류",
+            content: "엑셀파일을 등록해주세요.",
+          });
+        }
+      };
+
+      readExcel = (e) => {
+        let self = this;
+        let input = e.target;
+        let reader = new FileReader();
+        reader.onload = () => {
+          let data = reader.result;
+          let workBook = xlsx.read(data, { type: "binary" });
+          var rows = xlsx.utils.sheet_to_json(
+            workBook.Sheets[workBook.SheetNames[0]]
+          );
+          console.log(rows);
+          self.setState({ data: rows });
+        };
+        reader.readAsBinaryString(input.files[0]);
+      };
+
     render() {
 
         const columns = [
@@ -247,7 +342,8 @@ class DepositPaymentHistory extends Component {
                 </Button>
 
                 <Button className="download-btn"
-                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} 
+                    onClick={() => this.setState({ inputOpen: !this.state.inputOpen })}>
                     <img src={require("../../img/excel.png").default} alt="" />
                         엑셀 업로드
                 </Button>
@@ -260,6 +356,22 @@ class DepositPaymentHistory extends Component {
                     </Button>
                 </a>
 
+          {this.state.inputOpen && (
+            <>
+              <div
+                className="depositPayment-wrapper"
+                style={{ marginTop: "-15px", width:"413px" }}
+              >
+                <Input type="file" onChange={this.readExcel} />
+                <Button
+                  style={{ height: "40px" }}
+                  onClick={() => this.handleExcelRegist()}
+                >
+                  등록
+                </Button>
+              </div>
+            </>
+          )}
 
                 <Table
                     rowKey={(record) => record.idx}
