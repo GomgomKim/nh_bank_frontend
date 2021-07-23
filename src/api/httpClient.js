@@ -199,7 +199,11 @@ const httpUrl = {
   depositAllList: "/ncash/all/list?category=%s&pageNum=%s&pageSize=%s&userId=%s",
   hoInfo: "/ncash/connect9",
   hoBalance: "/ncash/connect9/balance",
+
+  // 일차감
+  ncashDailyList: "/ncash/daily/list?kind=%s&pageNum=%s&pageSize=%s"
 };
+
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];
 

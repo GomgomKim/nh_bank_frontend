@@ -1,9 +1,10 @@
 import { Input, DatePicker, Table, Button } from "antd";
 import React, { Component } from "react";
 import SelectBox from '../../components/input/SelectBox';
+import { httpGet, httpUrl } from "../../api/httpClient";
 import { kindStatus } from '../../lib/util/codeUtil';
 import { comma } from "../../lib/util/numberUtil";
-
+import xlsx from "xlsx";
 
 const Search =Input.Search;
 const RangePicker =DatePicker.RangePicker;
@@ -17,6 +18,11 @@ class NcashDailyList extends Component {
                 current: 1,
                 pageSize: 10,
             },
+            paginationExcel: {
+                total: 0,
+                current: 1,
+                pageSize: 300,
+            },
             list: [],
             kind: 1,
         }
@@ -24,42 +30,134 @@ class NcashDailyList extends Component {
 
     componentDidMount() {
         this.getList();
+        this.getExcelList();
     }
 
+    // getList = () => {
+    //     var list = [
+    //         {
+    //             date: "2021-06-12",
+    //             kind: 1,
+    //             riderId: "rider03",
+    //             riderName: "rider03",
+    //             registrationNumber: "930507-1000000",
+    //             riderPhone: "010-1111-2222",
+    //             ncashDelta: 50000
+    //         },
+    //         {
+    //             date: "2021-06-23",
+    //             kind: 2,
+    //             riderId: "rider04",
+    //             riderName: "rider04",
+    //             registrationNumber: "950721-2000000",
+    //             riderPhone: "010-1212-3333",
+    //             ncashDelta: 30000
+    //         },
+    //         {
+    //             date: "2021-07-15",
+    //             kind: 3,
+    //             riderId: "rider06",
+    //             riderName: "rider06",
+    //             registrationNumber: "941108-1000000",
+    //             riderPhone: "010-2121-1111",
+    //             ncashDelta: 20000
+    //         }
+    //     ]
+    //     this.setState({
+    //         list:list,
+    //     })
+    // }
+
     getList = () => {
-        var list = [
-            {
-                date: "2021-06-12",
-                kind: 1,
-                riderId: "rider03",
-                riderName: "rider03",
-                registrationNumber: "930507-1000000",
-                riderPhone: "010-1111-2222",
-                ncashDelta: 50000
-            },
-            {
-                date: "2021-06-23",
-                kind: 2,
-                riderId: "rider04",
-                riderName: "rider04",
-                registrationNumber: "950721-2000000",
-                riderPhone: "010-1212-3333",
-                ncashDelta: 30000
-            },
-            {
-                date: "2021-07-15",
-                kind: 3,
-                riderId: "rider06",
-                riderName: "rider06",
-                registrationNumber: "941108-1000000",
-                riderPhone: "010-2121-1111",
-                ncashDelta: 20000
-            }
-        ]
-        this.setState({
-            list:list,
-        })
-    }
+        const pagination = this.state.pagination;
+        httpGet(
+          httpUrl.ncashDailyList,
+          [
+            this.state.kind,
+            pagination.current,
+            pagination.pageSize,
+          ],
+          {}
+        ).then((res) => {
+          if (res.result === "SUCCESS") {
+            this.setState({
+              list: res.data.ncashDailies,
+              pagination: {
+                ...this.state.pagination,
+                current: res.data.currentPage,
+                total: res.data.totalCount,
+              },
+            });
+          }
+        });
+      };
+
+    getExcelList = () => {
+        const pagination = this.state.paginationExcel;
+        httpGet(
+          httpUrl.ncashDailyList,
+          [
+            this.state.kind,
+            pagination.current,
+            pagination.pageSize,
+          ],
+          {}
+        ).then((res) => {
+          if (res.result === "SUCCESS") {
+            this.setState({
+              listExcel: res.data.ncashDailies,
+              pagination: {
+                ...this.state.pagination,
+                current: res.data.currentPage,
+                total: res.data.totalCount,
+              },
+            });
+          }
+        });
+      };
+
+      parseExcelJson = () => {
+        let result = [
+          {
+            createDate: "일시",
+            kind: "구분",
+            userId: "라이더아이디",
+            userName: "라이더명",
+            registrationNumber: "주민번호",
+            phone: "연락처",
+            ncashDelta: "차감금액",
+          },
+        ];
+        this.state.listExcel.forEach((item) => {
+          result.push({
+            createDate: item.createDate,
+            kind: kindStatus[item.kind],
+            userId: item.userId,
+            userName: item.userName,
+            registrationNumber: item.registrationNumber,
+            phone: item.phone,
+            ncashDelta: item.ncashDelta,
+          });
+        });
+    
+        return result;
+      };
+
+      onDownload = (data) => {
+          
+          const excelJson = this.parseExcelJson(data);
+          const ws = xlsx.utils.json_to_sheet(excelJson, { skipHeader: true });
+          const wb = xlsx.utils.book_new();
+
+          ws["!cols"] = [];
+          ws["!cols"][0] = { width: 20 };
+          ws["!cols"][2] = { width: 15 };
+          ws["!cols"][3] = { width: 15 };
+          ws["!cols"][4] = { width: 20 };
+          ws["!cols"][5] = { width: 20 };
+        xlsx.utils.book_append_sheet(wb, ws, "sheet1");
+        xlsx.writeFile(wb, "배달목록.xlsx");
+      };
 
     handleTableChange = (pagination) => {
         const pager = {
@@ -77,7 +175,7 @@ class NcashDailyList extends Component {
 
       onChangeStatus = (value) => {
         this.setState({
-            category: value === "NONE" ?  "" : value,
+            kind: value,
             pagination: {
                 current: 1,
                 pageSize: 10,
@@ -91,7 +189,7 @@ class NcashDailyList extends Component {
         const columns = [
             {
                 title: "일시",
-                dataIndex: "date",
+                dataIndex: "createDate",
                 className: "table-column-center"
             },
             {
@@ -103,12 +201,12 @@ class NcashDailyList extends Component {
             },
             {
                 title: "라이더아이디",
-                dataIndex: "riderId",
+                dataIndex: "userId",
                 className: "table-column-center"
             },
             {
                 title: "라이더이름",
-                dataIndex: "riderName",
+                dataIndex: "userName",
                 className: "table-column-center"
             },
             {
@@ -118,7 +216,7 @@ class NcashDailyList extends Component {
             },
             {
                 title: "연락처",
-                dataIndex: "riderPhone",
+                dataIndex: "phone",
                 className: "table-column-center"
             },
             {
