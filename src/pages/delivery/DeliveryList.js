@@ -193,7 +193,9 @@ class DeliveryList extends Component {
         completeDate: "완료일시",
         destAddr: "도착지",
         orderPrice: "금액",
-        deliveryPrice: "배달료",
+        basicDeliveryPrice: "기본배달료",
+        extraDeliveryPrice: "할증배달료",
+        deliveryPrice: "총배달요금",
         deliveryTax: "배달부가세",
         deliveryPriceFee: "배달수수료",
         businessNumber: "사업자번호",
@@ -213,6 +215,8 @@ class DeliveryList extends Component {
         completeDate: item.completeDate,
         destAddr: item.destAddr1 + " " + item.destAddr2,
         orderPrice: item.orderPrice,
+        basicDeliveryPrice: item.basicDeliveryPrice,
+        extraDeliveryPrice: item.extraDeliveryPrice,
         deliveryPrice: item.deliveryPrice,
         deliveryTax: parseInt(item.deliveryPrice * 0.1),
         deliveryPriceFee: item.deliveryPriceFee,
@@ -377,7 +381,7 @@ class DeliveryList extends Component {
       {
         title: "배달부가세",
         className: "table-column-center",
-        render: (data, row) => <div>{row.deliveryPrice * 0.1}원</div>,
+        render: (data, row) => <div>{parseInt(row.deliveryPrice * 0.1)}원</div>,
       },
       {
         title: "배달수수료",
