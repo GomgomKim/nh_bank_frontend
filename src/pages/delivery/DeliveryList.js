@@ -381,7 +381,7 @@ class DeliveryList extends Component {
       {
         title: "배달부가세",
         className: "table-column-center",
-        render: (data, row) => <div>{row.deliveryPrice * 0.1}원</div>,
+        render: (data, row) => <div>{parseInt(row.deliveryPrice * 0.1)}원</div>,
       },
       {
         title: "배달수수료",
