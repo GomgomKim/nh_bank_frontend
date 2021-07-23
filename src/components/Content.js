@@ -14,6 +14,7 @@ import {
   Aggregation, AddCost, LeaseDeposit, InsuranceDeposit,
   DeliveryCost, FeeDeposit, FrDuesDeposit, SellProdDeposit
 } from "../pages";
+import { NcashDailyList } from "../pages";
 
 // import { Redirect } from "react-router-dom";
 // import OperatorManage from "../pages/system/OperatorManage";
@@ -67,6 +68,8 @@ export default class Content extends Component {
             <Route exact path="/settlement/FeeDeposit" component={FeeDeposit} />
             <Route exact path="/settlement/FrDuesDeposit" component={FrDuesDeposit} />
             <Route exact path="/settlement/SellProdDeposit" component={SellProdDeposit} />
+
+            <Route exact path="/ncash/NcashDailyList" component={NcashDailyList} />
 
 
           </Switch>

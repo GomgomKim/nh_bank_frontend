@@ -1,19 +1,10 @@
-import { Form, DatePicker, Input, Table, Button, Descriptions } from "antd";
+import { Button, DatePicker, Form, Input, Table } from "antd";
 import React, { Component } from "react";
-// import {
-//   httpGet,
-//   httpUrl,
-//   httpDownload,
-//   httpPost,
-//   httpPut,
-// } from "../../api/httpClient";
-import { connect } from "react-redux";
-import Modal from "antd/lib/modal/Modal";
-import "../../css/main.css";
+import xlsx from 'xlsx';
 import { httpGet, httpUrl } from "../../api/httpClient";
+import "../../css/main.css";
 import { formatDates } from "../../lib/util/dateUtil";
 import { comma } from "../../lib/util/numberUtil";
-import xlsx from 'xlsx';
 
 
 const FormItem = Form.Item;
@@ -290,6 +281,18 @@ class DeliveryList extends Component {
       //   render: (data) => <div>{formatDates(data)}</div>,
       // },
       {
+        title: "가맹점명",
+        dataIndex: "frName",
+        className: "table-column-center",
+        width: "10%",
+      },
+      {
+        title: "라이더명",
+        dataIndex: "riderName",
+        className: "table-column-center",
+        width: "8%",
+      },
+      {
         title: "접수일시",
         dataIndex: "orderDate",
         className: "table-column-center",
@@ -307,18 +310,6 @@ class DeliveryList extends Component {
         className: "table-column-center",
         width: "15%",
         render: (data, row) => <div className="table-column-left">{row.destAddr1 + " " + row.destAddr2}</div>,
-      },
-      {
-        title: "가맹점명",
-        dataIndex: "frName",
-        className: "table-column-center",
-        width: "10%",
-      },
-      {
-        title: "라이더명",
-        dataIndex: "riderName",
-        className: "table-column-center",
-        width: "8%",
       },
       {
         title: "금액",
@@ -345,20 +336,29 @@ class DeliveryList extends Component {
         className: "table-column-center",
         render: (data) => <div>{comma(data)}원</div>,
       },
-      {
-        title: "할증배달요금",
-        dataIndex: "extraDeliveryPrice",
-        className: "table-column-center",
-        width: "8%",
-        render: (data) => <div>{comma(data)} 원</div>,
-      },
-      {
-        title: "총배달요금",
-        dataIndex: "deliveryPrice",
-        className: "table-column-center",
-        width: "8%",
-        render: (data) => <div>{comma(data)} 원</div>,
-      },
+
+      // 수정
+      // {
+      //   title: "주문날짜",
+      //   dataIndex: "orderDate",
+      //   className: "table-column-center",
+      //   width: "10%",
+      //   render: (data) => <div>{formatDates(data)}</div>,
+      // },
+      // {
+      //   title: "할증배달요금",
+      //   dataIndex: "extraDeliveryPrice",
+      //   className: "table-column-center",
+      //   width: "8%",
+      //   render: (data) => <div>{comma(data)} 원</div>,
+      // },
+      // {
+      //   title: "총배달요금",
+      //   dataIndex: "deliveryPrice",
+      //   className: "table-column-center",
+      //   width: "8%",
+      //   render: (data) => <div>{comma(data)} 원</div>,
+      // },
     ];
     const expandedRowRender = (record) => {
       const dropColumns = [

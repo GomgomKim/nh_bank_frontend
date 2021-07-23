@@ -31,14 +31,17 @@ class LeaseDeposit extends Component {
     getList = () => {
         var list = [
             {
+                name: "rider03",
                 date: "2021-07-01",
                 leaseDeposit: 3100000,
             },
             {
+                name: "rider04",
                 date: "2021-07-02",
                 leaseDeposit: 3230000,
             },
             {
+                name: "rider07",
                 date: "2021-07-03",
                 leaseDeposit: 3150000,
             }
@@ -49,6 +52,20 @@ class LeaseDeposit extends Component {
 
     }
 
+    handleTableChange = (pagination) => {
+        const pager = {
+          ...this.state.pagination,
+        };
+        pager.current = pagination.current;
+        pager.pageSize = pagination.pageSize;
+        this.setState(
+          {
+            pagination: pager,
+          },
+          () => this.getList()
+        );
+      };
+
     setDate = (date) => {
         console.log(date)
     }
@@ -58,12 +75,17 @@ class LeaseDeposit extends Component {
     render() {
         const columns = [
             {
+                title: "이름",
+                dataIndex: "name",
+                className: "table-column-center",
+            },
+            {
                 title: "일자",
                 dataIndex: "date",
                 className: "table-column-center",
             },
             {
-                title: "리스료 입금",
+                title: "리스료 입금 금액",
                 dataIndex: "leaseDeposit",
                 className: "table-column-center",
                 render: (data) => <div>{comma(data)}원</div>
