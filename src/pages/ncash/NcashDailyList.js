@@ -1,5 +1,9 @@
 import { Input, DatePicker, Table, Button } from "antd";
 import React, { Component } from "react";
+import SelectBox from '../../components/input/SelectBox';
+import { kindStatus } from '../../lib/util/codeUtil';
+import { comma } from "../../lib/util/numberUtil";
+
 
 const Search =Input.Search;
 const RangePicker =DatePicker.RangePicker;
@@ -14,6 +18,7 @@ class NcashDailyList extends Component {
                 pageSize: 10,
             },
             list: [],
+            kind: 0,
         }
     }
 
@@ -25,7 +30,7 @@ class NcashDailyList extends Component {
         var list = [
             {
                 date: "2021-06-12",
-                type: "리스료",
+                kind: 1,
                 riderId: "rider03",
                 riderName: "rider03",
                 registrationNumber: "930507-1000000",
@@ -34,7 +39,7 @@ class NcashDailyList extends Component {
             },
             {
                 date: "2021-06-23",
-                type: "산재보험",
+                kind: 2,
                 riderId: "rider04",
                 riderName: "rider04",
                 registrationNumber: "950721-2000000",
@@ -43,7 +48,7 @@ class NcashDailyList extends Component {
             },
             {
                 date: "2021-07-15",
-                type: "기타",
+                kind: 3,
                 riderId: "rider06",
                 riderName: "rider06",
                 registrationNumber: "941108-1000000",
@@ -70,6 +75,18 @@ class NcashDailyList extends Component {
         );
       };
 
+      onChangeStatus = (value) => {
+        this.setState({
+            category: value === "NONE" ?  "" : value,
+            pagination: {
+                current: 1,
+                pageSize: 10,
+            }
+        }, ()=>{
+            this.getList();
+        })
+    }
+
     render() {
         const columns = [
             {
@@ -79,8 +96,10 @@ class NcashDailyList extends Component {
             },
             {
                 title: "구분",
-                dataIndex: "type",
-                className: "table-column-center"
+                dataIndex: "kind",
+                className: "table-column-center",
+                render: (data) => <div>{kindStatus[data]}</div>
+                
             },
             {
                 title: "라이더아이디",
@@ -105,12 +124,25 @@ class NcashDailyList extends Component {
             {
                 title: "차감금액",
                 dataIndex: "ncashDelta",
-                className: "table-column-center"
+                className: "table-column-center",
+                render: (data) => <div>{comma(data)}원</div>
             },
         ];
 
         return (
         <>
+            <SelectBox
+                placeholder={'전체'}
+                style={{width:200, marginBottom: 20}}
+                value={kindStatus[this.state.kind]}
+                code={Object.keys(kindStatus)}
+                codeString={kindStatus}
+                onChange={(value) => {
+                    if (parseInt(value) !== this.state.kind) {
+                        this.onChangeStatus(value);
+                    }
+                }}
+            />
             <Button
                 className="download-btn"
                 style={{ float: "right", marginLeft: 10, marginBottom: 20 }}
