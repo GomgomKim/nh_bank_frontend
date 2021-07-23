@@ -335,6 +335,18 @@ class DeliveryList extends Component {
         render: (data) => <div>{comma(data)} 원</div>,
       },
       {
+        title: "배달부가세",
+        dataIndex: "deliveryTax",
+        className: "table-column-center",
+        render: (data) => <div>{comma(data)}원</div>,
+      },
+      {
+        title: "배달수수료",
+        dataIndex: "deliveryFee",
+        className: "table-column-center",
+        render: (data) => <div>{comma(data)}원</div>,
+      },
+      {
         title: "할증배달요금",
         dataIndex: "extraDeliveryPrice",
         className: "table-column-center",
