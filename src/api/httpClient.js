@@ -197,6 +197,7 @@ const httpUrl = {
   depositSend: "/ncash/create",
   depositWithdrawList: "/ncash/withdraw/list?pageNum=%s&pageSize=%s&userId=%s&userType=%s",
   depositAllList: "/ncash/all/list?category=%s&pageNum=%s&pageSize=%s&userId=%s",
+  hoInfo: "/ncash/connect9",
   hoBalance: "/ncash/connect9/balance",
 };
 

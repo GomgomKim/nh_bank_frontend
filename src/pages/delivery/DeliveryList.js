@@ -30,7 +30,7 @@ class DeliveryList extends Component {
         current: 1,
         pageSize: 10,
       },
-      paginationExcel:{
+      paginationExcel: {
         total: 0,
         current: 1,
         pageSize: 1500,
@@ -167,20 +167,20 @@ class DeliveryList extends Component {
       {
         pagination: pager,
       },
-      () => {this.state.startDate === "" ? this.getList() : this.getSearchList()}
+      () => { this.state.startDate === "" ? this.getList() : this.getSearchList() }
     );
   };
 
   pressSearch = () => {
     this.setState({
-      pagination:{
+      pagination: {
         current: 1,
         pageSize: 10,
       }
     }, () => {
-      {this.state.startDate === "" ? this.getList() : this.getSearchList()}
-      {this.state.startDate === "" ? this.getExcelList() : this.getExcelSearchList()}
-  });
+      { this.state.startDate === "" ? this.getList() : this.getSearchList() }
+      { this.state.startDate === "" ? this.getExcelList() : this.getExcelSearchList() }
+    });
   }
 
   onDownload = (data) => {
@@ -226,7 +226,7 @@ class DeliveryList extends Component {
       'riderGroup',
       'feeType',
     ].forEach((x, idx) => {
-      const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
+      const cellAdd = xlsx.utils.encode_cell({ c: idx, r: 0 });
       ws[cellAdd].v = x;
     })
 
@@ -290,6 +290,18 @@ class DeliveryList extends Component {
         render: (data) => <div>{formatDates(data)}</div>,
       },
       {
+        title: "접수일시",
+        dataIndex: "startDate",
+        className: "table-column-center",
+        render: (data) => <div>{formatDates(data)}</div>,
+      },
+      {
+        title: "완료일시",
+        dataIndex: "endDate",
+        className: "table-column-center",
+        render: (data) => <div>{formatDates(data)}</div>,
+      },
+      {
         title: "도착지",
         // dataIndex: "destAddr1",
         className: "table-column-center",
@@ -297,14 +309,8 @@ class DeliveryList extends Component {
         render: (data, row) => <div className="table-column-left">{row.destAddr1 + " " + row.destAddr2}</div>,
       },
       {
-        title: "가맹점",
+        title: "가맹점명",
         dataIndex: "frName",
-        className: "table-column-center",
-        width: "10%",
-      },
-      {
-        title: "가맹점 번호",
-        dataIndex: "frPhone",
         className: "table-column-center",
         width: "10%",
       },
@@ -315,24 +321,30 @@ class DeliveryList extends Component {
         width: "8%",
       },
       {
-        title: "라이더 연락처",
-        dataIndex: "riderPhone",
-        className: "table-column-center",
-        width: "10%",
-      },
-      {
-        title: "가격",
+        title: "금액",
         dataIndex: "orderPrice",
         className: "table-column-center",
         width: "8%",
         render: (data) => <div>{comma(data)} 원</div>,
       },
       {
-        title: "기본배달요금",
+        title: "배달료",
         dataIndex: "basicDeliveryPrice",
         className: "table-column-center",
         width: "8%",
         render: (data) => <div>{comma(data)} 원</div>,
+      },
+      {
+        title: "배달부가세",
+        dataIndex: "deliveryTax",
+        className: "table-column-center",
+        render: (data) => <div>{comma(data)}원</div>,
+      },
+      {
+        title: "배달수수료",
+        dataIndex: "deliveryFee",
+        className: "table-column-center",
+        render: (data) => <div>{comma(data)}원</div>,
       },
       {
         title: "할증배달요금",
@@ -349,6 +361,59 @@ class DeliveryList extends Component {
         render: (data) => <div>{comma(data)} 원</div>,
       },
     ];
+    const expandedRowRender = (record) => {
+      const dropColumns = [
+        {
+          title: "가맹점명",
+          dataIndex: "frName",
+          className: "table-column-center",
+        },
+        {
+          title: "사업자번호",
+          dataIndex: "businessNum",
+          className: "table-column-center",
+        },
+        {
+          title: "대표자명",
+          dataIndex: "deliveryFee",
+          className: "table-column-center",
+        },
+        {
+          title: "주소",
+          dataIndex: "addr",
+          className: "table-column-center",
+        },
+        {
+          title: "이메일",
+          dataIndex: "email",
+          className: "table-column-center",
+        },
+        {
+          title: "라이더명",
+          dataIndex: "riderName",
+          className: "table-column-center",
+        },
+        {
+          title: "주민번호",
+          dataIndex: "securityNum",
+          className: "table-column-center",
+        },
+        {
+          title: "연락처",
+          dataIndex: "phoneNum",
+          className: "table-column-center",
+        },
+
+      ];
+      return (
+        <Table
+          rowKey={(record) => `record: ${record.idx}`}
+          columns={dropColumns}
+          dataSource={[record]}
+          pagination={false}
+        />
+      );
+    };
 
     return (
       <FormItem name="surchargeDate">
@@ -386,47 +451,49 @@ class DeliveryList extends Component {
         />
 
         {/* <a href="/admin_bike_templete.xlsx" download> */}
-          <Button
-            className="download-btn"
-            style={{ float: "right", marginLeft: 10, marginBottom: 20 }}
-            onClick={() => this.onDownload(this.state.listExcel)}
-          >
-            <img src={require("../../img/excel.png").default} alt="" />
-            엑셀 다운로드
-          </Button>
+        <Button
+          className="download-btn"
+          style={{ float: "right", marginLeft: 10, marginBottom: 20 }}
+          onClick={() => this.onDownload(this.state.listExcel)}
+        >
+          <img src={require("../../img/excel.png").default} alt="" />
+          엑셀 다운로드
+        </Button>
         {/* </a> */}
         <RangePicker
           style={{ width: 300, float: "right", marginRight: 10 }}
           placeholder={["시작일", "종료일"]}
           onChange={(_, dateStrings) => {
-            if (dateStrings[0,1]) {
+            if (dateStrings[0, 1]) {
               this.setState(
-                { startDate: dateStrings[0],
+                {
+                  startDate: dateStrings[0],
                   endDate: dateStrings[1],
-                pagination:{
-                  current: 1,
-                  pageSize: 10,
-                }
-              }, () => {
-                this.getSearchList();
-                this.getExcelSearchList();
-              });
-              }
+                  pagination: {
+                    current: 1,
+                    pageSize: 10,
+                  }
+                }, () => {
+                  this.getSearchList();
+                  this.getExcelSearchList();
+                });
+            }
             else {
               // console.log('test')
               this.setState(
-                { startDate: "",
+                {
+                  startDate: "",
                   endDate: "",
-                pagination:{
-                  current: 1,
-                  pageSize: 10,
-                }
-              }, () => {
-                this.getList();
-                this.getExcelList();
-              });
+                  pagination: {
+                    current: 1,
+                    pageSize: 10,
+                  }
+                }, () => {
+                  this.getList();
+                  this.getExcelList();
+                });
             }
-            }}
+          }}
         />
 
         <Table
@@ -435,6 +502,8 @@ class DeliveryList extends Component {
           columns={columns}
           pagination={this.state.pagination}
           onChange={this.handleTableChange}
+          expandedRowRender={expandedRowRender}
+          expandRowByClick={true}
         />
       </FormItem>
     );
