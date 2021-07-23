@@ -271,6 +271,13 @@ class DeliveryList extends Component {
         className: "table-column-center",
         width: "5%",
       },
+      // {
+      //   title: "주문날짜",
+      //   dataIndex: "orderDate",
+      //   className: "table-column-center",
+      //   width: "10%",
+      //   render: (data) => <div>{formatDates(data)}</div>,
+      // },
       {
         title: "가맹점명",
         dataIndex: "frName",
@@ -287,13 +294,13 @@ class DeliveryList extends Component {
         title: "접수일시",
         dataIndex: "orderDate",
         className: "table-column-center",
-        render: (data) => <div>{formatDates(data)}</div>,
+        render: (data) => <div>{data}</div>,
       },
       {
         title: "완료일시",
         dataIndex: "completeDate",
         className: "table-column-center",
-        render: (data) => <div>{formatDates(data)}</div>,
+        render: (data) => <div>{data}</div>,
       },
       {
         title: "도착지",
@@ -322,9 +329,8 @@ class DeliveryList extends Component {
       },
       {
         title: "배달부가세",
-        dataIndex: "deliveryTax",
         className: "table-column-center",
-        render: (data) => <div>{comma(data)}원</div>,
+        render: (data, row) => <div>{row.deliveryPrice * 0.1}원</div>,
       },
       {
         title: "배달수수료",
@@ -365,18 +371,18 @@ class DeliveryList extends Component {
         },
         {
           title: "사업자번호",
-          dataIndex: "businessNum",
+          dataIndex: "businessNumber",
           className: "table-column-center",
         },
         {
           title: "대표자명",
-          dataIndex: "deliveryFee",
+          dataIndex: "ownerName",
           className: "table-column-center",
         },
         {
           title: "주소",
-          dataIndex: "addr",
           className: "table-column-center",
+          render: (data, row) => <div>{row.addr1 + ' ' + row.addr2}</div>,
         },
         {
           title: "이메일",
@@ -389,13 +395,13 @@ class DeliveryList extends Component {
           className: "table-column-center",
         },
         {
-          title: "주민번호",
-          dataIndex: "securityNum",
+          title: "라이더 주민번호",
+          dataIndex: "registrationNumber",
           className: "table-column-center",
         },
         {
-          title: "연락처",
-          dataIndex: "phoneNum",
+          title: "라이더 연락처",
+          dataIndex: "riderPhone",
           className: "table-column-center",
         },
       ];
