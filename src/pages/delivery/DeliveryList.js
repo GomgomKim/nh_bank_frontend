@@ -326,7 +326,7 @@ class DeliveryList extends Component {
       },
       {
         title: "배달수수료",
-        dataIndex: "deliveryFee",
+        dataIndex: "deliveryPriceFee",
         className: "table-column-center",
         render: (data) => <div>{comma(data)}원</div>,
       },
