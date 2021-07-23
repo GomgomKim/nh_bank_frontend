@@ -290,6 +290,18 @@ class DeliveryList extends Component {
         render: (data) => <div>{formatDates(data)}</div>,
       },
       {
+        title: "접수일시",
+        dataIndex: "startDate",
+        className: "table-column-center",
+        render: (data) => <div>{formatDates(data)}</div>,
+      },
+      {
+        title: "완료일시",
+        dataIndex: "endDate",
+        className: "table-column-center",
+        render: (data) => <div>{formatDates(data)}</div>,
+      },
+      {
         title: "도착지",
         // dataIndex: "destAddr1",
         className: "table-column-center",
@@ -316,7 +328,7 @@ class DeliveryList extends Component {
         render: (data) => <div>{comma(data)} 원</div>,
       },
       {
-        title: "기본배달요금",
+        title: "배달료",
         dataIndex: "basicDeliveryPrice",
         className: "table-column-center",
         width: "8%",
