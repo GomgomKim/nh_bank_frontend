@@ -1,11 +1,10 @@
 import { Button, DatePicker, Form, Input, Table } from "antd";
 import React, { Component } from "react";
-import xlsx from 'xlsx';
+import xlsx from "xlsx";
 import { httpGet, httpUrl } from "../../api/httpClient";
 import "../../css/main.css";
 import { formatDates } from "../../lib/util/dateUtil";
 import { comma } from "../../lib/util/numberUtil";
-
 
 const FormItem = Form.Item;
 const Search = Input.Search;
@@ -158,21 +157,32 @@ class DeliveryList extends Component {
       {
         pagination: pager,
       },
-      () => { this.state.startDate === "" ? this.getList() : this.getSearchList() }
+      () => {
+        this.state.startDate === "" ? this.getList() : this.getSearchList();
+      }
     );
   };
 
   pressSearch = () => {
-    this.setState({
-      pagination: {
-        current: 1,
-        pageSize: 10,
+    this.setState(
+      {
+        pagination: {
+          current: 1,
+          pageSize: 10,
+        },
+      },
+      () => {
+        {
+          this.state.startDate === "" ? this.getList() : this.getSearchList();
+        }
+        {
+          this.state.startDate === ""
+            ? this.getExcelList()
+            : this.getExcelSearchList();
+        }
       }
-    }, () => {
-      { this.state.startDate === "" ? this.getList() : this.getSearchList() }
-      { this.state.startDate === "" ? this.getExcelList() : this.getExcelSearchList() }
-    });
-  }
+    );
+  };
 
   onDownload = (data) => {
     // let col2=["가격"];
@@ -191,79 +201,67 @@ class DeliveryList extends Component {
     // for(let i=0; i<=data.length-1; i++) {
     //   col5.push(comma(data[i].extraDeliveryPrice))
     // };
+
     const ws = xlsx.utils.json_to_sheet(data);
     // xlsx.utils.sheet_add_json(ws, json, { origin: -1, display: true, cellDates: true, dateNF: 'YYYY-MM-DD' })
     const wb = xlsx.utils.book_new();
     [
-      '주문번호',
-      '주문날짜',
-      '가격(원)',
-      '총배달요금(원)',
-      '기본배달요금(원)',
-      '할증배달요금(원)',
-      '주소',
-      '상세주소',
-      'addr3',
-      '가맹점',
-      '가맹점 번호',
-      'orderIdx',
-      '라이더명',
-      '라이더 연락처',
-      'deliveryPriceFee',
-      'pickupDate',
-      'completeDate',
-      'riderLevel',
-      'riderStatus',
-      'riderGroup',
-      'feeType',
+      "주문번호",
+      "주문날짜",
+      "가격(원)",
+      "총배달요금(원)",
+      "기본배달요금(원)",
+      "할증배달요금(원)",
+      "주소",
+      "상세주소",
+      "지번주소",
+      "가맹점",
+      "가맹점 번호",
+      "주문번호",
+      "라이더명",
+      "라이더 연락처",
+      "배달수수료",
+      "픽업일시",
+      "완료일시",
+
+      // hidden
+      "riderLevel",
+      "riderStatus",
+      "riderGroup",
+      "feeType",
     ].forEach((x, idx) => {
       const cellAdd = xlsx.utils.encode_cell({ c: idx, r: 0 });
       ws[cellAdd].v = x;
-    })
+    });
 
-    // col2.forEach((x, idx) => {
-    //   const cellAdd = xlsx.utils.encode_cell({c:2, r:idx});
-    //   ws[cellAdd].v = x;
-    //   ws[cellAdd].t = "string";
-    // })
-    // col3.forEach((x, idx) => {
-    //   const cellAdd = xlsx.utils.encode_cell({c:3, r:idx});
-    //   ws[cellAdd].v = x;
-    //   ws[cellAdd].t = "string";
-    // })
-    // col4.forEach((x, idx) => {
-    //   const cellAdd = xlsx.utils.encode_cell({c:4, r:idx});
-    //   ws[cellAdd].v = x;
-    //   ws[cellAdd].t = "string";
-    // })
-    // col5.forEach((x, idx) => {
-    //   const cellAdd = xlsx.utils.encode_cell({c:5, r:idx});
-    //   ws[cellAdd].v = x;
-    //   ws[cellAdd].t = "string";
-    // })
+    ws["!cols"] = [];
+    ws["!cols"][1] = { width: 20 };
+    ws["!cols"][3] = { width: 15 };
+    ws["!cols"][4] = { width: 15 };
+    ws["!cols"][5] = { width: 15 };
+    ws["!cols"][6] = { width: 30 };
+    ws["!cols"][7] = { width: 20 };
+    ws["!cols"][8] = { width: 20 };
+    ws["!cols"][9] = { width: 20 };
+    ws["!cols"][10] = { width: 20 };
+    ws["!cols"][11] = { width: 20 };
+    ws["!cols"][14] = { width: 20 };
+    ws["!cols"][15] = { width: 20 };
+    ws["!cols"][16] = { width: 20 };
+    ws["!cols"][17] = { width: 20 };
 
-    ws['!cols'] = [];
-    ws['!cols'][8] = { hidden: true };
-    ws['!cols'][11] = { hidden: true };
-    ws['!cols'][14] = { hidden: true };
-    ws['!cols'][15] = { hidden: true };
-    ws['!cols'][16] = { hidden: true };
-    ws['!cols'][17] = { hidden: true };
-    ws['!cols'][18] = { hidden: true };
-    ws['!cols'][19] = { hidden: true };
-    ws['!cols'][20] = { hidden: true };
-    ws['!cols'][1] = { width: 20 };
-    ws['!cols'][3] = { width: 15 };
-    ws['!cols'][4] = { width: 15 };
-    ws['!cols'][5] = { width: 15 };
-    ws['!cols'][6] = { width: 30 };
-    ws['!cols'][7] = { width: 20 };
-    ws['!cols'][9] = { width: 20 };
-    ws['!cols'][10] = { width: 20 };
-    ws['!cols'][13] = { width: 12 };
+    // 라이더 연락처
+    ws["!cols"][13] = { hidden: true };
+    // riderLevel
+    ws["!cols"][18] = { hidden: true };
+    // riderStatus
+    ws["!cols"][19] = { hidden: true };
+    // feeType
+    ws["!cols"][20] = { hidden: true };
+
     xlsx.utils.book_append_sheet(wb, ws, "sheet1");
     xlsx.writeFile(wb, "배달목록.xlsx");
-  }
+  };
 
   render() {
     const columns = [
@@ -302,7 +300,11 @@ class DeliveryList extends Component {
         // dataIndex: "destAddr1",
         className: "table-column-center",
         width: "15%",
-        render: (data, row) => <div className="table-column-left">{row.destAddr1 + " " + row.destAddr2}</div>,
+        render: (data, row) => (
+          <div className="table-column-left">
+            {row.destAddr1 + " " + row.destAddr2}
+          </div>
+        ),
       },
       {
         title: "금액",
@@ -396,7 +398,6 @@ class DeliveryList extends Component {
           dataIndex: "phoneNum",
           className: "table-column-center",
         },
-
       ];
       return (
         <Table
@@ -457,7 +458,7 @@ class DeliveryList extends Component {
           style={{ width: 300, float: "right", marginRight: 10 }}
           placeholder={["시작일", "종료일"]}
           onChange={(_, dateStrings) => {
-            if (dateStrings[0, 1]) {
+            if (dateStrings[(0, 1)]) {
               this.setState(
                 {
                   startDate: dateStrings[0],
@@ -465,13 +466,14 @@ class DeliveryList extends Component {
                   pagination: {
                     current: 1,
                     pageSize: 10,
-                  }
-                }, () => {
+                  },
+                },
+                () => {
                   this.getSearchList();
                   this.getExcelSearchList();
-                });
-            }
-            else {
+                }
+              );
+            } else {
               // console.log('test')
               this.setState(
                 {
@@ -480,11 +482,13 @@ class DeliveryList extends Component {
                   pagination: {
                     current: 1,
                     pageSize: 10,
-                  }
-                }, () => {
+                  },
+                },
+                () => {
                   this.getList();
                   this.getExcelList();
-                });
+                }
+              );
             }
           }}
         />
