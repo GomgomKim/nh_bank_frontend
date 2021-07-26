@@ -26,7 +26,7 @@ class DepositAllHistory extends Component {
             paginationExcel: {
                 total: 0,
                 current: 1,
-                pageSize: 500,
+                pageSize: 20000,
             },
             list: [],
             searchId: '',
@@ -118,25 +118,56 @@ class DepositAllHistory extends Component {
         })
     }
 
+    parseExcelJson = () => {
+        let result = [
+          {
+            userType: "구분",
+            userId:"아이디",
+            userName: "이름",
+            categoryKr:"카테고리",
+            createDate: "출금일시",
+            ncashDelta: "금액",
+            ncash: "잔액",
+            adminId: "관리자아이디",
+          },
+        ];
+        this.state.listExcel.forEach((item) => {
+          result.push({
+            userType: item.userType === 1 ? "라이더":"가맹점",
+            userId:item.userId,
+            userName: item.userName,
+            categoryKr:item.categoryKr,
+            createDate: item.createDate,
+            ncashDelta: item.ncashDelta,
+            ncash: item.ncash,
+            adminId: item.adminId,
+          });
+        });
+    
+        return result;
+      };
+
     onDownload = (data) => {
         // let col2=["지급금액"];
         // for(let i=0; i<=data.length-1; i++) {
         //   col2.push(comma(data[i].sendAmount))
         // };
-        const ws = xlsx.utils.json_to_sheet(data);
+        // const ws = xlsx.utils.json_to_sheet(data);
+        const excelJson = this.parseExcelJson(data);
+        const ws = xlsx.utils.json_to_sheet(excelJson, { skipHeader: true });
         const wb = xlsx.utils.book_new();
-        [
-          'idx',
-          '아이디',
-          '일시',
-          'category',
-          '카테고리',
-          '금액',
-          '관리자아이디'
-        ].forEach((x, idx) => {
-          const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
-          ws[cellAdd].v = x;
-        })
+        // [
+        //   'idx',
+        //   '아이디',
+        //   '일시',
+        //   'category',
+        //   '카테고리',
+        //   '금액',
+        //   '관리자아이디'
+        // ].forEach((x, idx) => {
+        //   const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
+        //   ws[cellAdd].v = x;
+        // })
 
         // col2.forEach((x, idx) => {
         //     const cellAdd = xlsx.utils.encode_cell({c:2, r:idx});
@@ -145,11 +176,11 @@ class DepositAllHistory extends Component {
         // })
 
         ws['!cols'] = [];
-        ws['!cols'][0] = { hidden: true };
-        ws['!cols'][3] = { hidden: true };
-        ws['!cols'][2] = { width: 20 };
-        ws['!cols'][4] = { width: 22 };
-        ws['!cols'][6] = { width: 12 };
+        // ws['!cols'][0] = { hidden: true };
+        // ws['!cols'][3] = { hidden: true };
+        ws['!cols'][1] = { width: 15 };
+        ws['!cols'][3] = { width: 23 };
+        ws['!cols'][4] = { width: 20 };
         xlsx.utils.book_append_sheet(wb, ws, "sheet1");
         xlsx.writeFile(wb, "예치금내역.xlsx");
       }

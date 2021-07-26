@@ -25,7 +25,7 @@ class DepositPaymentHistory extends Component {
             paginationExcel: {
                 total: 0,
                 current: 1,
-                pageSize: 300,
+                pageSize: 20000,
             },
             list: [],
             searchType: 1,
@@ -140,56 +140,38 @@ class DepositPaymentHistory extends Component {
         );
       };
 
-      onDownload = (data) => {
-        // let col2=["지급금액"];
-        // for(let i=0; i<=data.length-1; i++) {
-        //   col2.push(comma(data[i].sendAmount))
-        // };
-        const ws = xlsx.utils.json_to_sheet(data);
-        const wb = xlsx.utils.book_new();
-        [
-          '아이디',
-          '지급일시',
-          '지급금액(원)',
-          'category',
-        ].forEach((x, idx) => {
-          const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
-          ws[cellAdd].v = x;
-        })
+      parseExcelJson = () => {
+        let result = [
+          {
+            userId:"아이디",
+            ncashDelta: "지급금액",
+            createDate: "지급일시",
+          },
+        ];
+        this.state.listExcel.forEach((item) => {
+          result.push({
+            userId:item.userId,
+            ncashDelta: item.ncashDelta,
+            createDate: item.createDate,
+          });
+        });
+    
+        return result;
+      };
 
-        // col2.forEach((x, idx) => {
-        //     const cellAdd = xlsx.utils.encode_cell({c:2, r:idx});
-        //     ws[cellAdd].v = x;
-        //     ws[cellAdd].t = "string";
-        // })
+      onDownload = (data) => {
+        const excelJson = this.parseExcelJson(data);
+        const ws = xlsx.utils.json_to_sheet(excelJson, { skipHeader: true });
+        const wb = xlsx.utils.book_new();
+
 
         ws['!cols'] = [];
-        ws['!cols'][3] = { hidden: true };
-        ws['!cols'][1] = { width: 20 };
+        ws['!cols'][0] = { width: 15 };
+        ws['!cols'][2] = { width: 20 };
         xlsx.utils.book_append_sheet(wb, ws, "sheet1");
         xlsx.writeFile(wb, "예치금지급.xlsx");
       }
 
-      // getUserIdx = async (formData) => {
-      //   try {
-      //     console.log("getUserIdx start");
-      //     const res = await httpGet(
-      //       httpUrl.riderList,
-      //       [ formData.userId, 1, 10000],
-      //       {}
-      //     );
-      //     console.log(res);
-      //     if (res.data.riders.length > 0) {
-      //       formData["receiveUserIdx"] = res.data.riders[0].idx;
-      //       console.log("getUserIdx end");
-      //       return;
-      //     } else {
-      //       return;
-      //     }
-      //   } catch (e) {
-      //     throw e;
-      //   }
-      // };
 
       createDeposit = async (formData, i, failedIdx, failedId) => {
         console.log(`${i} start`);

@@ -169,7 +169,11 @@ class NcashDailyList extends Component {
           {
             pagination: pager,
           },
-          () => this.getList()
+          () => 
+          {
+            this.getList();
+            this.getExcelList();
+          }
         );
       };
 

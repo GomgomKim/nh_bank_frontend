@@ -192,61 +192,45 @@ class FranchiseList extends Component {
         });
       };
 
+      parseExcelJson = () => {
+        let result = [
+          {
+            branchName: "지점명",
+            frName: "가맹점명",
+            frPhone:"가맹점번호",
+            addr:"가맹점주소",
+            tidNormal: "VAN",
+            tidPrepay: "PG",
+            tidNormalRate: "PG사용",
+            walletId: "PG지갑",
+          },
+        ];
+        this.state.listExcel.forEach((item) => {
+          result.push({
+            branchName: item.branchName,
+            frName: item.frName,
+            frPhone:item.frPhone,
+            addr:item.addr1 + " " + item.addr2,
+            tidNormal: item.tidNormal,
+            tidPrepay: item.tidPrepay,
+            tidNormalRate: item.tidNormalRate==100 ? "미사용" : "사용",
+            walletId: item.walletId,
+          });
+        });
+    
+        return result;
+      };
+
     onDownload = (data) => {
-        // let col6=["PG 사용"];
-        // for(let i=0; i<=data.length-1; i++) {
-        //   col6.push(data[i].tidNormalRate == 100 ? '미사용' : '사용')
-        // };
-        const ws = xlsx.utils.json_to_sheet(data);
+        const excelJson = this.parseExcelJson(data);
+        const ws = xlsx.utils.json_to_sheet(excelJson, { skipHeader: true });
         const wb = xlsx.utils.book_new();
-        [
-          'useridx',
-          '지점명',
-          '가맹점명',
-          '주소',
-          '상세주소',
-          'addr3',
-          'PG 사용\n(100:미사용, 나머지:사용)',
-          '가맹점번호',
-          'PG지갑',
-          'VAN',
-          'PG',
-          'businessNumber',
-          'ownerName',
-          'userId',
-          'userEmail',
-          'userPhone',
-          'ncashDelta',
-          'vaccountBank',
-          'vaccountNumber',
-          'vaccountDepositor',
-        ].forEach((x, idx) => {
-          const cellAdd = xlsx.utils.encode_cell({c:idx, r:0});
-          ws[cellAdd].v = x;
-        })
-        // col6.forEach((x, idx) => {
-        //     const cellAdd = xlsx.utils.encode_cell({c:6, r:idx});
-        //     ws[cellAdd].v = x;
-        //     ws[cellAdd].t = "string";
-        //   })
         ws['!cols'] = [];
-        ws['!cols'][0] = { hidden: true };
-        ws['!cols'][5] = { hidden: true };
-        ws['!cols'][11] = { hidden: true };
-        ws['!cols'][12] = { hidden: true };
-        ws['!cols'][13] = { hidden: true };
-        ws['!cols'][14] = { hidden: true };
-        ws['!cols'][15] = { hidden: true };
-        ws['!cols'][16] = { hidden: true };
-        ws['!cols'][17] = { hidden: true };
-        ws['!cols'][18] = { hidden: true };
-        ws['!cols'][19] = { hidden: true };
+        ws['!cols'][1] = { width: 20 };
         ws['!cols'][2] = { width: 15 };
-        ws['!cols'][3] = { width: 30 };
+        ws['!cols'][3] = { width: 50 };
         ws['!cols'][4] = { width: 15 };
-        ws['!cols'][6] = { width: 25 };
         ws['!cols'][7] = { width: 20 };
-        ws['!cols'][8] = { width: 20 };
         xlsx.utils.book_append_sheet(wb, ws, "sheet1");
         xlsx.writeFile(wb, "가맹점목록.xlsx");
       }

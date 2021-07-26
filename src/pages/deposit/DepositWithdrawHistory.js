@@ -21,7 +21,7 @@ class DepositWithdrawHistory extends Component {
       paginationExcel: {
         total: 0,
         current: 1,
-        pageSize: 300,
+        pageSize: 20000,
       },
       userId: "",
       list: [],
@@ -157,48 +157,44 @@ class DepositWithdrawHistory extends Component {
     );
   };
 
-  onDownload = (data) => {
-    // let col9=["출금금액"];
-    // for(let i=0; i<=data.length-1; i++) {
-    //   col9.push(comma(data[i].reqAmount))
-    // };
-    const ws = xlsx.utils.json_to_sheet(data);
-    const wb = xlsx.utils.book_new();
-    [
-      "idx",
-      "아이디",
-      "createDate",
-      "userIdx",
-      "은행명",
-      "출금계좌",
-      "예금주명",
-      "출금일시",
-      "withdrawStatus",
-      "출금금액(원)",
-      "procDate",
-      "adminId",
-      "memo",
-    ].forEach((x, idx) => {
-      const cellAdd = xlsx.utils.encode_cell({ c: idx, r: 0 });
-      ws[cellAdd].v = x;
+  parseExcelJson = () => {
+    let result = [
+      {
+        userId:"아이디",
+        userName: "이름",
+        bank: "은행명",
+        depositor: "예금주명",
+        bankAccount: "출금계좌",
+        ncashDelta: "출금금액",
+        createDate: "출금일시",
+      },
+    ];
+    this.state.listExcel.forEach((item) => {
+      result.push({
+        userId:item.userId,
+        userName: item.userName,
+        bank: item.bank,
+        depositor: item.depositor,
+        bankAccount: item.bankAccount,
+        ncashDelta: item.ncashDelta,
+        createDate: item.createDate,
+      });
     });
 
-    // col9.forEach((x, idx) => {
-    //     const cellAdd = xlsx.utils.encode_cell({c:9, r:idx});
-    //     ws[cellAdd].v = x;
-    //     ws[cellAdd].t = "string";
-    // })
+    return result;
+  };
+
+  onDownload = (data) => {
+    const excelJson = this.parseExcelJson(data);
+    const ws = xlsx.utils.json_to_sheet(excelJson, { skipHeader: true });
+    const wb = xlsx.utils.book_new();
 
     ws["!cols"] = [];
-    ws["!cols"][0] = { hidden: true };
-    ws["!cols"][2] = { hidden: true };
-    ws["!cols"][3] = { hidden: true };
-    ws["!cols"][8] = { hidden: true };
-    ws["!cols"][10] = { hidden: true };
-    ws["!cols"][11] = { hidden: true };
-    ws["!cols"][12] = { hidden: true };
-    ws["!cols"][5] = { width: 12 };
-    ws["!cols"][7] = { width: 20 };
+    ws["!cols"][0] = { width: 15 };
+    ws["!cols"][1] = { width: 15 };
+    ws["!cols"][2] = { width: 12 };
+    ws["!cols"][4] = { width: 15 };
+    ws["!cols"][6] = { width: 20 };
     xlsx.utils.book_append_sheet(wb, ws, "sheet1");
     xlsx.writeFile(wb, "예치금출금.xlsx");
   };
@@ -246,7 +242,7 @@ class DepositWithdrawHistory extends Component {
       },
       {
         title: "출금일시",
-        dataIndex: "reqDate",
+        dataIndex: "createDate",
         className: "table-column-center",
       },
     ];
