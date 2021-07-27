@@ -21,7 +21,7 @@ class NcashDailyList extends Component {
             paginationExcel: {
                 total: 0,
                 current: 1,
-                pageSize: 300,
+                pageSize: 50000,
             },
             list: [],
             kind: 1,
@@ -172,7 +172,6 @@ class NcashDailyList extends Component {
           () => 
           {
             this.getList();
-            this.getExcelList();
           }
         );
       };
@@ -186,6 +185,7 @@ class NcashDailyList extends Component {
             }
         }, ()=>{
             this.getList();
+            this.getExcelList();
         })
     }
 

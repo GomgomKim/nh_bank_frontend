@@ -22,7 +22,7 @@ class DeliveryList extends Component {
       paginationExcel: {
         total: 0,
         current: 1,
-        pageSize: 1500,
+        pageSize: 50000,
       },
       frName: "",
       riderName: "",

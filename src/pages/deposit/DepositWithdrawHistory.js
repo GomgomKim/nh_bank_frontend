@@ -21,7 +21,7 @@ class DepositWithdrawHistory extends Component {
       paginationExcel: {
         total: 0,
         current: 1,
-        pageSize: 20000,
+        pageSize: 50000,
       },
       userId: "",
       list: [],
