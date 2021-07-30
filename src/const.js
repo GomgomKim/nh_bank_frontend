@@ -15,7 +15,7 @@ export default {
 
   ///////////////////////dr/////////////////////
   // serverProtocol: "https",
-  // serverIp: "manage.nyamnyambox.com",
+  // serverIp: "drnana.nnbox.net",
 
   serverPort: "30003",
 
