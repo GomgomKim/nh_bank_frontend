@@ -24,7 +24,7 @@ class NcashDailyList extends Component {
                 pageSize: 50000,
             },
             list: [],
-            kind: 1,
+            kind: "",
         }
     }
 
@@ -178,7 +178,7 @@ class NcashDailyList extends Component {
 
       onChangeStatus = (value) => {
         this.setState({
-            kind: value,
+            kind: value === "0" ?  "" : value,
             pagination: {
                 current: 1,
                 pageSize: 10,
@@ -236,7 +236,7 @@ class NcashDailyList extends Component {
             <SelectBox
                 // placeholder={'전체'}
                 style={{width:200, marginBottom: 20}}
-                value={kindStatus[this.state.kind]}
+                value={this.state.kind === "" ? kindStatus[0] : kindStatus[this.state.kind]}
                 code={Object.keys(kindStatus)}
                 codeString={kindStatus}
                 onChange={(value) => {
