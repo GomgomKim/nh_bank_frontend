@@ -184,7 +184,8 @@ const httpUrl = {
   updateFixList: "/bike/maintenance/update",
 
   //공지사항
-  noticeList: "/notice/list?endDate=%s&pageNum=%s&pageSize=%s&startDate=%s&title=%s&deleted=%s",
+  noticeList:
+    "/notice/list?endDate=%s&pageNum=%s&pageSize=%s&startDate=%s&title=%s&deleted=%s",
   updateNotice: "/notice/update",
   registNotice: "/notice/create",
 
@@ -193,17 +194,22 @@ const httpUrl = {
   updateInquiry: "/inquiry/update",
 
   // 예치금
-  depositList: "/ncash/deposit/list?pageNum=%s&pageSize=%s&userId=%s&userType=%s",
+  depositList:
+    "/ncash/deposit/list?pageNum=%s&pageSize=%s&userId=%s&userType=%s",
   depositSend: "/ncash/create",
-  depositWithdrawList: "/ncash/withdraw/list?pageNum=%s&pageSize=%s&userId=%s&userType=%s",
-  depositAllList: "/ncash/all/list?category=%s&pageNum=%s&pageSize=%s&userId=%s",
+  depositWithdrawList:
+    "/ncash/withdraw/list?pageNum=%s&pageSize=%s&userId=%s&userType=%s",
+  depositAllList:
+    "/ncash/all/list?category=%s&pageNum=%s&pageSize=%s&userId=%s",
   hoInfo: "/ncash/connect9",
   hoBalance: "/ncash/connect9/balance",
 
   // 일차감
-  ncashDailyList: "/ncash/daily/list?kind=%s&pageNum=%s&pageSize=%s"
-};
+  ncashDailyList: "/ncash/daily/list?kind=%s&pageNum=%s&pageSize=%s",
 
+  // 정산관리
+  NcashFee: "/settlement/ncash/fee/list?pageNum=%s&pageSize=%S",
+};
 
 const imageType = ["image/jpeg", "image/png", "image/bmp"];
 
@@ -218,4 +224,3 @@ export {
   httpDownload,
   imageType,
 };
-
