@@ -178,7 +178,6 @@ class NcashDailyList extends Component {
     ).then((res) => {
       if (res.result === "SUCCESS") {
         this.setState({
-          kind: value === "0" ? "" : value,
           pagination: {
             current: 1,
             pageSize: 10,
