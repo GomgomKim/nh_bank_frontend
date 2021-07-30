@@ -4,7 +4,7 @@ export default {
   /////////////////////////개발/////////////////////////////
   serverProtocol: "http",
   serverIp: "localhost",
-  serverPort: "30003",
+
 
   // //naver map client key
   // clientId: "",
@@ -12,7 +12,12 @@ export default {
   ///////////////////////////운영/////////////////////////////
   // serverProtocol: "https",
   // serverIp: "manage.nyamnyambox.com",
-  // serverPort: "30003",
+
+  ///////////////////////dr/////////////////////
+  // serverProtocol: "https",
+  // serverIp: "drnana.nnbox.net",
+
+  serverPort: "30003",
 
   //naver map client key
   clientId: "",
