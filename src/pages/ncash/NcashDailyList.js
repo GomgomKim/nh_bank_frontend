@@ -24,7 +24,7 @@ class NcashDailyList extends Component {
         pageSize: 50000,
       },
       list: [],
-      kind: 1,
+      kind: "",
       riderName: "",
     };
     this.formRef = React.createRef();
@@ -178,33 +178,20 @@ class NcashDailyList extends Component {
     ).then((res) => {
       if (res.result === "SUCCESS") {
         this.setState({
-          list: res.data.orders,
+          kind: value === "0" ? "" : value,
           pagination: {
-            ...this.state.pagination,
-            current: res.data.currentPage,
-            total: res.data.totalCount,
-          },
-        });
+            current: 1,
+            pageSize: 10,
+          }
+        }, () => {
+          this.getList();
+          this.getExcelList();
+        })
       }
-    });
-  };
 
-  handleTableChange = (pagination) => {
-    const pager = {
-      ...this.state.pagination,
-    };
-    pager.current = pagination.current;
-    pager.pageSize = pagination.pageSize;
-    this.setState(
-      {
-        pagination: pager,
-      },
-      () => {
-        this.state.startDate === "" ? this.getList() : this.getSearchList();
-      }
+    }
     );
   };
-
   pressSearch = () => {
     this.setState(
       {

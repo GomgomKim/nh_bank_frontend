@@ -48,6 +48,7 @@ export { default as DeliveryCost } from "./settlement/DeliveryCost";
 export { default as FeeDeposit } from "./settlement/FeeDeposit";
 export { default as FrDuesDeposit } from "./settlement/FrDuesDeposit";
 export { default as SellProdDeposit } from "./settlement/SellProdDeposit";
+export { default as NcashFee } from "./settlement/NcashFee";
 
 //일차감관리
 export { default as NcashDailyList } from "./ncash/NcashDailyList";

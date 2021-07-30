@@ -66,11 +66,12 @@ const categoryStatus = {
   WITHDRAW_REQ: "출금 요청",
 };
 
-const kindStatus = {
-  1: "리스비",
-  2: "대출 상환",
-  3: "산재 보험비"
-};
+const kindStatus = [
+  "전체",
+  "리스비",
+  "대출 상환",
+  "산재 보험비"
+];
 
  export {
     bikeStatus,
