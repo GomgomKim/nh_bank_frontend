@@ -205,7 +205,7 @@ const httpUrl = {
   hoBalance: "/ncash/connect9/balance",
 
   // 일차감
-  ncashDailyList: "/ncash/daily/list?kind=%s&pageNum=%s&pageSize=%s",
+  ncashDailyList: "/ncash/daily/list?kind=%s&pageNum=%s&pageSize=%s&userId=%s",
 
   // 정산관리
   NcashFee: "/settlement/ncash/fee/list?pageNum=%s&pageSize=%S",

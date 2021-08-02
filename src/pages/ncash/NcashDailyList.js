@@ -25,50 +25,15 @@ class NcashDailyList extends Component {
       },
       list: [],
       kind: "",
-      riderName: "",
+      userId: "",
     };
-    this.formRef = React.createRef();
+    // this.formRef = React.createRef();
   }
 
   componentDidMount() {
     this.getList();
     this.getExcelList();
   }
-
-  // getList = () => {
-  //     var list = [
-  //         {
-  //             date: "2021-06-12",
-  //             kind: 1,
-  //             riderId: "rider03",
-  //             riderName: "rider03",
-  //             registrationNumber: "930507-1000000",
-  //             riderPhone: "010-1111-2222",
-  //             ncashDelta: 50000
-  //         },
-  //         {
-  //             date: "2021-06-23",
-  //             kind: 2,
-  //             riderId: "rider04",
-  //             riderName: "rider04",
-  //             registrationNumber: "950721-2000000",
-  //             riderPhone: "010-1212-3333",
-  //             ncashDelta: 30000
-  //         },
-  //         {
-  //             date: "2021-07-15",
-  //             kind: 3,
-  //             riderId: "rider06",
-  //             riderName: "rider06",
-  //             registrationNumber: "941108-1000000",
-  //             riderPhone: "010-2121-1111",
-  //             ncashDelta: 20000
-  //         }
-  //     ]
-  //     this.setState({
-  //         list:list,
-  //     })
-  // }
 
   getList = () => {
     const pagination = this.state.pagination;
@@ -78,7 +43,7 @@ class NcashDailyList extends Component {
         this.state.kind,
         pagination.current,
         pagination.pageSize,
-        this.state.riderName,
+        this.state.userId,
       ],
       {}
     ).then((res) => {
@@ -96,7 +61,6 @@ class NcashDailyList extends Component {
   };
 
 
-
   getExcelList = () => {
     const pagination = this.state.paginationExcel;
     httpGet(
@@ -105,6 +69,7 @@ class NcashDailyList extends Component {
         this.state.kind,
         pagination.current,
         pagination.pageSize,
+        this.state.userId,
       ],
       {}
     ).then((res) => {
@@ -120,6 +85,32 @@ class NcashDailyList extends Component {
       }
     });
   };
+
+  getExcelSearchList = () => {
+    const pagination = this.state.paginationExcel;
+    httpGet(
+      httpUrl.deliverySearchList,
+      [
+        this.state.kind,
+        pagination.current,
+        pagination.pageSize,
+      ],
+      {}
+    ).then((res) => {
+      if (res.result === "SUCCESS") {
+        this.setState({
+          listExcel: res.data.orders,
+          pagination: {
+            ...this.state.pagination,
+            current: res.data.currentPage,
+            total: res.data.totalCount,
+          },
+        });
+      }
+    });
+  };
+
+
 
   parseExcelJson = () => {
     let result = [
@@ -161,52 +152,9 @@ class NcashDailyList extends Component {
     ws["!cols"][4] = { width: 20 };
     ws["!cols"][5] = { width: 20 };
     xlsx.utils.book_append_sheet(wb, ws, "sheet1");
-    xlsx.writeFile(wb, "배달목록.xlsx");
+    xlsx.writeFile(wb, "일차감내역.xlsx");
   };
 
-  getSearchList = () => {
-    const pagination = this.state.pagination;
-    httpGet(
-      httpUrl.ncashSearchList,
-      [
-        pagination.current,
-        pagination.pageSize,
-        this.state.riderName,
-        this.state.startDate,
-      ],
-      {}
-    ).then((res) => {
-      if (res.result === "SUCCESS") {
-        this.setState({
-          pagination: {
-            current: 1,
-            pageSize: 10,
-          }
-        }, () => {
-          this.getList();
-          this.getExcelList();
-        })
-      }
-
-    }
-    );
-  };
-  pressSearch = () => {
-    this.setState(
-      {
-        pagination: {
-          current: 1,
-          pageSize: 10,
-        },
-      },
-      () => {
-        {
-          this.state.startDate === "" ? this.getList() : this.getSearchList();
-        }
-
-      }
-    );
-  };
 
   onChangeStatus = (value) => {
     this.setState({
@@ -220,6 +168,36 @@ class NcashDailyList extends Component {
       this.getExcelList();
     })
   }
+
+  handleTableChange = (pagination) => {
+    const pager = {
+      ...this.state.pagination,
+    };
+    pager.current = pagination.current;
+    pager.pageSize = pagination.pageSize;
+    this.setState(
+      {
+        pagination: pager,
+      },
+      () => this.getList()
+    );
+  };
+
+
+  onSearch = () => {
+    this.setState(
+      {
+        pagination: {
+          current: 1,
+          pageSize: 10,
+        },
+      },
+      () => {
+        this.getList();
+        this.getExcelList();
+      }
+    );
+  };
 
   render() {
     const columns = [
@@ -283,8 +261,8 @@ class NcashDailyList extends Component {
           placeholder="아이디 검색"
           enterButton
           allowClear
-          onChange={(e) => this.setState({ riderName: e.target.value })}
-          onSearch={this.pressSearch}
+          onChange={(e) => this.setState({ userId: e.target.value })}
+          onSearch={this.onSearch}
           style={{
             width: 220,
             marginLeft: 20,
