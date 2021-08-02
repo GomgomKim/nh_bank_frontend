@@ -77,6 +77,10 @@ class FranchiseList extends Component {
     this.setState({ registVANdialogOpen: false });
   };
 
+  vanWatingAlert() {
+    alert("준비중입니다.");
+  }
+
   registPG = (userIdx) => {
     let self = this;
     Modal.confirm({
@@ -357,7 +361,8 @@ class FranchiseList extends Component {
         )}
         <Button
           style={{ marginBottom: 20, marginLeft: 20 }}
-          onClick={this.openVANdialogModal}
+          // onClick={this.openVANdialogModal}
+          onClick={this.vanWatingAlert}
         >
           VAN 등록요청
         </Button>
