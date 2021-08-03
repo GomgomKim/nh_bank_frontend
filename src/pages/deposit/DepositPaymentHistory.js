@@ -323,13 +323,6 @@ class DepositPaymentHistory extends Component {
                     엑셀 다운로드
                 </Button>
 
-                <Button className="download-btn"
-                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} 
-                    onClick={() => this.setState({ inputOpen: !this.state.inputOpen })}>
-                    <img src={require("../../img/excel.png").default} alt="" />
-                        엑셀 업로드
-                </Button>
-
                 <a href="/admin_deposit.xlsx" download>
                     <Button className="download-btn"
                         style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
@@ -337,12 +330,19 @@ class DepositPaymentHistory extends Component {
                             양식 다운로드
                     </Button>
                 </a>
+                <Button className="download-btn"
+                    style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} 
+                    onClick={() => this.setState({ inputOpen: !this.state.inputOpen })}>
+                    <img src={require("../../img/excel.png").default} alt="" />
+                        엑셀 업로드
+                </Button>
+
 
           {this.state.inputOpen && (
-            <>
+            <div>
               <div
                 className="depositPayment-wrapper"
-                style={{ marginTop: "-15px", width:"413px" }}
+                style={{ marginTop: "-8px", width:"413px" }}
               >
                 <Input type="file" onChange={this.readExcel} />
                 <Button
@@ -352,7 +352,7 @@ class DepositPaymentHistory extends Component {
                   등록
                 </Button>
               </div>
-            </>
+            </div>
           )}
 
                 <Table
