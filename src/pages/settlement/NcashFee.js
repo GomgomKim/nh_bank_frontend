@@ -59,6 +59,14 @@ class NcashFee extends Component {
   };
 
   render() {
+    const categoryString = {
+      NCASH_CHARGE_PROC: '충전수수료',
+      WITHDRAW_REQ: '출금수수료'
+    }
+    const categoryColor = {
+      NCASH_CHARGE_PROC: 'blue',
+      WITHDRAW_REQ: 'red'
+    }
     const columns = [
       // {
       //     title: "일자",
@@ -73,15 +81,11 @@ class NcashFee extends Component {
       },
       {
         title: "구분",
-        dataIndex: "userType",
+        dataIndex: "category",
         className: "table-column-center",
         render: (data) => (
           <>
-            {data === 1 ? (
-              <div style={{ color: "blue" }}>라이더</div>
-            ) : (
-              <div style={{ color: "red" }}>가맹점</div>
-            )}
+              <div style={{ color: categoryColor[data] }}>{categoryString[data]}</div>
           </>
         ),
       },
