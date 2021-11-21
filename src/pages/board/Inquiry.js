@@ -28,7 +28,7 @@ class Inquiry extends Component {
   }
 
   componentDidMount() {
-    this.getList();
+    // this.getList();
   }
 
   handleTableChange = (pagination) => {

@@ -49,7 +49,7 @@ class Header extends React.Component {
             paddingRight: "20px"
           }}>
           <div style={{ display: "inline-block" }}>
-            관리자&nbsp;&nbsp;&nbsp;|
+            NH&nbsp;&nbsp;&nbsp;|
             {/* {this.props.loginInfo.userId}&nbsp;&nbsp;&nbsp;| */}
           </div>
           <div

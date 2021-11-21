@@ -21,26 +21,28 @@ class Login extends Component {
   }
 
   handleSubmit = (e) => {
-    httpPost(httpUrl.login, [], {
-      ...this.formRef.current.getFieldsValue()
-    })
-      .then((res) => {
-        // console.log(JSON.stringify(res, null, 4))
-        if (res.data.result) {
-          this.props.onLogin({
-            ...res.data.adminUser,
-            authList: res.data.authorities,
-          });
-          if(res.data.adminUser.adminAuth.length === 0)
-            this.props.history.push('/main')
-          else
-            this.props.history.push(res.data.adminUser.adminAuth[0].subMenu[0].path)
-        }
-        else {
-          alert("아이디 또는 비밀번호가 잘못되었습니다.")
-        }
-      })
-      .catch((error) => { });
+    this.props.history.push('/main')
+
+    // httpPost(httpUrl.login, [], {
+    //   ...this.formRef.current.getFieldsValue()
+    // })
+    //   .then((res) => {
+    //     // console.log(JSON.stringify(res, null, 4))
+    //     if (res.data.result) {
+    //       this.props.onLogin({
+    //         ...res.data.adminUser,
+    //         authList: res.data.authorities,
+    //       });
+    //       if(res.data.adminUser.adminAuth.length === 0)
+    //         this.props.history.push('/main')
+    //       else
+    //         this.props.history.push(res.data.adminUser.adminAuth[0].subMenu[0].path)
+    //     }
+    //     else {
+    //       alert("아이디 또는 비밀번호가 잘못되었습니다.")
+    //     }
+    //   })
+    //   .catch((error) => { });
   }
 
   componentDidMount() {
@@ -55,7 +57,7 @@ class Login extends Component {
             <img src={require('../img/login_img.png').default} />
           </div>
           <div className="login-text">
-            냠냠박스 관리자시스템
+              NH 은행업무시스템
           </div>
           <FormItem
             name="id"

@@ -19,7 +19,7 @@ import FixHistoryDialog from "../../components/dialog/FixHistoryDialog";
 const FormItem = Form.Item;
 const Search = Input.Search;
 
-class BikeList extends Component {
+class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -374,4 +374,4 @@ class BikeList extends Component {
 }
 
 
-export default BikeList;
+export default User;

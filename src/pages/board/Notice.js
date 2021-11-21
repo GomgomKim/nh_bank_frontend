@@ -45,7 +45,7 @@ class Notice extends Component {
     }
 
     componentDidMount() {
-        this.getList();
+        // this.getList();
     }
 
     handleTableChange = (pagination) => {

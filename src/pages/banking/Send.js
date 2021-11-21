@@ -1,15 +1,14 @@
 import React, { Component, useState, useCallback } from 'react'
 import { httpGet, httpUrl, httpDownload, httpPost, httpPut } from '../../api/httpClient';
 import { Table, Input, Button, DatePicker } from 'antd'
-
 import { comma } from "../../lib/util/numberUtil";
-import SelectBox from "../../components/input/SelectBox";
 import '../../css/main.css';
+
 
 const Search = Input.Search;
 const RangePicker = DatePicker.RangePicker;
 
-class LoanFranchise extends Component {
+class Send extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,6 +18,7 @@ class LoanFranchise extends Component {
                 pageSize: 10,
             },
             list: [],
+
         };
     }
 
@@ -29,26 +29,46 @@ class LoanFranchise extends Component {
     setDate = (date) => {
         console.log(date)
     }
+    // handleTableChange = (pagination) => {
+    //     console.log(pagination)
+    //     const pager = { ...this.state.pagination };
+    //     pager.current = pagination.current;
+    //     pager.pageSize = pagination.pageSize
+    //     this.setState({
+    //         pagination: pager,
+    //     }, () => this.getList());
+    // };
 
     getList = () => {
+        // let { pageSize, current } = this.state.pagination;
+        // httpGet(httpUrl.inquiryList, [pageSize, current], {}).then((res) => {
+        //     const pagination = { ...this.state.pagination };
+        //     pagination.current = res.data.currentPage;
+        //     pagination.total = res.data.totalCount;
+        //     this.setState({
+        //         list: res.data.list,
+        //         pagination,
+        //     });
+        // });
+
         var list = [
             {
-                franIdx: '배지현',
+                riderIdx: '배지현',
                 loanPrice: 20000,
                 loanDate: '2021-06-02',
             },
             {
-                franIdx: '배지현',
+                riderIdx: '배지현',
                 loanPrice: 20000,
                 loanDate: '2021-06-02',
             },
             {
-                franIdx: '배지현',
+                riderIdx: '배지현',
                 loanPrice: 20000,
                 loanDate: '2021-06-02',
             },
             {
-                franIdx: '배지현',
+                riderIdx: '배지현',
                 loanPrice: 20000,
                 loanDate: '2021-06-02',
             }
@@ -59,13 +79,36 @@ class LoanFranchise extends Component {
         });
     }
 
-
+    // expandedRowRender = (record) => {
+    //     return (
+    //         <div style={{ paddingLeft: '100px' }}>
+    //             <div style={{ display: 'inline-block', width: '40%', verticalAlign: 'top' }}>
+    //                 <div style={{ color: 'blue' }}>[문의내용]</div>
+    //                 {record.content.split(',').map(row => {
+    //                     return (
+    //                         <div>{row}</div>
+    //                     )
+    //                 }
+    //                 )}
+    //             </div>
+    //             <div style={{ display: 'inline-block', width: '40%', verticalAlign: 'top' }}>
+    //                 <div style={{ color: 'blue' }}>[메모]</div>
+    //                 {record.memo.split('\n').map(row => {
+    //                     return (
+    //                         <div>{row}</div>
+    //                     )
+    //                 }
+    //                 )}
+    //             </div>
+    //         </div>
+    //     )
+    // }
     render() {
 
         const columns = [
             {
-                title: "가맹점명",
-                dataIndex: "franIdx",
+                title: "라이더명",
+                dataIndex: "riderIdx",
                 className: "table-column-center",
 
             },
@@ -83,12 +126,13 @@ class LoanFranchise extends Component {
                 // render: (data, row) => <div>{categoryString[data]}</div>
             },
 
+
+
         ];
         return (
             <>
-
                 <Search
-                    placeholder="가맹점 검색"
+                    placeholder="라이더 검색"
                     enterButton
                     allowClear
                     onSearch={this.onSearch}
@@ -98,12 +142,13 @@ class LoanFranchise extends Component {
                     }}
                 />
 
+
+
                 <Button className="download-btn"
                     style={{ float: 'right', marginLeft: 10, marginBottom: 20 }} onClick={{}}>
                     <img src={require("../../img/excel.png").default} alt="" />
                     엑셀 다운로드
                 </Button>
-
                 <Table
                     rowKey={(record) => record.idx}
                     rowClassName={(record) => (record.status === 'COMPLETE' ? "table-disabled" : "")}
@@ -119,4 +164,4 @@ class LoanFranchise extends Component {
         )
     }
 }
-export default LoanFranchise;
+export default Send;

@@ -76,7 +76,7 @@ class Sider extends React.Component {
       <Layout.Sider
         breakpoint="lg"
         collapsedWidth="0"
-        onCollapse={(collapsed, type) => {}}>
+        onCollapse={(collapsed, type) => { }}>
         <div
           style={{
             textAlign: "center",
@@ -85,80 +85,71 @@ class Sider extends React.Component {
             color: "#fff",
             padding: "10px",
           }}>
-          관리자 {console.log(userInfo)}
+          관리 시스템
         </div>
-        {userInfo.adminAuth ? (
-          <Menu
-            theme="dark"
-            selectedKeys={this.state.selectedMenu}
-            mode="inline"
-            inlineIndent={15}
-            openKeys={this.state.openKeys}
-            onOpenChange={this.onOpenChange}
-            onClick={(item) => {
-              this.handleChangeTabStatus(item.key);
-            }}>
-            {userInfo.adminAuth.map((row) => {
-              return row.subMenu ? (
-                <SubMenu
-                  key={row.name}
-                  title={
-                    <span>
-                      {/* <Icon type={row.icon} theme="outlined"/> */}
-                      <span>{row.nameKr}</span>
-                    </span>
-                  }>
-                  {row.subMenu.map((child) => {
-                    return child.subMenu ? (
-                      <SubMenu
-                        key={child.name}
-                        title={
-                          <span>
-                            {/* <Icon type={row.icon} theme="outlined"/> */}
-                            <span>{child.nameKr}</span>
-                          </span>
-                        }>
-                        {child.subMenu.map((subChild) => (
-                          <Menu.Item
-                            key={subChild.name}
-                            // className="multi-depth-menuitem"
-                          >
-                            <Link exact="true" to={subChild.path}>
-                              {/* <Icon type={child.icon} theme="outlined"
-                              /> */}
-                              <span className="nav-text">
-                                {subChild.nameKr}
-                              </span>
-                            </Link>
-                          </Menu.Item>
-                        ))}
-                      </SubMenu>
-                    ) : (
-                      <Menu.Item key={child.name}>
-                        <Link exact="true" to={child.path}>
-                          {/* <Icon type={child.icon} theme="outlined"
-                              /> */}
-                          <span className="nav-text">{child.nameKr}</span>
-                        </Link>
-                      </Menu.Item>
-                    );
-                  })}
-                </SubMenu>
-              ) : (
-                <Menu.Item key={row.name}>
-                  <Link exact="true" to={row.path}>
-                    {/* <Icon type={row.icon} theme="outlined"
-                        /> */}
-                    <span className="nav-text">{row.nameKr}</span>
-                  </Link>
-                </Menu.Item>
-              );
-            })}
-          </Menu>
-        ) : (
-          <Redirect to="/main" />
-        )}
+        <Menu
+          theme="dark"
+          mode="inline"
+          inlineIndent={15}
+          onClick={(item) => {
+          }}>
+
+          <SubMenu
+            key="FRANCHISE_MANAGE"
+            title={
+              <span>
+                {/* <Icon type={row.icon} theme="outlined"/> */}
+                <span>회원관리</span>
+              </span>
+            }>
+            <Menu.Item key="FRANCHISE_MANAGE_TID">
+              <Link exact="true" to="/user/User">
+                <span className="nav-text">회원관리</span>
+              </Link>
+            </Menu.Item>
+          </SubMenu>
+
+          <SubMenu
+            key="CASH_MANAGE"
+            title={
+              <span>
+                <span>뱅킹</span>
+              </span>
+            }>
+            <Menu.Item key="CASH_CHARGE">
+              <Link exact="true" to="/banking/DepositWithdraw">
+                <span className="nav-text">입출금</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="CASH_USE">
+              <Link exact="true" to="/banking/Send">
+                <span className="nav-text">송금</span>
+              </Link>
+            </Menu.Item>
+          </SubMenu>
+
+          <SubMenu
+            key="BOARD_MANAGE"
+            title={
+              <span>
+                <span>커뮤니티</span>
+              </span>
+            }>
+            <Menu.Item key="BOARD_EVENT">
+              <Link exact="true" to="/board/Notice">
+                <span className="nav-text">게시판</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="BOARD_FAQ">
+              <Link exact="true" to="/board/Inquiry">
+                <span className="nav-text">데이터 사전</span>
+              </Link>
+            </Menu.Item>
+          </SubMenu>
+
+        </Menu>
       </Layout.Sider>
+
     );
   }
 }

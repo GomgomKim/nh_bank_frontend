@@ -4,7 +4,9 @@ import {
 } from "antd";
 import { comma } from "../../lib/util/numberUtil";
 import moment from "moment";
+import { httpGet, httpUrl, httpPost } from "../../api/httpClient";
 import '../../css/main.css';
+import axios from 'axios';
 
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -33,6 +35,31 @@ class RegistBikeDialog extends Component {
         }
     }
 
+    readBalance = () => {
+        //클라이언트 POST API 요청
+        axios.post('https://developers.nonghyup.com/InquireBalance.nh', {
+            "Header": {
+                "ApiNm": "InquireBalance",
+                "Tsymd": "20211121",
+                "Trtm": "112428",
+                "Iscd": "001252",
+                "FintechApsno": "001",
+                "ApiSvcCd": "ReceivedTransferA",
+                "IsTuno": "00111220",
+                "AccessToken": "58c4f0175e2bb394d2e288dbaaed76024e716e19794303e0a228a9240fd6e457"
+            },
+            "FinAcno": "00820100012520000000000012826"
+        })
+        //성공시 then 실행
+        .then(function (response) {
+            console.log(JSON.stringify(response, null, 4))
+        })
+        //실패 시 catch 실행
+        .catch(function (error) {
+            alert(error);
+        });
+    }
+
     render() {
 
         const { close, data } = this.props;
@@ -45,7 +72,7 @@ class RegistBikeDialog extends Component {
                     <div className="dialog-content">
 
                         <div className="dialog-title">
-                            {data ? "바이크 수정" : "바이크 등록"}
+                            입출금
                         </div>
 
                         <img onClick={close} src={require('../../img/close.png').default} className="dialog-close" alt="exit" />
@@ -64,125 +91,23 @@ class RegistBikeDialog extends Component {
                                         checked={this.state.bikeType}
                                         style={{ verticalAlign: '2px' }}
                                     >
-                                        <Radio value={1}>PCX</Radio>
-                                        <Radio value={2}>NMAX</Radio>
+                                        <Radio value={1}>입금</Radio>
+                                        <Radio value={2}>출금</Radio>
                                     </Radio.Group>
                                 </div>
-
                             </div>
 
                             <div className="dialog-block">
-
-                                <div> 연식 </div>
-
+                                <div> 금액 </div>
                                 <div>
                                     <FormItem
                                         name="bikeModel"
                                         initialValue={data && data.bikeModel}>
                                         <Input
-                                            placeholder="바이크 연식을 입력해 주세요."
+                                            placeholder="금액을 입력해 주세요."
                                             style={{ width: 250 }} />
                                     </FormItem>
                                 </div>
-
-                            </div>
-
-
-                            <div className="dialog-block">
-
-                                <div> 주행거리 </div>
-
-                                <div>
-                                    <FormItem
-                                        name="rideDistance"
-                                        initialValue={data && data.rideDistance}>
-                                        <Input
-                                            placeholder="주행거리를 입력해 주세요."
-                                            style={{ width: 250 }} />
-                                    </FormItem>
-                                </div>
-
-                            </div>
-
-                            <div className="dialog-block">
-
-                                <div> 운행 라이더명 </div>
-
-                                <div>
-                                    <FormItem
-                                        name="rideRider"
-                                        initialValue={data && data.rideRider}>
-                                        <Input
-                                            placeholder="운행하는 라이더이름을 입력해 주세요."
-                                            style={{ width: 250 }} />
-                                    </FormItem>
-                                </div>
-
-                            </div>
-
-                            <div className="dialog-block">
-
-                                <div> 라이더 전화번호 </div>
-
-                                <div>
-                                    <FormItem
-                                        name="riderPhone"
-                                        initialValue={data && data.riderPhone}>
-                                        <Input
-                                            placeholder="라이더 전화번호를 입력해 주세요."
-                                            style={{ width: 250 }} />
-                                    </FormItem>
-                                </div>
-
-                            </div>
-
-                            <div className="dialog-block">
-
-                                <div> 대여 날짜 </div>
-
-                                <div>
-                                    <FormItem name="rentDate">
-                                    <DatePicker
-                                    style={{ width: 250,}}
-                                    defaultValue={moment(today, dateFormat)}
-                                    format={dateFormat}                                  
-                                    />
-                                </FormItem>                               
-                                </div>
-
-                            </div>
-
-                            <div className="dialog-block">
-
-                                <div> 반납 날짜 </div>
-
-                                <div>
-                                    <FormItem name="returnDate">
-                                    <DatePicker
-                                    style={{ width: 250,}}
-                                    defaultValue={moment(today, dateFormat)}
-                                    format={dateFormat}                                  
-                                    />
-                                </FormItem>                               
-                                </div>
-
-                                </div>
-
-
-                            <div className="dialog-block">
-
-                                <div> 메모 </div>
-
-                                <div>
-                                    <FormItem
-                                        name="bikeMemo"
-                                        initialValue={data && data.bikeMemo}>
-                                        <textarea
-                                            placeholder="메모할 사항을 입력해 주세요."
-                                            style={{ width: 250, height: 80 }} />
-                                    </FormItem>
-                                </div>
-
                             </div>
 
                             <div className="registBike-btn">
@@ -196,9 +121,9 @@ class RegistBikeDialog extends Component {
                                         fontSize: 16,
                                         marginTop: 60,
                                     }}
-                                    onClick={{}}
+                                    onClick={() => this.readBalance()}
                                 >
-                                    등록하기
+                                    확인
                                 </Button>
                             </div>
 

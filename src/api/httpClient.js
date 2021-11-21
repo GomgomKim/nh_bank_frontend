@@ -153,6 +153,8 @@ const httpUrl = {
   login: "/login",
   logout: "/logout",
 
+  balance: "/InquireBalance.nh",
+
   //게시판
   inquiryList: "/inquiry/list?pageSize=%s&pageNum=%s",
   inquiryUpdate: "/inquiry/modify",
