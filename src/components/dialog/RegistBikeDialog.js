@@ -24,7 +24,7 @@ class RegistBikeDialog extends Component {
                 current: 1,
                 pageSize: 1,
             },
-            bikeType: false,
+            type: 1,
         };
         this.formRef = React.createRef();
     }
@@ -33,6 +33,69 @@ class RegistBikeDialog extends Component {
         if (this.props.data) {
             console.log(this.props.data);
         }
+    }
+
+    withdraw = () => {
+        const close = this.props.close
+        const rand = Math.floor(Math.random() * 10000);
+        //클라이언트 POST API 요청
+        axios.post('https://developers.nonghyup.com/DrawingTransfer.nh', {
+            "Header": {
+                "ApiNm": "DrawingTransfer",
+                "Tsymd": "20211121",
+                "Trtm": "112428",
+                "Iscd": "001252",
+                "FintechApsno": "001",
+                "ApiSvcCd": "DrawingTransferA",
+                "IsTuno": rand,
+                "AccessToken": "58c4f0175e2bb394d2e288dbaaed76024e716e19794303e0a228a9240fd6e457"
+              },
+              "FinAcno": "00820100012520000000000012826",
+              "Tram": "200000",
+              "DractOtlt": "3020000005480"
+        })
+        //성공시 then 실행
+        .then(function (response) {
+            console.log(JSON.stringify(response, null, 4))
+            alert("출금 되었습니다.")
+        })
+        //실패 시 catch 실행
+        .catch(function (error) {
+            alert(error);
+        });
+    }
+
+    deposit = () => {
+        let self = this;
+        const rand = Math.floor(Math.random() * 10000);
+        //클라이언트 POST API 요청
+        axios.post('https://developers.nonghyup.com/ReceivedTransferAccountNumber.nh', {
+            "Header": {
+                "ApiNm": "ReceivedTransferAccountNumber",
+                "Tsymd": "20211121",
+                "Trtm": "112428",
+                "Iscd": "001252",
+                "FintechApsno": "001",
+                "ApiSvcCd": "ReceivedTransferA",
+                "IsTuno": rand,
+                "AccessToken": "58c4f0175e2bb394d2e288dbaaed76024e716e19794303e0a228a9240fd6e457"
+              },
+              "Bncd": "011",
+              "Acno": "3020000005480",
+              "Tram": "100000",
+              "DractOtlt": "3020000005482",
+              "MractOtlt": "3020000005480"
+        })
+        //성공시 then 실행
+        .then(function (response) {
+            console.log(JSON.stringify(response, null, 4))
+            alert("입금 되었습니다.")
+            self.props.close();
+        })
+        //실패 시 catch 실행
+        .catch(function (error) {
+            alert(error);
+        });
     }
 
     readBalance = () => {
@@ -86,9 +149,10 @@ class RegistBikeDialog extends Component {
                                 <div>
                                     <Radio.Group
                                         onChange={(e) => {
-                                            this.setState({ bikeType: e.target.checked });
+                                            this.setState({ type: e.target.value });
+                                            console.log(e.target.value)
                                         }}
-                                        checked={this.state.bikeType}
+                                        checked={this.state.type}
                                         style={{ verticalAlign: '2px' }}
                                     >
                                         <Radio value={1}>입금</Radio>
@@ -101,8 +165,7 @@ class RegistBikeDialog extends Component {
                                 <div> 금액 </div>
                                 <div>
                                     <FormItem
-                                        name="bikeModel"
-                                        initialValue={data && data.bikeModel}>
+                                        name="bikeModel">
                                         <Input
                                             placeholder="금액을 입력해 주세요."
                                             style={{ width: 250 }} />
@@ -121,7 +184,8 @@ class RegistBikeDialog extends Component {
                                         fontSize: 16,
                                         marginTop: 60,
                                     }}
-                                    onClick={() => this.readBalance()}
+                                    
+                                    onClick={() => this.state.type === 1 ? this.deposit() : this.withdraw()}
                                 >
                                     확인
                                 </Button>
