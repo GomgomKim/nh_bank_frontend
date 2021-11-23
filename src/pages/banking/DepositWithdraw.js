@@ -15,9 +15,37 @@ import Modal from "antd/lib/modal/Modal";
 import "../../css/main.css";
 import RegistBikeDialog from "../../components/dialog/RegistBikeDialog";
 import FixHistoryDialog from "../../components/dialog/FixHistoryDialog";
+import CreatePinAccountDialog from "../../components/dialog/CreatePinAccountDialog";
+import ConfirmPinAccountDialog from "../../components/dialog/ConfirmPinAccountDialog";
+import CreatePinCardDialog from "../../components/dialog/CreatePinCardDialog";
+import ConfirmPinCardDialog from "../../components/dialog/ConfirmPinCardDialog";
+import SearchAccountDialog from "../../components/dialog/SearchAccountDialog";
+import OtherSearchAccountDialog from "../../components/dialog/OtherSearchAccountDialog";
+import WithdrawTransferDialog from "../../components/dialog/WithdrawTransferDialog";
+import NonghyupDepositDialog from "../../components/dialog/NonghyupDepositDialog";
+import OtherDepositDialog from "../../components/dialog/OtherDepositDialog";
+import SearchContentDialog from "../../components/dialog/SearchContentDialog";
+import InquireBalanceDialog from "../../components/dialog/InquireBalanceDialog";
+import InquireCreditCardAuthorizationHistoryDialog from "../../components/dialog/InquireCreditCardAuthorizationHistoryDialog";
+import InquireCashierCheckDialog from "../../components/dialog/InquireCashierCheckDialog";
+import InquireExchangeRateDialog from "../../components/dialog/InquireExchangeRateDialog";
 
 const FormItem = Form.Item;
 const Search = Input.Search;
+let PinAccountregistNum = "";
+let PinAccountNum = "";
+let PinCardregistNum = "";
+let PinCardNum = "";
+let SearchAccount = "";
+let OtherSearchAccount = "";
+let WithdrawTransfer = "";
+let NonghyupDeposit = "";
+let OtherDeposit = "";
+let SearchContent = "";
+let InquireBalance = "";
+let InquireCreditCardAuthorizationHistory = "";
+let InquireCashierCheck = "";
+let InquireExchangeRate = "";
 
 class DepositWithdraw extends Component {
   constructor(props) {
@@ -32,6 +60,20 @@ class DepositWithdraw extends Component {
       bikeStatus: 0,
       isRegistBikeOpen: false,
       isFixHistoryOpen: false,
+      isCreatePinAccountOpen: false,
+      isConfirmPinAccountOpen: false,
+      isCreatePinCardOpen: false,
+      isConfirmPinCardOpen: false,
+      isSearchAccountOpen: false,
+      isOtherSearchAccountOpen: false,
+      isWithdrawTransferOpen: false,
+      isNonghyupDepositOpen: false,
+      isOtherDepositOpen: false,
+      isSearchContentOpen: false,
+      isInquireBalanceOpen: false,
+      isInquireCreditCardAuthorizationHistoryOpen: false,
+      isInquireCashierCheckOpen: false,
+      isInquireExchangeRateOpen: false
     };
     this.formRef = React.createRef();
   }
@@ -148,6 +190,217 @@ class DepositWithdraw extends Component {
   };
   closeRegistBikeDialog = () => {
     this.setState({ isRegistBikeOpen: false });
+  };
+
+  // 핀어카운트 발급
+  openCreatePinAccountDialog = () => {
+    this.setState({ isCreatePinAccountOpen: true });
+  };
+  closeCreatePinAccountDialog = (rgno) => {
+    this.setState({ isCreatePinAccountOpen: false });
+    // console.log(rgno);
+    // if(rgno != undefined){
+    //   PinAccountregistNum = rgno.Rgno;
+    // }
+    // else{
+    //   PinAccountregistNum = rgno.Header.Rsms;
+    // }
+    
+  };
+
+  // 핀어카운트 발급 확인
+  openConfirmPinAccountDialog = () => {
+    this.setState({ isConfirmPinAccountOpen: true });
+  };
+  closeConfirmPinAccountDialog = (finAcno) => {
+    this.setState({ isConfirmPinAccountOpen: false });
+    // console.log(finAcno);
+    // if (finAcno != undefined) {
+    //   PinAccountNum = finAcno.FinAcno;
+    // }
+    // else{
+    //   PinAccountNum = finAcno.Header.Rsms;
+    // }
+  };
+
+  // 핀카드 발급
+  openCreatePinCardDialog = () => {
+    this.setState({ isCreatePinCardOpen: true });
+  };
+  closeCreatePinCardDialog = (rgno) => {
+    this.setState({ isCreatePinCardOpen: false });
+    // console.log(rgno);
+    // if(rgno != null){
+    //   PinCardregistNum = rgno.Rgno;
+    // }
+    // else{
+    //   PinCardregistNum = rgno.Header.Rsms;
+    // }
+  };
+
+  // 핀카드 발급 확인
+  openConfirmPinCardDialog = () => {
+    this.setState({ isConfirmPinCardOpen: true});
+  };
+  closeConfirmPinCardDialog = (finCard) => {
+    this.setState({ isConfirmPinCardOpen: false });
+    // console.log(finCard);
+    // if(finCard != undefined){
+    //   PinCardNum = finCard.FinCard;
+    // }
+    // else{
+    //   PinCardNum = finCard.Header.Rsms;
+    // }
+  };
+
+  // 예금주 조회
+  openSearchAccountDialog = () => {
+    this.setState({ isSearchAccountOpen: true});
+  };
+  closeSearchAccountDialog = (searchAccount) => {
+    this.setState({ isSearchAccountOpen: false });
+    // console.log(searchAccount);
+    // if(searchAccount != undefined){
+    //   SearchAccount = searchAccount.Dpnm;
+    // }
+    // else{
+    //   SearchAccount = SearchAccount.Header.Rsms;
+    // }
+  };
+
+  // 타행 예금주 조회
+  openOtherSearchAccountDialog = () => {
+    this.setState({ isOtherSearchAccountOpen: true});
+  };
+  closeOtherSearchAccountDialog = (otherSearchAccount) => {
+    this.setState({ isOtherSearchAccountOpen: false });
+    // console.log(otherSearchAccount);
+    // if(otherSearchAccount != undefined){
+    //   otherSearchAccount = otherSearchAccount.Dpnm;
+    // }
+    // else{
+    //   otherSearchAccount = otherSearchAccount.Header.Rsms;
+    // }
+  };
+
+  // 출금이체 조회
+  openWithdrawTransferDialog = () => {
+    this.setState({ isWithdrawTransferOpen: true});
+  };
+  closeWithdrawTransferDialog = (withdrawTransfer) => {
+    this.setState({ isWithdrawTransferOpen: false });
+    // console.log(withdrawTransfer);
+    // if(withdrawTransfer != undefined){
+    //   withdrawTransfer = withdrawTransfer.Header.Rsms;
+    // }
+    // else{
+    //   withdrawTransfer = withdrawTransfer.Header.Rsms;
+    // }
+  };
+
+  // 농협입금이체
+  openNonghyupDepositDialog = () => {
+    this.setState({ isNonghyupDepositOpen: true});
+  };
+  closeNonghyupDepositDialog = (nonghyupDeposit) => {
+    this.setState({ isNonghyupDepositOpen: false });
+    // console.log(nonghyupDeposit);
+    // if(nonghyupDeposit != undefined){
+    //   nonghyupDeposit = nonghyupDeposit.Header.Rsms;
+    // }
+    // else{
+    //   nonghyupDeposit = nonghyupDeposit.Header.Rsms;
+    // }
+  };
+
+  // 타행입금이체
+  openOtherDepositDialog = () => {
+    this.setState({ isOtherDepositOpen: true});
+  };
+  closeOtherDepositDialog = (otherDeposit) => {
+    this.setState({ isOtherDepositOpen: false });
+    // console.log(otherDeposit);
+    // if(otherDeposit != undefined){
+    //   otherDeposit = otherDeposit.Header.Rsms;
+    // }
+    // else{
+    //   otherDeposit = otherDeposit.Header.Rsms;
+    // }
+  };
+
+  // 거래내역조회
+  openSearchContentDialog = () => {
+    this.setState({ isSearchContentOpen: true});
+  };
+  closeSearchContentDialog = (searchContent) => {
+    this.setState({ isSearchContentOpen: false });
+    // console.log(searchContent);
+    // if(searchContent != undefined){
+    //   searchContent = searchContent.Header.Rsms;
+    // }
+    // else{
+    //   searchContent = searchContent.Header.Rsms;
+    // }
+  };
+
+  // 잔액조회
+  openInquireBalanceDialog = () => {
+    this.setState({ isInquireBalanceOpen: true});
+  };
+  closeInquireBalanceDialog = (inquireBalance) => {
+    this.setState({ isInquireBalanceOpen: false });
+    // console.log(inquireBalance);
+    // if(inquireBalance != undefined){
+    //   inquireBalance = inquireBalance.Header.Rsms;
+    // }
+    // else{
+    //   inquireBalance = inquireBalance.Header.Rsms;
+    // }
+  };
+
+  // 개인카드 승인내역조회
+  openInquireCreditCardAuthorizationHistoryDialog = () => {
+    this.setState({ isInquireCreditCardAuthorizationHistoryOpen: true});
+  };
+  closeInquireCreditCardAuthorizationHistoryDialog = (inquireCreditCardAuthorizationHistory) => {
+    this.setState({ isInquireCreditCardAuthorizationHistoryOpen: false });
+    // console.log(inquireCreditCardAuthorizationHistory);
+    // if(inquireCreditCardAuthorizationHistory != undefined){
+    //   inquireCreditCardAuthorizationHistory = inquireCreditCardAuthorizationHistory.Header.Rsms;
+    // }
+    // else{
+    //   inquireCreditCardAuthorizationHistory = inquireCreditCardAuthorizationHistory.Header.Rsms;
+    // }
+  };
+
+  // 자기앞수표조회
+  openInquireCashierCheckDialog = () => {
+    this.setState({ isInquireCashierCheckOpen: true});
+  };
+  closeInquireCashierCheckDialog = (inquireCashierCheck) => {
+    this.setState({ isInquireCashierCheckOpen: false });
+    // console.log(inquireCashierCheck);
+    // if(inquireCashierCheck != undefined){
+    //   inquireCashierCheck = inquireCashierCheck.Header.Rsms;
+    // }
+    // else{
+    //   inquireCashierCheck = inquireCashierCheck.Header.Rsms;
+    // }
+  };
+
+  // 환율조회
+  openInquireExchangeRateDialog = () => {
+    this.setState({ isInquireExchangeRateOpen: true});
+  };
+  closeInquireExchangeRateDialog = (inquireExchangeRate) => {
+    this.setState({ isInquireExchangeRateOpen: false });
+    // console.log(inquireExchangeRate);
+    // if(inquireExchangeRate != undefined){
+    //   inquireExchangeRate = inquireExchangeRate.Header.Rsms;
+    // }
+    // else{
+    //   inquireExchangeRate = inquireExchangeRate.Header.Rsms;
+    // }
   };
 
   // 정비이력 모달
@@ -309,6 +562,145 @@ class DepositWithdraw extends Component {
             입출금
           </Button>
 
+          <Button 
+            onClick={this.openCreatePinAccountDialog}
+            style={{marginLeft:20}}>
+            핀-어카운트 직접발급
+          </Button>
+          
+          <Button 
+            onClick={this.openConfirmPinAccountDialog}
+            style={{marginLeft:20}}>
+            핀-어카운트 직접발급 확인
+          </Button>
+
+          <Button 
+            onClick={this.openCreatePinCardDialog}
+            style={{marginLeft:20}}>
+            핀카드 직접발급
+          </Button>
+
+          <Button 
+            onClick={this.openConfirmPinCardDialog}
+            style={{marginLeft:20}}>
+            핀카드 직접발급 확인
+          </Button>
+
+           <Button 
+            onClick={this.openSearchAccountDialog}
+            style={{marginLeft:20}}>
+            예금주조회
+          </Button>
+
+          <Button 
+            onClick={this.openOtherSearchAccountDialog}
+            style={{marginLeft:20}}>
+            타행예금주조회
+          </Button>
+
+          <Button 
+            onClick={this.openWithdrawTransferDialog}
+            style={{marginLeft:20}}>
+            출금이체
+          </Button>
+
+          <Button 
+            onClick={this.openNonghyupDepositDialog}
+            style={{marginLeft:20}}>
+            농협입금이체
+          </Button>
+
+          <Button 
+            onClick={this.openOtherDepositDialog}
+            style={{marginLeft:20}}>
+            타행입금이체
+          </Button>
+
+          <Button 
+            onClick={this.openSearchContentDialog}
+            style={{marginLeft:20}}>
+            거래내역조회
+          </Button>
+
+          <Button 
+            onClick={this.openInquireBalanceDialog}
+            style={{marginLeft:20}}>
+            잔액조회
+          </Button>
+
+          <Button 
+            onClick={this.openInquireCreditCardAuthorizationHistoryDialog}
+            style={{marginLeft:20}}>
+            개인카드 승인내역조회
+          </Button>
+
+          <Button 
+            onClick={this.openInquireCashierCheckDialog}
+            style={{marginLeft:20}}>
+            자기앞수표조회
+          </Button>
+          
+          <Button 
+            onClick={this.openInquireExchangeRateDialog}
+            style={{marginLeft:20}}>
+            환율조회
+          </Button>
+
+        {this.state.isInquireExchangeRateOpen && (
+          <InquireExchangeRate close={this.closeInquireExchangeRateDialog} />
+        )}
+
+        {this.state.isInquireCashierCheckOpen && (
+          <InquireCashierCheck close={this.closeInquireCashierCheckDialog} />
+        )}
+
+        {this.state.isInquireCreditCardAuthorizationHistoryOpen && (
+          <InquireCreditCardAuthorizationHistory close={this.closeInquireCreditCardAuthorizationHistoryDialog} />
+        )}
+
+        {this.state.isInquireBalanceOpen && (
+          <InquireBalance close={this.closeInquireBalanceDialog} />
+        )}
+
+        {this.state.isSearchContentOpen && (
+          <SearchContent close={this.closeSearchContentDialog} />
+        )}
+
+        {this.state.isOtherDepositOpen && (
+          <OtherDeposit close={this.closeOtherDepositDialog} />
+        )}
+
+        {this.state.isNonghyupDepositOpen && (
+          <NonghyupDeposit close={this.closeNonghyupDepositDialog} />
+        )}
+
+        {this.state.isWithdrawTransferOpen && (
+          <WithdrawTransferDialog close={this.closeWithdrawTransferDialog} />
+        )}
+
+        {this.state.isOtherSearchAccountOpen && (
+          <OtherSearchAccountDialog close={this.closeOtherSearchAccountDialog} />
+        )}
+
+        {this.state.isSearchAccountOpen && (
+          <SearchAccountDialog close={this.closeSearchAccountDialog} />
+        )}
+
+        {this.state.isConfirmPinCardOpen && (
+          <ConfirmPinCardDialog close={this.closeConfirmPinCardDialog} />
+        )}
+
+        {this.state.isCreatePinCardOpen && (
+          <CreatePinCardDialog close={this.closeCreatePinCardDialog} />
+        )}
+
+        {this.state.isConfirmPinAccountOpen && (
+          <ConfirmPinAccountDialog close={this.closeConfirmPinAccountDialog} />
+        )}
+
+        {this.state.isCreatePinAccountOpen && (
+          <CreatePinAccountDialog close={this.closeCreatePinAccountDialog} />
+        )}
 
         {this.state.isFixHistoryOpen && (
           <FixHistoryDialog close={this.closeFixHistoryDialog} />
