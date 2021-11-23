@@ -73,7 +73,8 @@ class DepositWithdraw extends Component {
       isInquireBalanceOpen: false,
       isInquireCreditCardAuthorizationHistoryOpen: false,
       isInquireCashierCheckOpen: false,
-      isInquireExchangeRateOpen: false
+      isInquireExchangeRateOpen: false,
+      pinCardregistNumState: "123",
     };
     this.formRef = React.createRef();
   }
@@ -228,7 +229,7 @@ class DepositWithdraw extends Component {
     this.setState({ isCreatePinCardOpen: true });
   };
   closeCreatePinCardDialog = (param) => {
-    this.setState({ isCreatePinCardOpen: false });
+    this.setState({ isCreatePinCardOpen: false, pinCardregistNumState: param.Rgno });
     // console.log(param);
     // if(param != null){
     //   PinCardregistNum = param.Rgno;
@@ -645,6 +646,8 @@ class DepositWithdraw extends Component {
             style={{marginLeft:20}}>
             환율조회
           </Button>
+
+        {this.state.pinCardregistNumState}
 
         {this.state.isInquireExchangeRateOpen && (
           <InquireExchangeRateDialog close={this.closeInquireExchangeRateDialog} />
