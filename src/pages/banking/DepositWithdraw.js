@@ -39,13 +39,13 @@ let PinCardNum = "";
 let SearchAccount = "";
 let OtherSearchAccount = "";
 let WithdrawTransfer = "";
-let NonghyupDeposit = "";
-let OtherDeposit = "";
-let SearchContent = "";
-let InquireBalance = "";
-let InquireCreditCardAuthorizationHistory = "";
-let InquireCashierCheck = "";
-let InquireExchangeRate = "";
+let NonghyupDepositShow = "";
+let OtherDepositShow = "";
+let SearchContentShow = "";
+let InquireBalanceShow = "";
+let InquireCreditCardAuthorizationHistoryShow = "";
+let InquireCashierCheckShow = "";
+let InquireExchangeRateShow = "";
 
 class DepositWithdraw extends Component {
   constructor(props) {
@@ -196,14 +196,14 @@ class DepositWithdraw extends Component {
   openCreatePinAccountDialog = () => {
     this.setState({ isCreatePinAccountOpen: true });
   };
-  closeCreatePinAccountDialog = (rgno) => {
+  closeCreatePinAccountDialog = (param) => {
     this.setState({ isCreatePinAccountOpen: false });
-    // console.log(rgno);
-    // if(rgno != undefined){
-    //   PinAccountregistNum = rgno.Rgno;
+    // console.log(param);
+    // if(param != undefined){
+    //   PinAccountregistNum = param.Rgno;
     // }
     // else{
-    //   PinAccountregistNum = rgno.Header.Rsms;
+    //   PinAccountregistNum = param.Header.Rsms;
     // }
     
   };
@@ -212,14 +212,14 @@ class DepositWithdraw extends Component {
   openConfirmPinAccountDialog = () => {
     this.setState({ isConfirmPinAccountOpen: true });
   };
-  closeConfirmPinAccountDialog = (finAcno) => {
+  closeConfirmPinAccountDialog = (param) => {
     this.setState({ isConfirmPinAccountOpen: false });
-    // console.log(finAcno);
-    // if (finAcno != undefined) {
-    //   PinAccountNum = finAcno.FinAcno;
+    // console.log(param);
+    // if (param != undefined) {
+    //   PinAccountNum = param.FinAcno;
     // }
     // else{
-    //   PinAccountNum = finAcno.Header.Rsms;
+    //   PinAccountNum = param.Header.Rsms;
     // }
   };
 
@@ -227,14 +227,14 @@ class DepositWithdraw extends Component {
   openCreatePinCardDialog = () => {
     this.setState({ isCreatePinCardOpen: true });
   };
-  closeCreatePinCardDialog = (rgno) => {
+  closeCreatePinCardDialog = (param) => {
     this.setState({ isCreatePinCardOpen: false });
-    // console.log(rgno);
-    // if(rgno != null){
-    //   PinCardregistNum = rgno.Rgno;
+    // console.log(param);
+    // if(param != null){
+    //   PinCardregistNum = param.Rgno;
     // }
     // else{
-    //   PinCardregistNum = rgno.Header.Rsms;
+    //   PinCardregistNum = param.Header.Rsms;
     // }
   };
 
@@ -242,14 +242,14 @@ class DepositWithdraw extends Component {
   openConfirmPinCardDialog = () => {
     this.setState({ isConfirmPinCardOpen: true});
   };
-  closeConfirmPinCardDialog = (finCard) => {
+  closeConfirmPinCardDialog = (param) => {
     this.setState({ isConfirmPinCardOpen: false });
-    // console.log(finCard);
-    // if(finCard != undefined){
-    //   PinCardNum = finCard.FinCard;
+    // console.log(param);
+    // if(param != undefined){
+    //   PinCardNum = param.FinCard;
     // }
     // else{
-    //   PinCardNum = finCard.Header.Rsms;
+    //   PinCardNum = param.Header.Rsms;
     // }
   };
 
@@ -257,14 +257,14 @@ class DepositWithdraw extends Component {
   openSearchAccountDialog = () => {
     this.setState({ isSearchAccountOpen: true});
   };
-  closeSearchAccountDialog = (searchAccount) => {
+  closeSearchAccountDialog = (param) => {
     this.setState({ isSearchAccountOpen: false });
-    // console.log(searchAccount);
-    // if(searchAccount != undefined){
-    //   SearchAccount = searchAccount.Dpnm;
+    // console.log(param);
+    // if(param != undefined){
+    //   SearchAccount = param.Dpnm;
     // }
     // else{
-    //   SearchAccount = SearchAccount.Header.Rsms;
+    //   SearchAccount = param.Header.Rsms;
     // }
   };
 
@@ -272,14 +272,14 @@ class DepositWithdraw extends Component {
   openOtherSearchAccountDialog = () => {
     this.setState({ isOtherSearchAccountOpen: true});
   };
-  closeOtherSearchAccountDialog = (otherSearchAccount) => {
+  closeOtherSearchAccountDialog = (param) => {
     this.setState({ isOtherSearchAccountOpen: false });
-    // console.log(otherSearchAccount);
-    // if(otherSearchAccount != undefined){
-    //   otherSearchAccount = otherSearchAccount.Dpnm;
+    // console.log(param);
+    // if(param != undefined){
+    //   otherSearchAccount = param.Dpnm;
     // }
     // else{
-    //   otherSearchAccount = otherSearchAccount.Header.Rsms;
+    //   otherSearchAccount = param.Header.Rsms;
     // }
   };
 
@@ -287,14 +287,14 @@ class DepositWithdraw extends Component {
   openWithdrawTransferDialog = () => {
     this.setState({ isWithdrawTransferOpen: true});
   };
-  closeWithdrawTransferDialog = (withdrawTransfer) => {
+  closeWithdrawTransferDialog = (param) => {
     this.setState({ isWithdrawTransferOpen: false });
-    // console.log(withdrawTransfer);
-    // if(withdrawTransfer != undefined){
-    //   withdrawTransfer = withdrawTransfer.Header.Rsms;
+    // console.log(param);
+    // if(param != undefined){
+    //   withdrawTransfer = param.Header.Rsms;
     // }
     // else{
-    //   withdrawTransfer = withdrawTransfer.Header.Rsms;
+    //   withdrawTransfer = param.Header.Rsms;
     // }
   };
 
@@ -302,14 +302,14 @@ class DepositWithdraw extends Component {
   openNonghyupDepositDialog = () => {
     this.setState({ isNonghyupDepositOpen: true});
   };
-  closeNonghyupDepositDialog = (nonghyupDeposit) => {
+  closeNonghyupDepositDialog = (param) => {
     this.setState({ isNonghyupDepositOpen: false });
-    // console.log(nonghyupDeposit);
-    // if(nonghyupDeposit != undefined){
-    //   nonghyupDeposit = nonghyupDeposit.Header.Rsms;
+    // console.log(param);
+    // if(param != undefined){
+    //   nonghyupDepositShow = param.Header.Rsms;
     // }
     // else{
-    //   nonghyupDeposit = nonghyupDeposit.Header.Rsms;
+    //   nonghyupDepositShow = param.Header.Rsms;
     // }
   };
 
@@ -317,14 +317,14 @@ class DepositWithdraw extends Component {
   openOtherDepositDialog = () => {
     this.setState({ isOtherDepositOpen: true});
   };
-  closeOtherDepositDialog = (otherDeposit) => {
+  closeOtherDepositDialog = (param) => {
     this.setState({ isOtherDepositOpen: false });
-    // console.log(otherDeposit);
-    // if(otherDeposit != undefined){
-    //   otherDeposit = otherDeposit.Header.Rsms;
+    // console.log(param);
+    // if(param != undefined){
+    //   otherDepositShow = param.Header.Rsms;
     // }
     // else{
-    //   otherDeposit = otherDeposit.Header.Rsms;
+    //   otherDepositShow = param.Header.Rsms;
     // }
   };
 
@@ -332,14 +332,14 @@ class DepositWithdraw extends Component {
   openSearchContentDialog = () => {
     this.setState({ isSearchContentOpen: true});
   };
-  closeSearchContentDialog = (searchContent) => {
+  closeSearchContentDialog = (param) => {
     this.setState({ isSearchContentOpen: false });
-    // console.log(searchContent);
-    // if(searchContent != undefined){
-    //   searchContent = searchContent.Header.Rsms;
+    // console.log(param);
+    // if(param != undefined){
+    //   searchContentShow = param.Header.Rsms;
     // }
     // else{
-    //   searchContent = searchContent.Header.Rsms;
+    //   searchContentShow = param.Header.Rsms;
     // }
   };
 
@@ -347,14 +347,14 @@ class DepositWithdraw extends Component {
   openInquireBalanceDialog = () => {
     this.setState({ isInquireBalanceOpen: true});
   };
-  closeInquireBalanceDialog = (inquireBalance) => {
+  closeInquireBalanceDialog = (param) => {
     this.setState({ isInquireBalanceOpen: false });
-    // console.log(inquireBalance);
-    // if(inquireBalance != undefined){
-    //   inquireBalance = inquireBalance.Header.Rsms;
+    // console.log(param);
+    // if(param != undefined){
+    //   inquireBalanceShow = param.Header.Rsms;
     // }
     // else{
-    //   inquireBalance = inquireBalance.Header.Rsms;
+    //   inquireBalanceShow = param.Header.Rsms;
     // }
   };
 
@@ -647,31 +647,31 @@ class DepositWithdraw extends Component {
           </Button>
 
         {this.state.isInquireExchangeRateOpen && (
-          <InquireExchangeRate close={this.closeInquireExchangeRateDialog} />
+          <InquireExchangeRateDialog close={this.closeInquireExchangeRateDialog} />
         )}
 
         {this.state.isInquireCashierCheckOpen && (
-          <InquireCashierCheck close={this.closeInquireCashierCheckDialog} />
+          <InquireCashierCheckDialog close={this.closeInquireCashierCheckDialog} />
         )}
 
         {this.state.isInquireCreditCardAuthorizationHistoryOpen && (
-          <InquireCreditCardAuthorizationHistory close={this.closeInquireCreditCardAuthorizationHistoryDialog} />
+          <InquireCreditCardAuthorizationHistoryDialog close={this.closeInquireCreditCardAuthorizationHistoryDialog} />
         )}
 
         {this.state.isInquireBalanceOpen && (
-          <InquireBalance close={this.closeInquireBalanceDialog} />
+          <InquireBalanceDialog close={this.closeInquireBalanceDialog} />
         )}
 
         {this.state.isSearchContentOpen && (
-          <SearchContent close={this.closeSearchContentDialog} />
+          <SearchContentDialog close={this.closeSearchContentDialog} />
         )}
 
         {this.state.isOtherDepositOpen && (
-          <OtherDeposit close={this.closeOtherDepositDialog} />
+          <OtherDepositDialog close={this.closeOtherDepositDialog} />
         )}
 
         {this.state.isNonghyupDepositOpen && (
-          <NonghyupDeposit close={this.closeNonghyupDepositDialog} />
+          <NonghyupDepositDialog close={this.closeNonghyupDepositDialog} />
         )}
 
         {this.state.isWithdrawTransferOpen && (
