@@ -74,7 +74,13 @@ class DepositWithdraw extends Component {
       isInquireCreditCardAuthorizationHistoryOpen: false,
       isInquireCashierCheckOpen: false,
       isInquireExchangeRateOpen: false,
-      pinCardregistNumState: "123",
+      pinAccountregistNumState: "핀-어카운트 등록 번호 없음",
+      pinAccountNumState: "핀-어카운트 번호 없음",
+      pinCardregistNumState: "핀카드 등록 번호 없음",
+      pinCardNumState: "핀카드 번호 없음",
+      searchAccountState: "예금주명 없음",
+      otherSearchAccountState: "타행 예금주명 없음",
+      withdrawMassage: "출금이체 없음"
     };
     this.formRef = React.createRef();
   }
@@ -198,7 +204,7 @@ class DepositWithdraw extends Component {
     this.setState({ isCreatePinAccountOpen: true });
   };
   closeCreatePinAccountDialog = (param) => {
-    this.setState({ isCreatePinAccountOpen: false });
+    this.setState({ isCreatePinAccountOpen: false, pinAccountregistNumState: param.Rgno});
     // console.log(param);
     // if(param != undefined){
     //   PinAccountregistNum = param.Rgno;
@@ -214,7 +220,7 @@ class DepositWithdraw extends Component {
     this.setState({ isConfirmPinAccountOpen: true });
   };
   closeConfirmPinAccountDialog = (param) => {
-    this.setState({ isConfirmPinAccountOpen: false });
+    this.setState({ isConfirmPinAccountOpen: false, pinAccountNumState: param.FinAcno});
     // console.log(param);
     // if (param != undefined) {
     //   PinAccountNum = param.FinAcno;
@@ -244,7 +250,7 @@ class DepositWithdraw extends Component {
     this.setState({ isConfirmPinCardOpen: true});
   };
   closeConfirmPinCardDialog = (param) => {
-    this.setState({ isConfirmPinCardOpen: false });
+    this.setState({ isConfirmPinCardOpen: false, pinCardNumState: param.FinCard});
     // console.log(param);
     // if(param != undefined){
     //   PinCardNum = param.FinCard;
@@ -259,7 +265,7 @@ class DepositWithdraw extends Component {
     this.setState({ isSearchAccountOpen: true});
   };
   closeSearchAccountDialog = (param) => {
-    this.setState({ isSearchAccountOpen: false });
+    this.setState({ isSearchAccountOpen: false, searchAccountState: param.Dpnm });
     // console.log(param);
     // if(param != undefined){
     //   SearchAccount = param.Dpnm;
@@ -274,7 +280,7 @@ class DepositWithdraw extends Component {
     this.setState({ isOtherSearchAccountOpen: true});
   };
   closeOtherSearchAccountDialog = (param) => {
-    this.setState({ isOtherSearchAccountOpen: false });
+    this.setState({ isOtherSearchAccountOpen: false, otherSearchAccountState: param.Dpnm });
     // console.log(param);
     // if(param != undefined){
     //   otherSearchAccount = param.Dpnm;
@@ -284,13 +290,16 @@ class DepositWithdraw extends Component {
     // }
   };
 
-  // 출금이체 조회
+  // 출금이체
   openWithdrawTransferDialog = () => {
     this.setState({ isWithdrawTransferOpen: true});
   };
   closeWithdrawTransferDialog = (param) => {
-    this.setState({ isWithdrawTransferOpen: false });
-    // console.log(param);
+    console.log(param);
+    this.setState({ 
+      isWithdrawTransferOpen: false, 
+      withdrawMassage : param.Header.Rsms
+    });
     // if(param != undefined){
     //   withdrawTransfer = param.Header.Rsms;
     // }
@@ -559,77 +568,116 @@ class DepositWithdraw extends Component {
       <FormItem>
           <Button 
             onClick={this.openRegistBikeDialog}
-            style={{marginLeft:20}}>
+            style={{marginLeft:20, marginRight:40}}>
             입출금
           </Button>
 
+          <br></br>
+          <br></br>
+
           <Button 
             onClick={this.openCreatePinAccountDialog}
-            style={{marginLeft:20}}>
+            style={{marginLeft:20, marginRight:70}}>
             핀-어카운트 직접발급
           </Button>
-          
+          {"핀-어카운트 등록 번호 : "}
+          {this.state.pinAccountregistNumState}
+
+          <br></br>
+          <br></br>
+
           <Button 
             onClick={this.openConfirmPinAccountDialog}
-            style={{marginLeft:20}}>
+            style={{marginLeft:20, marginRight:41}}>
             핀-어카운트 직접발급 확인
           </Button>
+          {"핀-어카운트 번호 : "}
+          {this.state.pinCardNumState}
+
+          <br></br>
+          <br></br>
 
           <Button 
             onClick={this.openCreatePinCardDialog}
-            style={{marginLeft:20}}>
+            style={{marginLeft:20, marginRight:100}}>
             핀카드 직접발급
           </Button>
+          {"핀카드 등록 번호 : "}
+          {this.state.pinCardregistNumState}
+
+          <br></br>
+          <br></br>
 
           <Button 
             onClick={this.openConfirmPinCardDialog}
-            style={{marginLeft:20}}>
+            style={{marginLeft:20, marginRight:72}}>
             핀카드 직접발급 확인
           </Button>
+          {"핀카드 번호 : "}
+          {this.state.pinCardNumState}
 
-           <Button 
+          <br></br>
+          <br></br>
+
+          <Button 
             onClick={this.openSearchAccountDialog}
-            style={{marginLeft:20}}>
+            style={{marginLeft:20, marginRight:130}}>
             예금주조회
           </Button>
+          {"예금주명 : "}
+          {this.state.searchAccountState}
+
+          <br></br>
+          <br></br>
 
           <Button 
             onClick={this.openOtherSearchAccountDialog}
-            style={{marginLeft:20}}>
+            style={{marginLeft:20, marginRight:105}}>
             타행예금주조회
           </Button>
+          {"타행 예금주명 : "}
+          {this.state.otherSearchAccountState}
+
+          <br></br>
+          <br></br>
 
           <Button 
             onClick={this.openWithdrawTransferDialog}
-            style={{marginLeft:20}}>
+            style={{marginLeft:20, marginRight:143}}>
             출금이체
           </Button>
-
+          {this.state.withdrawMassage}
+          <br></br>
+          <br></br>
           <Button 
             onClick={this.openNonghyupDepositDialog}
             style={{marginLeft:20}}>
             농협입금이체
           </Button>
-
+          <br></br>
+          <br></br>
           <Button 
             onClick={this.openOtherDepositDialog}
             style={{marginLeft:20}}>
             타행입금이체
           </Button>
-
+          <br></br>
+          <br></br>
           <Button 
             onClick={this.openSearchContentDialog}
             style={{marginLeft:20}}>
             거래내역조회
           </Button>
-
+          <br></br>
+          <br></br>
           <Button 
             onClick={this.openInquireBalanceDialog}
             style={{marginLeft:20}}>
             잔액조회
           </Button>
-
-          <Button 
+          <br></br>
+          <br></br>
+          {/* <Button 
             onClick={this.openInquireCreditCardAuthorizationHistoryDialog}
             style={{marginLeft:20}}>
             개인카드 승인내역조회
@@ -645,9 +693,7 @@ class DepositWithdraw extends Component {
             onClick={this.openInquireExchangeRateDialog}
             style={{marginLeft:20}}>
             환율조회
-          </Button>
-
-        {this.state.pinCardregistNumState}
+          </Button> */}
 
         {this.state.isInquireExchangeRateOpen && (
           <InquireExchangeRateDialog close={this.closeInquireExchangeRateDialog} />
