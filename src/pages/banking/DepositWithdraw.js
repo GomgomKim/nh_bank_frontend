@@ -354,14 +354,16 @@ class DepositWithdraw extends Component {
   };
   closeSearchContentDialog = (param) => {
     let array = [];
-    console.log(param.REC.length);
+
     for(let i = 0 ; i < param.REC.length ; i ++)
     {
-      array.push(param.REC[i]);
+      array[i] = param.REC[i];  // 거래내역 배열인데 이걸 어째야할지 모르겠어. 콘솔켜보면 나와
+      console.log(array[i]);
     }
+    
     this.setState({ 
       isSearchContentOpen: false,
-      searchContent : array
+      // searchContent : array  // 여기다가 표현해줘야할꺼같은데..
     });
     // console.log(param);
     // if(param != undefined){
