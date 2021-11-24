@@ -25,6 +25,7 @@ import WithdrawTransferDialog from "../../components/dialog/WithdrawTransferDial
 import NonghyupDepositDialog from "../../components/dialog/NonghyupDepositDialog";
 import OtherDepositDialog from "../../components/dialog/OtherDepositDialog";
 import SearchContentDialog from "../../components/dialog/SearchContentDialog";
+import DetailSearchContentDialog from "../../components/dialog/DetailSearchContentDialog";
 import InquireBalanceDialog from "../../components/dialog/InquireBalanceDialog";
 import InquireCreditCardAuthorizationHistoryDialog from "../../components/dialog/InquireCreditCardAuthorizationHistoryDialog";
 import InquireCashierCheckDialog from "../../components/dialog/InquireCashierCheckDialog";
@@ -46,6 +47,7 @@ let InquireBalanceShow = "";
 let InquireCreditCardAuthorizationHistoryShow = "";
 let InquireCashierCheckShow = "";
 let InquireExchangeRateShow = "";
+let DetailSearchContent = "";
 
 class DepositWithdraw extends Component {
   constructor(props) {
@@ -70,6 +72,7 @@ class DepositWithdraw extends Component {
       isNonghyupDepositOpen: false,
       isOtherDepositOpen: false,
       isSearchContentOpen: false,
+      isDetailSearchContentOpen: false,
       isInquireBalanceOpen: false,
       isInquireCreditCardAuthorizationHistoryOpen: false,
       isInquireCashierCheckOpen: false,
@@ -347,14 +350,13 @@ class DepositWithdraw extends Component {
     //   otherDepositShow = param.Header.Rsms;
     // }
   };
-
+  
   // 거래내역조회
   openSearchContentDialog = () => {
     this.setState({ isSearchContentOpen: true});
   };
   closeSearchContentDialog = (param) => {
     let array = [];
-
     for(let i = 0 ; i < param.REC.length ; i ++)
     {
       array[i] = param.REC[i];  // 거래내역 배열인데 이걸 어째야할지 모르겠어. 콘솔켜보면 나와
@@ -363,6 +365,25 @@ class DepositWithdraw extends Component {
     
     this.setState({ 
       isSearchContentOpen: false,
+      searchContent : "거래내역조회 완료",
+      // searchContent : array  // 여기다가 표현해줘야할꺼같은데..
+    });
+    // console.log(param);
+    // if(param != undefined){
+    //   searchContentShow = param.Header.Rsms;
+    // }
+    // else{
+    //   searchContentShow = param.Header.Rsms;
+    // }
+  };
+
+  // 거래내역보기
+  openDetailSearchContentDialog = () => {
+    this.setState({ isDetailSearchContentOpen: true});
+  };
+  closeDetailSearchContentDialog = () => {
+    this.setState({ 
+      isDetailSearchContentOpen: false,
       // searchContent : array  // 여기다가 표현해줘야할꺼같은데..
     });
     // console.log(param);
@@ -702,6 +723,11 @@ class DepositWithdraw extends Component {
           </Button>
           {this.state.searchContent}
 
+          <Button 
+            onClick={this.openDetailSearchContentDialog}
+            style={{marginLeft:40, marginRight : 120}}>
+            거래내역보기
+          </Button>
           <br></br>
           <br></br>
 
@@ -732,6 +758,10 @@ class DepositWithdraw extends Component {
             style={{marginLeft:20}}>
             환율조회
           </Button> */}
+
+        {this.state.isDetailSearchContentOpen && (
+          <DetailSearchContentDialog close={this.closeDetailSearchContentDialog} />
+        )}
 
         {this.state.isInquireExchangeRateOpen && (
           <InquireExchangeRateDialog close={this.closeInquireExchangeRateDialog} />
@@ -805,10 +835,6 @@ class DepositWithdraw extends Component {
               onChange={this.handleTableChange}
             /> */}
           </FormItem>
-
-
-
-
     )
   }
 }
