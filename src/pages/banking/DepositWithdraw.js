@@ -80,7 +80,11 @@ class DepositWithdraw extends Component {
       pinCardNumState: "핀카드 번호 없음",
       searchAccountState: "예금주명 없음",
       otherSearchAccountState: "타행 예금주명 없음",
-      withdrawMassage: "출금이체 없음"
+      withdrawMassage: "출금이체 없음",
+      nonghyupDeposit: "농협입금이체 없음",
+      otherDeposit: "타행입금이체 없음",
+      searchContent: "거래내역 조회 없음",
+      inquireBalance: "잔액 없음"
     };
     this.formRef = React.createRef();
   }
@@ -313,7 +317,10 @@ class DepositWithdraw extends Component {
     this.setState({ isNonghyupDepositOpen: true});
   };
   closeNonghyupDepositDialog = (param) => {
-    this.setState({ isNonghyupDepositOpen: false });
+    this.setState({ 
+      isNonghyupDepositOpen: false,
+      nonghyupDeposit : param.Header.Rsms
+     });
     // console.log(param);
     // if(param != undefined){
     //   nonghyupDepositShow = param.Header.Rsms;
@@ -328,7 +335,10 @@ class DepositWithdraw extends Component {
     this.setState({ isOtherDepositOpen: true});
   };
   closeOtherDepositDialog = (param) => {
-    this.setState({ isOtherDepositOpen: false });
+    this.setState({ 
+      isOtherDepositOpen: false,
+      otherDeposit : param.Header.Rsms
+    });
     // console.log(param);
     // if(param != undefined){
     //   otherDepositShow = param.Header.Rsms;
@@ -343,7 +353,15 @@ class DepositWithdraw extends Component {
     this.setState({ isSearchContentOpen: true});
   };
   closeSearchContentDialog = (param) => {
-    this.setState({ isSearchContentOpen: false });
+    let array = [];
+    for(let i = 0 ; i < param.REC.length ; i ++)
+    {
+      array.push(param.REC[i]);
+    }
+    this.setState({ 
+      isSearchContentOpen: false,
+      searchContent : array
+    });
     // console.log(param);
     // if(param != undefined){
     //   searchContentShow = param.Header.Rsms;
@@ -358,7 +376,10 @@ class DepositWithdraw extends Component {
     this.setState({ isInquireBalanceOpen: true});
   };
   closeInquireBalanceDialog = (param) => {
-    this.setState({ isInquireBalanceOpen: false });
+    this.setState({ 
+      isInquireBalanceOpen: false,
+      inquireBalance : param.Ldbl
+     });
     // console.log(param);
     // if(param != undefined){
     //   inquireBalanceShow = param.Header.Rsms;
@@ -647,36 +668,50 @@ class DepositWithdraw extends Component {
             출금이체
           </Button>
           {this.state.withdrawMassage}
+
           <br></br>
           <br></br>
+
           <Button 
             onClick={this.openNonghyupDepositDialog}
-            style={{marginLeft:20}}>
+            style={{marginLeft:20, marginRight:117}}>
             농협입금이체
           </Button>
+          {this.state.nonghyupDeposit}
+
           <br></br>
           <br></br>
+
           <Button 
             onClick={this.openOtherDepositDialog}
-            style={{marginLeft:20}}>
+            style={{marginLeft:20, marginRight:120}}>
             타행입금이체
           </Button>
+          {this.state.otherDeposit}
+
           <br></br>
           <br></br>
+
           <Button 
             onClick={this.openSearchContentDialog}
-            style={{marginLeft:20}}>
+            style={{marginLeft:20, marginRight : 120}}>
             거래내역조회
           </Button>
+          {this.state.searchContent}
+
           <br></br>
           <br></br>
+
           <Button 
             onClick={this.openInquireBalanceDialog}
-            style={{marginLeft:20}}>
+            style={{marginLeft:20, marginRight : 146}}>
             잔액조회
           </Button>
+          {this.state.inquireBalance}
+          
           <br></br>
           <br></br>
+
           {/* <Button 
             onClick={this.openInquireCreditCardAuthorizationHistoryDialog}
             style={{marginLeft:20}}>
