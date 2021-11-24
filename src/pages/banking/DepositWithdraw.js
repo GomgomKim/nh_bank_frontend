@@ -354,6 +354,7 @@ class DepositWithdraw extends Component {
   };
   closeSearchContentDialog = (param) => {
     let array = [];
+    console.log(param.REC.length);
     for(let i = 0 ; i < param.REC.length ; i ++)
     {
       array.push(param.REC[i]);

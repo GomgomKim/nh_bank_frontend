@@ -65,12 +65,12 @@ class SearchContentDialog extends Component {
               "FintechApsno": "001",
               "ApiSvcCd": "ReceivedTransferA",
               "IsTuno": rand,
-              "AccessToken": this.formRef.current.getFieldsValue().Iscd
+              "AccessToken": this.formRef.current.getFieldsValue().AccessToken
             },
-            "Bncd": this.formRef.current.getFieldsValue().Iscd,
-            "Acno": this.formRef.current.getFieldsValue().Iscd,
-            "Insymd": this.formRef.current.getFieldsValue().Iscd,
-            "Ineymd": this.formRef.current.getFieldsValue().Iscd,
+            "Bncd": this.formRef.current.getFieldsValue().Bncd,
+            "Acno": this.formRef.current.getFieldsValue().Acno,
+            "Insymd": this.formRef.current.getFieldsValue().Insymd,
+            "Ineymd": this.formRef.current.getFieldsValue().Ineymd,
             "TrnsDsnc": "A",
             "Lnsq": "DESC",
             "PageNo": "1",
