@@ -303,7 +303,7 @@ class DepositWithdraw extends Component {
     this.setState({ isWithdrawTransferOpen: true});
   };
   closeWithdrawTransferDialog = (param) => {
-    console.log(param);
+    // console.log(param);
     this.setState({ 
       isWithdrawTransferOpen: false, 
       withdrawMassage : param.Header.Rsms
@@ -361,7 +361,7 @@ class DepositWithdraw extends Component {
     for(let i = 0 ; i < param.REC.length ; i ++)
     {
       array[i] = param.REC[i];  // 거래내역 배열인데 이걸 어째야할지 모르겠어. 콘솔켜보면 나와
-      console.log(array[i]);
+      // console.log(array[i]);
     }
     
     this.setState({ 
