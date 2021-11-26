@@ -13,7 +13,6 @@ const Search = Input.Search;
 const FormItem = Form.Item;
 const dateFormat = "YYYY/MM/DD";
 const today = new Date();
-const Option = Select.Option;
 
 let year = today.getFullYear().toString();
 let month = (today.getMonth()+1).toString();
@@ -42,6 +41,12 @@ class DetailSearchContentDialog extends Component {
                 pageSize: 1,
             },
             type: 1,
+            Trdd : "",
+            Txtm : "",
+            MnrcDrotDsnc : "",
+            AftrBlnc : "",
+            Tram : "",
+            BnprCntn : "",
         };
         this.formRef = React.createRef();
     }
@@ -52,58 +57,47 @@ class DetailSearchContentDialog extends Component {
         }
     }
     
-    // detailSearchContent = () => {
-    //     const rand = Math.floor(Math.random() * 10000);
-    //     let self = this;
-        
-    //     //클라이언트 POST API 요청
-    //     axios.post('https://developers.nonghyup.com/InquireTransactionHistory.nh', {
-    //         "Header": {
-    //           "ApiNm": "InquireTransactionHistory",
-    //           "Tsymd": curDate,
-    //           "Trtm": "112428",
-    //           "Iscd": this.formRef.current.getFieldsValue().Iscd,
-    //           "FintechApsno": "001",
-    //           "ApiSvcCd": "ReceivedTransferA",
-    //           "IsTuno": rand,
-    //           "AccessToken": this.formRef.current.getFieldsValue().AccessToken
-    //         },
-    //         "Bncd": this.formRef.current.getFieldsValue().Bncd,
-    //         "Acno": this.formRef.current.getFieldsValue().Acno,
-    //         "Insymd": this.formRef.current.getFieldsValue().Insymd,
-    //         "Ineymd": this.formRef.current.getFieldsValue().Ineymd,
-    //         "TrnsDsnc": "A",
-    //         "Lnsq": "DESC",
-    //         "PageNo": "1",
-    //         "Dmcnt": "100"
-    //       })
-    //     //성공시 then 실행
-    //     .then(function (response) {
-    //         console.log(JSON.stringify(response, null, 4));
-            
-    //         if(response.data.Header.Rpcd == "00000"){
-    //             alert(response.data.Header.Rsms);
-    //             self.props.close(response.data)
-    //         }else{
-    //             alert(response.data.Header.Rsms);
-    //             self.props.close(response.data);
-    //         }
-    //     })
-    //     //실패 시 catch 실행
-    //     .catch(function (error) {
-    //         alert(error);
-    //     });
-    // }
+    handleChange(arg){
+        let idx = arg;
+        let MnrcDrotDsncTemp = "";
+        if(this.props.data[idx].MnrcDrotDsnc == "1"){
+            MnrcDrotDsncTemp = "신규(입금)";
+        }else if(this.props.data[idx].MnrcDrotDsnc == "2"){
+            MnrcDrotDsncTemp = "입금";
+        }else if(this.props.data[idx].MnrcDrotDsnc == "3"){
+            MnrcDrotDsncTemp = "출금";
+        }else if(this.props.data[idx].MnrcDrotDsnc == "4"){
+            MnrcDrotDsncTemp = "해지(출금)";
+        }
+        this.setState({
+            Trdd : this.props.data[idx].Trdd,
+            Txtm : this.props.data[idx].Txtm,
+            MnrcDrotDsnc : MnrcDrotDsncTemp,
+            AftrBlnc : this.props.data[idx].AftrBlnc+"원",
+            Tram : this.props.data[idx].Tram+"원",
+            BnprCntn : this.props.data[idx].BnprCntn
+        })
+    }
 
     render() {
-
         const { close, data } = this.props;
+
+        let BnprCntn = new Array();
+
+        for(let i = 0 ; i < this.props.data.length ; i ++){
+
+            let BnprCntnTemp = new Object();
+
+            BnprCntnTemp.value = i;
+            BnprCntnTemp.label = this.props.data[i].BnprCntn+"("+(i+1)+")";
+
+            BnprCntn.push(BnprCntnTemp);
+        }
 
         return (
             <React.Fragment>
                 <div className="Dialog-overlay" onClick={close} />
                 <div className="registBike-Dialog">
-
                     <div className="dialog-content">
 
                         <div className="dialog-title">
@@ -119,16 +113,14 @@ class DetailSearchContentDialog extends Component {
                                 <div> 내역 </div>
                                 <div>
                                     <FormItem>
-                                    <SelectBox
-                                        placeholder={'전체'}
+                                    <Select
+                                        placeholder={'선택'}
                                         style={{width:250, marginBottom: 20}}
-                                        value={"111"}
-                                        onChange={(value) => {
-                                            // if (parseInt(value) !== this.state.category) {
-                                            //     this.onChangeStatus(value);
-                                            // }
-                                        }}
-                                        />
+                                        options={BnprCntn}
+                                        // value=
+                                        onChange={(option) => this.handleChange(option)}>
+                                        
+                                        </Select>
                                     </FormItem>
                                 </div>
                                 
@@ -137,9 +129,10 @@ class DetailSearchContentDialog extends Component {
                             <div className="dialog-block">
                                 <div> 거래일자 </div>
                                 <div>
-                                    <FormItem
-                                        name="Trdd">
+                                    <FormItem>
+                                        
                                         <Input
+                                            value= {this.state.Trdd.substr(0,4)+"년 "+this.state.Trdd.substr(4,2)+"월 "+this.state.Trdd.substr(6,2)+"일"}
                                             readOnly
                                             style={{ width: 250 }} />
                                     </FormItem>
@@ -149,9 +142,9 @@ class DetailSearchContentDialog extends Component {
                             <div className="dialog-block">
                                 <div> 거래시각 </div>
                                 <div>
-                                    <FormItem
-                                        name="Txtm">
+                                    <FormItem>
                                         <Input
+                                            value={this.state.Txtm.substr(0,2)+"시 "+this.state.Txtm.substr(2,2)+"분 "+this.state.Txtm.substr(4,2)+"초"}
                                             readOnly
                                             style={{ width: 250 }} />
                                     </FormItem>
@@ -161,9 +154,9 @@ class DetailSearchContentDialog extends Component {
                             <div className="dialog-block">
                                 <div> 입금출금구분 </div>
                                 <div>
-                                    <FormItem
-                                        name="MnrcDrotDsnc">
+                                    <FormItem>
                                         <Input
+                                            value={this.state.MnrcDrotDsnc}
                                             readOnly
                                             style={{ width: 250 }} />
                                     </FormItem>
@@ -173,9 +166,9 @@ class DetailSearchContentDialog extends Component {
                             <div className="dialog-block">
                                 <div> 거래금액 </div>
                                 <div>
-                                    <FormItem
-                                        name="Tram">
+                                    <FormItem>
                                         <Input
+                                            value = {this.state.Tram}
                                             readOnly
                                             style={{ width: 250 }} />
                                     </FormItem>
@@ -185,9 +178,9 @@ class DetailSearchContentDialog extends Component {
                             <div className="dialog-block">
                                 <div> 거래후잔액 </div>
                                 <div>
-                                    <FormItem
-                                        name="AftrBlnc">
+                                    <FormItem>
                                         <Input
+                                            value={this.state.AftrBlnc}
                                             readOnly
                                             style={{ width: 250 }} />
                                     </FormItem>
@@ -197,9 +190,9 @@ class DetailSearchContentDialog extends Component {
                             <div className="dialog-block">
                                 <div> 통장인자내용 </div>
                                 <div>
-                                    <FormItem
-                                        name="BnprCntn">
+                                    <FormItem>
                                         <Input
+                                            value={this.state.BnprCntn}
                                             readOnly
                                             style={{ width: 250 }} />
                                     </FormItem>

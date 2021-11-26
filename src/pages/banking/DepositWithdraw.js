@@ -87,6 +87,7 @@ class DepositWithdraw extends Component {
       nonghyupDeposit: "농협입금이체 없음",
       otherDeposit: "타행입금이체 없음",
       searchContent: "거래내역 조회 없음",
+      detailSearchContent:[],
       inquireBalance: "잔액 없음"
     };
     this.formRef = React.createRef();
@@ -366,9 +367,9 @@ class DepositWithdraw extends Component {
     this.setState({ 
       isSearchContentOpen: false,
       searchContent : "거래내역조회 완료",
+      detailSearchContent:array
       // searchContent : array  // 여기다가 표현해줘야할꺼같은데..
     });
-    // console.log(param);
     // if(param != undefined){
     //   searchContentShow = param.Header.Rsms;
     // }
@@ -760,7 +761,7 @@ class DepositWithdraw extends Component {
           </Button> */}
 
         {this.state.isDetailSearchContentOpen && (
-          <DetailSearchContentDialog close={this.closeDetailSearchContentDialog} />
+          <DetailSearchContentDialog close={this.closeDetailSearchContentDialog} data={this.state.detailSearchContent}/>
         )}
 
         {this.state.isInquireExchangeRateOpen && (
